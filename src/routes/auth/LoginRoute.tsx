@@ -18,8 +18,8 @@ import { loginSchema, LoginType } from "@/configs/schemas";
 export function LoginRoute() {
   const { getInputProps, onSubmit, key } = useForm({
     initialValues: {
-      username: "",
-      password: "",
+      username: "emilys",
+      password: "emilyspass",
     },
     validate: zodResolver(loginSchema),
   });
