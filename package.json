@@ -11,7 +11,9 @@
   },
   "dependencies": {
     "@mantine/core": "^7.16.3",
+    "@mantine/form": "^7.16.3",
     "@mantine/hooks": "^7.16.3",
+    "@mantine/notifications": "^7.16.3",
     "@tanstack/react-query": "^5.66.0",
     "axios": "^1.7.9",
     "crypto-js": "^4.2.0",
@@ -23,6 +25,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
+    "@tanstack/eslint-plugin-query": "^5.66.1",
     "@types/crypto-js": "^4.2.2",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
