@@ -1,4 +1,6 @@
 import { createTheme, MantineProvider, NavLink } from "@mantine/core";
+import "@mantine/dates/styles.css";
+import "mantine-react-table/styles.css";
 import { ReactNode } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Notifications } from "@mantine/notifications";
