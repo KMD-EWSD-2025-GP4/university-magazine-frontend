@@ -5,6 +5,8 @@ import { DashboardRoute } from "@/routes/dashboard";
 import { ReportRoutes } from "@/routes/reports";
 import { UsersRoute } from "@/routes/users";
 import { routes } from "./menus";
+import { AcademicYearsRoute } from "@/routes/academic-years";
+import { SystemParametersRoute } from "@/routes/system-parameters";
 
 export function Routes() {
   return (
@@ -15,6 +17,14 @@ export function Routes() {
         <Route index element={<DashboardRoute />} />
         <Route path={routes["user-management"]} element={<UsersRoute />} />
         <Route path={routes["reports"]} element={<ReportRoutes />} />
+        <Route
+          path={routes["academic-years"]}
+          element={<AcademicYearsRoute />}
+        />
+        <Route
+          path={routes["system-parameter"]}
+          element={<SystemParametersRoute />}
+        />
       </Route>
     </ReactRouterRoutes>
   );

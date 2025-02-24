@@ -1,6 +1,6 @@
 import { useUserStore } from "@/store/useUser";
 import { useEffect } from "react";
-import { Outlet, useNavigate } from "react-router";
+import { Outlet, useNavigate, NavLink as ReactRouterLink } from "react-router";
 import { AppShell, Burger, Group, NavLink, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { adminMenus } from "@/configs/menus";
@@ -39,9 +39,10 @@ export function DashboardLayout() {
       <AppShell.Navbar p="md">
         {userMenus.map((menu) => (
           <NavLink
+            component={ReactRouterLink}
             active={menu.href === location.pathname}
             key={menu.label}
-            href={menu.href}
+            to={menu.href}
             label={menu.label}
             leftSection={<menu.icon />}
           />

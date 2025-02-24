@@ -18,12 +18,12 @@ const menus = {
   "acadeic-years": {
     label: "Academic Years",
     icon: CalendarIcon,
-    href: "#",
+    href: routes["academic-years"],
   },
   "system-parameters": {
     label: "System Parameter",
     icon: SystemIcon,
-    href: "#",
+    href: routes["system-parameter"],
   },
   reports: {
     label: "Reports",
