@@ -1,15 +1,16 @@
 import {
-  Anchor,
   Button,
-  Checkbox,
+  // Checkbox,
+  // Group,
+  //Anchor,
+  Text,
   Container,
-  Group,
   Paper,
   PasswordInput,
-  Text,
   TextInput,
   Title,
 } from "@mantine/core";
+import { Link } from "react-router-dom";
 import classes from "./LoginRoute.module.css";
 import { useLogin } from "./queries";
 import { useForm, zodResolver } from "@mantine/form";
@@ -30,51 +31,67 @@ export function LoginRoute() {
   };
 
   return (
-    <Container size={420} my={40}>
-      <Title ta="center" className={classes.title}>
-        Welcome back!
-      </Title>
-      <Text c="dimmed" size="sm" ta="center" mt={5}>
-        Do not have an account yet?{" "}
-        <Anchor size="sm" component="button">
-          Create account
-        </Anchor>
-      </Text>
+    <div className={classes.wrapper}>
+      <div className={classes.leftPanel} />
 
-      <Paper
-        withBorder
-        shadow="md"
-        p={30}
-        mt={30}
-        radius="md"
-        component="form"
-        onSubmit={onSubmit(handleSubmit)}
-      >
-        <TextInput
-          label="Username"
-          placeholder="emilys"
-          required
-          key={key("username")}
-          {...getInputProps("username")}
-        />
-        <PasswordInput
-          label="Password"
-          placeholder="Your password"
-          required
-          mt="md"
-          key={key("password")}
-          {...getInputProps("password")}
-        />
-        <Group justify="space-between" mt="lg">
-          <Checkbox label="Remember me" />
-          <Anchor component="button" size="sm">
-            Forgot password?
-          </Anchor>
-        </Group>
-        <Button fullWidth mt="xl" type="submit" loading={isPending}>
-          Sign in
-        </Button>
-      </Paper>
-    </Container>
+      <div className={classes.rightPanel}>
+        <Container className={classes.formContainer}>
+          <Title ta="left" className={classes.title}>
+            LOGIN HERE
+          </Title>
+          <Paper radius="md" component="form" onSubmit={onSubmit(handleSubmit)}>
+            <TextInput
+              label="Email"
+              placeholder="example@gmail.com"
+              required
+              key={key("username")}
+              {...getInputProps("username")}
+              className={classes.inputField}
+            />
+
+            <PasswordInput
+              label="Password"
+              placeholder="Your password"
+              required
+              mt="md"
+              key={key("password")}
+              {...getInputProps("password")}
+              className={classes.inputField}
+            />
+
+            {/* <Group justify="space-between" align="center" mt="lg">
+              <Checkbox label="Remember me" />
+              <Anchor component="button" size="sm">
+                Forgot password?
+              </Anchor>
+            </Group> */}
+
+            <Button
+              fullWidth
+              mt="xl"
+              type="submit"
+              loading={isPending}
+              className={classes.submitButton}
+            >
+              Login
+            </Button>
+
+            <Text ta="center" mt="md" size="sm">
+              Already have an account?{" "}
+              <Link
+                to="/register"
+                style={{
+                  fontSize: "small",
+                  color: "blue",
+                  textDecoration: "none",
+                }}
+              >
+                Login here
+              </Link>
+            </Text>
+          </Paper>
+        </Container>
+      </div>
+    </div>
   );
 }

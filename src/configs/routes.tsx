@@ -7,12 +7,12 @@ import { UsersRoute } from "@/routes/users";
 import { routes } from "./menus";
 import { AcademicYearsRoute } from "@/routes/academic-years";
 import { SystemParametersRoute } from "@/routes/system-parameters";
-
+import { RegisterRoute } from "@/routes/auth";
 export function Routes() {
   return (
     <ReactRouterRoutes>
       <Route index element={<LoginRoute />} />
-
+      <Route path="register" element={<RegisterRoute />} />
       <Route path={routes.dashboard} element={<DashboardLayout />}>
         <Route index element={<DashboardRoute />} />
         <Route path={routes["user-management"]} element={<UsersRoute />} />
