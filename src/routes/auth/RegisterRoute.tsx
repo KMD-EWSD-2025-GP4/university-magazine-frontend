@@ -7,6 +7,7 @@ import {
   Text,
   TextInput,
   Title,
+  Select,
 } from "@mantine/core";
 import { Link } from "react-router-dom";
 import classes from "./LoginRoute.module.css";
@@ -23,6 +24,7 @@ export function RegisterRoute() {
       username: "",
       password: "",
       confirmPassword: "",
+      faculty: "",
     },
     validate: zodResolver(registerSchema),
   });
@@ -83,8 +85,26 @@ export function RegisterRoute() {
               className={classes.inputField}
             />
 
-           
-            <Button fullWidth mt="xl" type="submit" loading={isPending} className={classes.submitButton}>
+            <Select
+              label="Choose Faculty"
+              placeholder="Select your faculty"
+              data={[
+                { value: "computing", label: "Computing" },
+                { value: "business", label: "Business" },
+                { value: "engineering", label: "Engineering" },
+                { value: "design", label: "Design" },
+              ]}
+              required
+              {...form.getInputProps("faculty")}
+              className={classes.inputField}
+            />
+            <Button
+              fullWidth
+              mt="xl"
+              type="submit"
+              loading={isPending}
+              className={classes.submitButton}
+            >
               Register
             </Button>
 
