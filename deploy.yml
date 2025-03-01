@@ -1,0 +1,26 @@
+---
+# Simple Ansible playbook to pull latest Docker images and restart Docker Compose
+# Place this file at /opt/university-magazine/deploy.yml on your server
+
+- name: Deploy University Magazine
+  hosts: localhost
+  connection: local
+  become: yes
+  tasks:
+    - name: Login to GitHub Container Registry
+      community.docker.docker_login:
+        registry: ghcr.io
+        username: "{{lookup('env', 'GITHUB_ACTOR')}}"
+        password: "{{lookup('env', 'GITHUB_TOKEN')}}"
+      no_log: true
+
+    - name: Pull latest Docker images
+      community.docker.docker_compose:
+        project_src: ~/devops/university-magazine
+        pull: yes
+        state: present
+
+    - name: Restart Docker Compose services
+      community.docker.docker_compose:
+        project_src: ~/devops/university-magazine
+        restarted: yes
