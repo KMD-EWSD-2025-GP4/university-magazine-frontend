@@ -1,4 +1,10 @@
-import { createTheme, MantineProvider, NavLink } from "@mantine/core";
+import {
+  createTheme,
+  DefaultMantineColor,
+  MantineColorsTuple,
+  MantineProvider,
+  NavLink,
+} from "@mantine/core";
 import "@mantine/dates/styles.css";
 import "mantine-react-table/styles.css";
 import { ReactNode } from "react";
@@ -9,6 +15,18 @@ const theme = createTheme({
   primaryColor: "gray",
   primaryShade: 6,
   colors: {
+    primary: [
+      "#e6f0ff",
+      "#b3d1ff",
+      "#80b3ff",
+      "#4d94ff",
+      "#002147",
+      "#003366",
+      "#004080",
+      "#1a5276",
+      "#154360",
+      "#0d2d47",
+    ],
     gray: [
       "#f1f1f1",
       "#e7e7e7",
@@ -34,6 +52,14 @@ const theme = createTheme({
     }),
   },
 });
+
+type ExtendedCustomColors = "primary" | DefaultMantineColor;
+
+declare module "@mantine/core" {
+  export interface MantineThemeColorsOverride {
+    colors: Record<ExtendedCustomColors, MantineColorsTuple>;
+  }
+}
 
 export function Provider({ children }: { children: ReactNode }) {
   const queryClient = new QueryClient();

@@ -4,6 +4,7 @@ export const routes = {
   login: "/",
   dashboard: "/d",
   "user-management": "/d/users",
+  "new-user": "/d/users/new",
   "academic-years": "/d/years",
   "system-parameter": "/d/system-param",
   reports: "/d/reports",

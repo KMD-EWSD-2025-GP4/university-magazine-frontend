@@ -1,7 +1,14 @@
 import { useUserStore } from "@/store/useUser";
 import { useEffect } from "react";
 import { Outlet, useNavigate, NavLink as ReactRouterLink } from "react-router";
-import { AppShell, Burger, Group, NavLink, Text } from "@mantine/core";
+import {
+  AppShell,
+  Burger,
+  Container,
+  Group,
+  NavLink,
+  Text,
+} from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { adminMenus } from "@/configs/menus";
 import { useLocation } from "react-router";
@@ -49,7 +56,9 @@ export function DashboardLayout() {
         ))}
       </AppShell.Navbar>
       <AppShell.Main>
-        <Outlet />
+        <Container>
+          <Outlet />
+        </Container>
       </AppShell.Main>
     </AppShell>
   );

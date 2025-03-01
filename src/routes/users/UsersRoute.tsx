@@ -5,6 +5,10 @@ import {
   type MRT_ColumnDef,
 } from "mantine-react-table";
 import { getDefaultMRTOptions } from "@/configs/data-table";
+import { Button, Flex, Stack, Text } from "@mantine/core";
+import { IconPlus } from "@tabler/icons-react";
+import { Link } from "react-router";
+import { routes } from "@/configs/menus";
 
 type Person = {
   name: {
@@ -91,7 +95,7 @@ export function UsersRoute() {
         header: "State",
       },
     ],
-    [],
+    []
   );
 
   const table = useMantineReactTable({
@@ -101,5 +105,21 @@ export function UsersRoute() {
     renderTopToolbarCustomActions: () => <div>filters components</div>,
   });
 
-  return <MantineReactTable table={table} />;
+  return (
+    <Stack gap="xl" p="xl">
+      <Flex align="center" justify="space-between">
+        <Text size="xl" component="h1" fw={600}>
+          Users Management
+        </Text>
+        <Button
+          leftSection={<IconPlus size={16} />}
+          component={Link}
+          to={routes["new-user"]}
+        >
+          Add New User
+        </Button>
+      </Flex>
+      <MantineReactTable table={table} />
+    </Stack>
+  );
 }
