@@ -5,6 +5,11 @@ on:
     branches: [main]
   workflow_dispatch:
 
+# Add permissions section here
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   build-and-deploy:
     name: Build and Deploy Frontend
