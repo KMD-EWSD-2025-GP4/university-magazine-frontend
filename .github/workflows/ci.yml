@@ -59,11 +59,11 @@ jobs:
 
       - name: Deploy to server
         run: |
-          scp deploy.yml ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:~/devops/university-magazine/
+          scp deploy-frontend.yml ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:~/devops/university-magazine/
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} "cd ~/devops/university-magazine && \
           GITHUB_REPOSITORY_OWNER='${{ github.repository_owner }}' \
           GITHUB_ACTOR='${{ github.actor }}' \
           GITHUB_TOKEN='${{ secrets.GITHUB_TOKEN }}' \
-          ansible-playbook deploy.yml"
+          ansible-playbook deploy-frontend.yml"
         env:
           ANSIBLE_HOST_KEY_CHECKING: "False"

@@ -15,12 +15,11 @@
       no_log: true
 
     - name: Pull latest Docker images
-      community.docker.docker_compose:
-        project_src: ~/devops/university-magazine
-        pull: yes
-        state: present
+      shell: |
+        # only pull the frontend image
+        docker compose pull frontend
 
     - name: Restart Docker Compose services
-      community.docker.docker_compose:
-        project_src: ~/devops/university-magazine
-        restarted: yes
+      shell: |
+        # only restart the frontend service
+        docker compose up -d frontend
