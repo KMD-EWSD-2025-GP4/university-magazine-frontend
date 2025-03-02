@@ -3,7 +3,7 @@ import { DashboardLayout } from "@/layouts";
 import { LoginRoute } from "@/routes/auth";
 import { DashboardRoute } from "@/routes/dashboard";
 import { ReportRoutes } from "@/routes/reports";
-import { UsersRoute } from "@/routes/users";
+import { NewUserRoute, UsersRoute } from "@/routes/users";
 import { routes } from "./menus";
 import { AcademicYearsRoute } from "@/routes/academic-years";
 import { SystemParametersRoute } from "@/routes/system-parameters";
@@ -25,6 +25,7 @@ export function Routes() {
           path={routes["system-parameter"]}
           element={<SystemParametersRoute />}
         />
+        <Route path={routes["new-user"]} element={<NewUserRoute />} />
       </Route>
     </ReactRouterRoutes>
   );
