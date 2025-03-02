@@ -56,7 +56,7 @@ export function DashboardLayout() {
         ))}
       </AppShell.Navbar>
       <AppShell.Main>
-        <Container>
+        <Container size="xl">
           <Outlet />
         </Container>
       </AppShell.Main>

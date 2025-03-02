@@ -5,94 +5,70 @@ import {
   type MRT_ColumnDef,
 } from "mantine-react-table";
 import { getDefaultMRTOptions } from "@/configs/data-table";
-import { Button, Flex, Stack, Text } from "@mantine/core";
-// import { IconPlus } from "@tabler/icons-react";
+import {
+  ActionIcon,
+  Button,
+  Flex,
+  Group,
+  Stack,
+  Text,
+  TextInput,
+} from "@mantine/core";
 import { Link } from "react-router";
 import { routes } from "@/configs/menus";
+import { useGetUsers } from "./queries";
+import { UserDetailType } from "@/configs/schemas";
+import { RoleSelect, StatusSelect } from "@/components/select";
+import { ThreeDotsIcon } from "@/icons";
+import { formatServerDatetime } from "@/utils/dates";
 
-type Person = {
-  name: {
-    firstName: string;
-    lastName: string;
-  };
-  address: string;
-  city: string;
-  state: string;
-};
-
-//nested data is ok, see accessorKeys in ColumnDef below
-const data: Person[] = [
-  {
-    name: {
-      firstName: "Zachary",
-      lastName: "Davis",
-    },
-    address: "261 Battle Ford",
-    city: "Columbus",
-    state: "Ohio",
-  },
-  {
-    name: {
-      firstName: "Robert",
-      lastName: "Smith",
-    },
-    address: "566 Brakus Inlet",
-    city: "Westerville",
-    state: "West Virginia",
-  },
-  {
-    name: {
-      firstName: "Kevin",
-      lastName: "Yan",
-    },
-    address: "7777 Kuhic Knoll",
-    city: "South Linda",
-    state: "West Virginia",
-  },
-  {
-    name: {
-      firstName: "John",
-      lastName: "Upton",
-    },
-    address: "722 Emie Stream",
-    city: "Huntington",
-    state: "Washington",
-  },
-  {
-    name: {
-      firstName: "Nathan",
-      lastName: "Harris",
-    },
-    address: "1 Kuhic Knoll",
-    city: "Ohiowa",
-    state: "Nebraska",
-  },
-];
-
-const defaultMRTOptions = getDefaultMRTOptions<Person>();
+const defaultMRTOptions = getDefaultMRTOptions<UserDetailType>();
 
 export function UsersRoute() {
-  const columns = useMemo<MRT_ColumnDef<Person>[]>(
+  const { data = [], isPending } = useGetUsers();
+
+  console.log("isPending", isPending);
+
+  const columns = useMemo<MRT_ColumnDef<UserDetailType>[]>(
     () => [
       {
-        accessorKey: "name.firstName", //access nested data with dot notation
-        header: "First Name",
+        accessorKey: "name",
+        header: "Name",
       },
       {
-        accessorKey: "name.lastName",
-        header: "Last Name",
+        accessorKey: "email",
+        header: "Email",
       },
       {
-        accessorKey: "address", //normal accessorKey
-        header: "Address",
+        accessorKey: "role",
+        header: "Role",
       },
       {
-        accessorKey: "city",
-        header: "City",
+        accessorKey: "status",
+        header: "Status",
       },
       {
-        accessorKey: "state",
-        header: "State",
+        accessorKey: "totalLogins",
+        header: "Log In",
+      },
+      {
+        accessorKey: "lastLogin",
+        header: "Last Logged In",
+        Cell: ({ cell }) => (
+          <Text style={{ whiteSpace: "nowrap" }}>
+            {cell.getValue()
+              ? formatServerDatetime(cell.getValue() as string)
+              : ""}
+          </Text>
+        ),
+      },
+      {
+        header: "Details",
+        Cell: () => (
+          <ActionIcon variant="transparent">
+            <ThreeDotsIcon />
+          </ActionIcon>
+        ),
       },
     ],
     []
@@ -102,7 +78,13 @@ export function UsersRoute() {
     ...defaultMRTOptions,
     columns,
     data,
-    renderTopToolbarCustomActions: () => <div>filters components</div>,
+    renderTopToolbarCustomActions: () => (
+      <Group gap="md" align="center">
+        <TextInput placeholder="Search by name" />
+        <StatusSelect />
+        <RoleSelect />
+      </Group>
+    ),
   });
 
   return (

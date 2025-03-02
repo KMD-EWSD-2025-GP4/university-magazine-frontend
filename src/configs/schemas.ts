@@ -27,3 +27,11 @@ export const userSchema = z.object({
 });
 
 export type UserType = z.infer<typeof userSchema>;
+export type UserDetailType = Omit<UserType, "password"> & {
+  id: string;
+  lastLogin: boolean | null;
+  lastLoginAt: string | null;
+  browser: string | null;
+  totalLogins: number | null;
+};
+export type GetUserResponseType = UserDetailType[];
