@@ -9,7 +9,8 @@ import "@mantine/dates/styles.css";
 import "mantine-react-table/styles.css";
 import { ReactNode } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Notifications } from "@mantine/notifications";
+import { Notifications, showNotification } from "@mantine/notifications";
+import { AxiosError } from "axios";
 
 const theme = createTheme({
   primaryColor: "gray",
@@ -62,7 +63,25 @@ declare module "@mantine/core" {
 }
 
 export function Provider({ children }: { children: ReactNode }) {
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      mutations: {
+        onError: (error: Error) => {
+          if (error instanceof AxiosError) {
+            const errorMessage =
+              error.response?.data?.error?.message ||
+              "Something went wrong. Please try again.";
+            const errorCode = error.response?.data?.error?.code || "";
+            showNotification({
+              color: "red",
+              title: errorCode ?? "Error",
+              message: errorMessage,
+            });
+          }
+        },
+      },
+    },
+  });
 
   return (
     <QueryClientProvider client={queryClient}>

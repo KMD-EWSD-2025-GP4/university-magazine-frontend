@@ -6,6 +6,16 @@ export const loginSchema = z.object({
 });
 
 export type LoginType = z.infer<typeof loginSchema>;
+export type LoginResponseType = {
+  user: {
+    id: string;
+    email: string;
+    name: string;
+    role: string;
+    facultyId: string;
+  };
+  token: string;
+};
 
 export const userSchema = z.object({
   name: z.string().min(1, "Name cannot be blank."),
