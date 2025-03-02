@@ -7,9 +7,11 @@ import {
 import { getDefaultMRTOptions } from "@/configs/data-table";
 import {
   ActionIcon,
+  Badge,
   Button,
   Flex,
   Group,
+  Menu,
   Stack,
   Text,
   TextInput,
@@ -21,13 +23,12 @@ import { UserDetailType } from "@/configs/schemas";
 import { RoleSelect, StatusSelect } from "@/components/select";
 import { ThreeDotsIcon } from "@/icons";
 import { formatServerDatetime } from "@/utils/dates";
+import { PageLoading } from "@/components/loading/PageLoading";
 
 const defaultMRTOptions = getDefaultMRTOptions<UserDetailType>();
 
 export function UsersRoute() {
   const { data = [], isPending } = useGetUsers();
-
-  console.log("isPending", isPending);
 
   const columns = useMemo<MRT_ColumnDef<UserDetailType>[]>(
     () => [
@@ -46,6 +47,11 @@ export function UsersRoute() {
       {
         accessorKey: "status",
         header: "Status",
+        Cell: ({ cell }) => (
+          <Badge color={cell.getValue() === "active" ? "green" : "red"}>
+            {(cell.getValue() as string) ?? "api"}
+          </Badge>
+        ),
       },
       {
         accessorKey: "totalLogins",
@@ -64,10 +70,25 @@ export function UsersRoute() {
       },
       {
         header: "Details",
-        Cell: () => (
-          <ActionIcon variant="transparent">
-            <ThreeDotsIcon />
-          </ActionIcon>
+        accessorKey: "id",
+        Cell: ({ cell }) => (
+          <Menu shadow="md" width={200}>
+            <Menu.Target>
+              <ActionIcon variant="transparent">
+                <ThreeDotsIcon />
+              </ActionIcon>
+            </Menu.Target>
+
+            <Menu.Dropdown>
+              <Menu.Item
+                component={Link}
+                to={`${routes["user-management"]}/${cell.getValue()}`}
+              >
+                Detail
+              </Menu.Item>
+              <Menu.Item color="red">Delete</Menu.Item>
+            </Menu.Dropdown>
+          </Menu>
         ),
       },
     ],
@@ -87,10 +108,14 @@ export function UsersRoute() {
     ),
   });
 
+  if (isPending) {
+    return <PageLoading />;
+  }
+
   return (
     <Stack gap="xl" p="xl">
       <Flex align="center" justify="space-between">
-        <Text size="xl" component="h1" fw={600}>
+        <Text size="26px" component="h1" fw={700}>
           Users Management
         </Text>
         <Button leftSection={<> + </>} component={Link} to={routes["new-user"]}>

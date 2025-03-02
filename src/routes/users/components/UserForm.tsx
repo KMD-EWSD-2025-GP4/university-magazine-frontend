@@ -1,4 +1,5 @@
-import { userSchema, UserType } from "@/configs/schemas";
+import { FacultySelect, RoleSelect } from "@/components/select";
+import { updateUserSchema, userSchema, UserType } from "@/configs/schemas";
 import {
   Button,
   Group,
@@ -27,16 +28,16 @@ export function UserForm({
   const navigate = useNavigate();
   const { onSubmit, getInputProps } = useForm<UserType>({
     initialValues,
-    validate: zodResolver(userSchema),
+    validate: zodResolver(create ? userSchema : updateUserSchema),
   });
 
   return (
     <Paper component="form" onSubmit={onSubmit(handleSubmit)} p="xl">
-      <Text size="xl" component="h1" fw={600}>
+      <Text size="26px" component="h1" fw={700}>
         Users Management
       </Text>
 
-      <SimpleGrid cols={2} mt="xl">
+      <SimpleGrid cols={2} mt={48} verticalSpacing={48} spacing={48}>
         <TextInput
           placeholder="Enter Name"
           label="Name"
@@ -49,13 +50,13 @@ export function UserForm({
           {...getInputProps("email")}
         />
 
-        <TextInput
+        <FacultySelect
           placeholder="Enter Faculty"
           label="Faculty"
           {...getInputProps("faculty")}
         />
 
-        <TextInput
+        <RoleSelect
           placeholder="Enter Role"
           label="Role"
           {...getInputProps("role")}
@@ -75,7 +76,7 @@ export function UserForm({
         </Radio.Group>
       </SimpleGrid>
 
-      <Group align="center" mt="xl" justify="end">
+      <Group align="center" mt={48} justify="end">
         <Button w={270} onClick={() => navigate(-1)}>
           Cancel
         </Button>

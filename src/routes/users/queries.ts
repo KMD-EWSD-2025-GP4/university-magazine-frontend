@@ -1,6 +1,6 @@
 import { usersKeys } from "@/configs/query-keys";
 import { UserType } from "@/configs/schemas";
-import { createUser, getUsers } from "@/services/users";
+import { createUser, getUser, getUsers } from "@/services/users";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 export function useGetUsers() {
@@ -11,7 +11,16 @@ export function useGetUsers() {
   });
 }
 
-export function useCreateUsers() {
+export function useGetUser(id: string) {
+  return useQuery({
+    queryKey: usersKeys.list(id),
+    queryFn: () => getUser(id),
+    select: (res) => res.data,
+    enabled: !!id,
+  });
+}
+
+export function useCreateUser() {
   return useMutation({
     mutationFn: (data: UserType) => createUser(data),
     onSuccess: (res) => {
@@ -19,3 +28,5 @@ export function useCreateUsers() {
     },
   });
 }
+
+export function useUpdateUser() {}

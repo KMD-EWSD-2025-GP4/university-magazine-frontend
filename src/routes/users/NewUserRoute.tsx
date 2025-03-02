@@ -1,9 +1,9 @@
 import { UserType } from "@/configs/schemas";
-import { useCreateUsers } from "./queries";
+import { useCreateUser } from "./queries";
 import { UserForm } from "./components/UserForm";
 
 export function NewUserRoute() {
-  const { isPending, mutate } = useCreateUsers();
+  const { isPending, mutate } = useCreateUser();
 
   const onSubmit = (data: UserType) => {
     mutate(data);
