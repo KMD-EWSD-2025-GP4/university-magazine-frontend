@@ -5,7 +5,10 @@ import { DashboardRoute } from "@/routes/dashboard";
 import { ReportRoutes } from "@/routes/reports";
 import { EditUserRoute, NewUserRoute, UsersRoute } from "@/routes/users";
 import { routes } from "./menus";
-import { AcademicYearsRoute } from "@/routes/academic-years";
+import {
+  AcademicYearsRoute,
+  NewAcademicYearRoute,
+} from "@/routes/academic-years";
 import { SystemParametersRoute } from "@/routes/system-parameters";
 
 export function Routes() {
@@ -24,6 +27,10 @@ export function Routes() {
         <Route
           path={routes["academic-years"]}
           element={<AcademicYearsRoute />}
+        />
+        <Route
+          path={routes["new-academic-year"]}
+          element={<NewAcademicYearRoute />}
         />
         <Route
           path={routes["system-parameter"]}

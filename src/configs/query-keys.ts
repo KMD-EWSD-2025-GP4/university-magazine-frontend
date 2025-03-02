@@ -8,3 +8,9 @@ export const facultiesKeys = {
   lists: () => [...usersKeys.all, "list"],
   list: (id: number | string) => [...usersKeys.lists(), { id }],
 };
+
+export const academicYearsKeys = {
+  all: ["academic-years"],
+  lists: () => [...usersKeys.all, "list"],
+  list: (id: number | string) => [...usersKeys.lists(), { id }],
+};
