@@ -34,7 +34,7 @@ export function UserForm({
   return (
     <Paper component="form" onSubmit={onSubmit(handleSubmit)} p="xl">
       <Text size="26px" component="h1" fw={700}>
-        Users Management
+        {create ? "New User Registration" : "Update User Information"}
       </Text>
 
       <SimpleGrid cols={2} mt={48} verticalSpacing={48} spacing={48}>

@@ -65,3 +65,31 @@ export type GetFacultiesResponseType = FacultyType[];
 //   "browser": null,
 //   "facultyName": "Faculty of Medicine"
 // }
+
+export const academicYearsSchema = z.object({
+  status: z.string(),
+  startDate: z.string(),
+  endDate: z.string(),
+  newClosureDate: z.string(),
+  finalClosureDate: z.string(),
+});
+
+export type AcademicYearType = z.infer<typeof academicYearsSchema>;
+export type AcademicYearDetailType = AcademicYearType & {
+  id: string;
+};
+
+export type GetAcademicYearsResponseType = AcademicYearDetailType[];
+export type GetAcademicYearResponseType = AcademicYearDetailType;
+
+// id: uuid('id').primaryKey().defaultRandom(),
+// startDate: date('start_date', { mode: 'date' }).notNull(),
+// endDate: date('end_date', { mode: 'date' }).notNull(),
+// newClosureDate: timestamp('new_closure_date', {
+//   withTimezone: true,
+// }).notNull(),
+// finalClosureDate: timestamp('final_closure_date', {
+//   withTimezone: true,
+// }).notNull(),
+// createdAt: timestamp('created_at').defaultNow(),
+// updatedAt: timestamp('updated_at').defaultNow(),
