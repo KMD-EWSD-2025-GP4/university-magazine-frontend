@@ -1,5 +1,3 @@
-import { useUserStore } from "@/store/useUser";
-import { useEffect } from "react";
 import { Outlet, useNavigate, NavLink as ReactRouterLink } from "react-router";
 import {
   AppShell,
@@ -17,7 +15,6 @@ import { handleLogout } from "@/utils/auth";
 import { showNotification } from "@mantine/notifications";
 
 export function DashboardLayout() {
-  const token = useUserStore((state) => state?.user?.token);
   const [opened, { toggle }] = useDisclosure();
   const navigate = useNavigate();
   const location = useLocation();
@@ -26,12 +23,6 @@ export function DashboardLayout() {
    * TODO: get user menus according to it's role.
    */
   const userMenus = adminMenus;
-
-  useEffect(() => {
-    if (!token) {
-      navigate("/", { replace: true });
-    }
-  }, [navigate, token]);
 
   return (
     <AppShell
