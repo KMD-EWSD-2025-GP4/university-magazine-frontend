@@ -19,7 +19,7 @@ export function AcademicYearForm({
   handleSubmit,
 }: AcademicYearProps) {
   const navigate = useNavigate();
-  const { onSubmit, getInputProps } = useForm<AcademicYearType>({
+  const { onSubmit, getInputProps } = useForm({
     initialValues,
     validate: zodResolver(academicYearsSchema),
   });

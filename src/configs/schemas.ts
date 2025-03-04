@@ -73,24 +73,35 @@ export const facultySchema = z.object({
 
 export type FacultyType = z.infer<typeof facultySchema>;
 export type GetFacultiesResponseType = FacultyType[];
-// {
-//   "id": "ee723117-daeb-4c29-a587-963d0e455895",
-//   "email": "student1@gmail.com",
-//   "role": "student",
-//   "name": "Student One",
-//   "facultyId": "2a9a5bce-da09-4fb9-9eea-1c4794c7bfb7",
-//   "lastLogin": null,
-//   "totalLogins": 0,
-//   "browser": null,
-//   "facultyName": "Faculty of Medicine"
-// }
 
 export const academicYearsSchema = z.object({
-  status: z.string(),
-  startDate: z.string(),
-  endDate: z.string(),
-  newClosureDate: z.string(),
-  finalClosureDate: z.string(),
+  status: z.enum(["active", "inactive"], {
+    message: "Status must be active or inactive",
+  }),
+  startDate: z
+    .date()
+    .nullable()
+    .refine((val) => val !== null, {
+      message: "Start date cannot be blank.",
+    }),
+  endDate: z
+    .date()
+    .nullable()
+    .refine((val) => val !== null, {
+      message: "End date cannot be blank.",
+    }),
+  finalClosureDate: z
+    .date()
+    .nullable()
+    .refine((val) => val !== null, {
+      message: "Final closure date cannot be blank.",
+    }),
+  newClosureDate: z
+    .date()
+    .nullable()
+    .refine((val) => val !== null, {
+      message: "New closure date cannot be blank.",
+    }),
 });
 
 export type AcademicYearType = z.infer<typeof academicYearsSchema>;
@@ -100,15 +111,3 @@ export type AcademicYearDetailType = AcademicYearType & {
 
 export type GetAcademicYearsResponseType = AcademicYearDetailType[];
 export type GetAcademicYearResponseType = AcademicYearDetailType;
-
-// id: uuid('id').primaryKey().defaultRandom(),
-// startDate: date('start_date', { mode: 'date' }).notNull(),
-// endDate: date('end_date', { mode: 'date' }).notNull(),
-// newClosureDate: timestamp('new_closure_date', {
-//   withTimezone: true,
-// }).notNull(),
-// finalClosureDate: timestamp('final_closure_date', {
-//   withTimezone: true,
-// }).notNull(),
-// createdAt: timestamp('created_at').defaultNow(),
-// updatedAt: timestamp('updated_at').defaultNow(),

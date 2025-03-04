@@ -18,4 +18,5 @@ export const getDefaultMRTOptions = <TData extends MRT_RowData>(): Partial<
   mantinePaginationProps: {
     showRowsPerPage: false,
   },
+  manualFiltering: true,
 });
