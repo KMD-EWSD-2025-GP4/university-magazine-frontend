@@ -24,6 +24,11 @@ export function useCreateAcademicYear() {
   return useMutation({
     mutationFn: (data: AcademicYearType) => {
       console.log("data", data);
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(data);
+        }, 1000);
+      });
     },
   });
 }
