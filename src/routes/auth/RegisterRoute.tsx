@@ -9,7 +9,7 @@ import {
   Title,
   Select,
 } from "@mantine/core";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import classes from "./LoginRoute.module.css";
 import { useForm, zodResolver } from "@mantine/form";
 import { registerSchema, RegisterType } from "@/configs/schemas";
