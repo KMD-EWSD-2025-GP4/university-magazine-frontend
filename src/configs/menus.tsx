@@ -4,7 +4,9 @@ export const routes = {
   login: "/",
   dashboard: "/d",
   "user-management": "/d/users",
+  "new-user": "/d/users/new",
   "academic-years": "/d/years",
+  "new-academic-year": "/d/years/new",
   "system-parameter": "/d/system-param",
   reports: "/d/reports",
 };
