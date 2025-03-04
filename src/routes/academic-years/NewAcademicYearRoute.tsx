@@ -17,10 +17,10 @@ export function NewAcademicYearRoute() {
         handleSubmit={onSubmit}
         initialValues={{
           status: "active",
-          startDate: null as unknown as string,
-          endDate: null as unknown as string,
-          finalClosureDate: null as unknown as string,
-          newClosureDate: null as unknown as string,
+          startDate: null as unknown as Date,
+          endDate: null as unknown as Date,
+          finalClosureDate: null as unknown as Date,
+          newClosureDate: null as unknown as Date,
         }}
       />
     </div>
