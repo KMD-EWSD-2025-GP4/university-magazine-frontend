@@ -1,5 +1,5 @@
 import { Routes as ReactRouterRoutes, Route } from "react-router";
-import { DashboardLayout } from "@/layouts";
+import { AuthLayout, DashboardLayout } from "@/layouts";
 import { LoginRoute } from "@/routes/auth";
 import { DashboardRoute } from "@/routes/dashboard";
 import { ReportRoutes } from "@/routes/reports";
@@ -14,8 +14,11 @@ import { RegisterRoute } from "@/routes/auth";
 export function Routes() {
   return (
     <ReactRouterRoutes>
-      <Route index element={<LoginRoute />} />
-      <Route path="register" element={<RegisterRoute />} />
+      <Route element={<AuthLayout />}>
+        <Route index element={<LoginRoute />} />
+        <Route path="register" element={<RegisterRoute />} />
+      </Route>
+
       <Route path={routes.dashboard} element={<DashboardLayout />}>
         <Route index element={<DashboardRoute />} />
         <Route path={routes["user-management"]} element={<UsersRoute />} />

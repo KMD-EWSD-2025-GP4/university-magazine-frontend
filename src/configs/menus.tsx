@@ -11,6 +11,11 @@ export const routes = {
   reports: "/d/reports",
 };
 
+export const loginRolesHomeRoutes = {
+  admin: routes["user-management"],
+  student: routes.dashboard,
+};
+
 const menus = {
   "user-management": {
     label: "User Mangement",
