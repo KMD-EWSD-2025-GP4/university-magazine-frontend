@@ -11,6 +11,7 @@ import { ReactNode } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Notifications, showNotification } from "@mantine/notifications";
 import { AxiosError } from "axios";
+import { ModalsProvider } from "@mantine/modals";
 
 const theme = createTheme({
   primaryColor: "gray",
@@ -86,8 +87,10 @@ export function Provider({ children }: { children: ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
       <MantineProvider theme={theme}>
-        <Notifications position="top-right" />
-        {children}
+        <ModalsProvider>
+          <Notifications position="top-right" />
+          {children}
+        </ModalsProvider>
       </MantineProvider>
     </QueryClientProvider>
   );
