@@ -12,10 +12,12 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import { adminMenus } from "@/configs/menus";
 import { useLocation } from "react-router";
+import { LogoutIcon } from "@/icons";
+import { handleLogout } from "@/utils/auth";
+import { showNotification } from "@mantine/notifications";
 
 export function DashboardLayout() {
   const token = useUserStore((state) => state?.user?.token);
-
   const [opened, { toggle }] = useDisclosure();
   const navigate = useNavigate();
   const location = useLocation();
@@ -54,6 +56,22 @@ export function DashboardLayout() {
             leftSection={<menu.icon />}
           />
         ))}
+
+        <NavLink
+          label="Logout"
+          c="red"
+          active={false}
+          onClick={() => {
+            handleLogout(() => {
+              navigate("/");
+              showNotification({
+                title: "Logout Success!",
+                message: "You have successfully logged out.",
+              });
+            });
+          }}
+          leftSection={<LogoutIcon />}
+        />
       </AppShell.Navbar>
       <AppShell.Main>
         <Container size="xl">
