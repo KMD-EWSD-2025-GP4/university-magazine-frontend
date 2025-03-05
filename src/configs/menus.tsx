@@ -1,5 +1,6 @@
 import { CalendarIcon, ReportIcon, SystemIcon, UsersIcon } from "@/icons";
 
+
 export const routes = {
   login: "/",
   dashboard: "/d",
@@ -8,7 +9,8 @@ export const routes = {
   "new-user": "/d/users/new",
   "academic-years": "/d/years",
   "new-academic-year": "/d/years/new",
-  "system-parameter": "/d/system-param",
+  "system-parameter": "/d/system-param/faculty",
+  "terms-conditions": "/d/system-param/term&Conditions",
   reports: "/d/reports",
   contributions: "/contributions",
   "new-contribution": "/contributions/new",
@@ -16,37 +18,61 @@ export const routes = {
   "my-contributions": "/contributions/my",
 };
 
+
 const menus = {
   "user-management": {
-    label: "User Mangement",
+    label: "User Management",
     icon: UsersIcon,
     href: routes["user-management"],
+    submenus: []
   },
-  "acadeic-years": {
+  "academic-years": {
     label: "Academic Years",
     icon: CalendarIcon,
     href: routes["academic-years"],
+    submenus: []
   },
   "system-parameters": {
     label: "System Parameter",
     icon: SystemIcon,
-    href: routes["system-parameter"],
+    href:'',
+    submenus: [
+      {
+        label: "Faculty",
+        href: "/d/system-param/faculty",
+      },
+      {
+        label: "Terms & Conditions",
+        href: "/d/system-param/term&Conditions",
+      },
+    ],
   },
   reports: {
     label: "Reports",
     icon: ReportIcon,
     href: routes.reports,
+    submenus: []
   },
 };
 
+
 export const adminMenus = [
   menus["user-management"],
-  menus["acadeic-years"],
+  menus["academic-years"],
   menus["system-parameters"],
   menus["reports"],
 ];
 
-export const adminRoutes = adminMenus.map((menu) => menu.href);
+
+export const adminRoutes = adminMenus.flatMap((menu) => {
+  const mainHref = menu.href ? [menu.href] : [];
+  const subHrefs = menu.submenus && Array.isArray(menu.submenus)
+    ? menu.submenus.map((submenu) => submenu.href)
+    : []; 
+
+  return [...mainHref, ...subHrefs];
+});
+
 
 export const studentRoutes = [
   routes.contributions,

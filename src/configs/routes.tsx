@@ -17,6 +17,7 @@ import {
   MyContributionsRoute,
   NewContributionsRoute,
 } from "@/routes/contributions";
+import { TermsAndConditions } from "@/routes/term-conditions/TermsAndConditions";
 export function Routes() {
   return (
     <ReactRouterRoutes>
@@ -43,6 +44,10 @@ export function Routes() {
           <Route
             path={routes["system-parameter"]}
             element={<SystemParametersRoute />}
+          />
+           <Route
+            path={routes["terms-conditions"]}
+            element={<TermsAndConditions />}
           />
           <Route path={routes["new-user"]} element={<NewUserRoute />} />
         </Route>
