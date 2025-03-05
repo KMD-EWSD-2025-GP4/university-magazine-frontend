@@ -14,6 +14,8 @@ export function NewFeedLayout() {
         bg="primary"
         c="#fff"
         radius={0}
+        pos="sticky"
+        top={0}
       >
         <Flex w="100%" align="center">
           <Text size="32px" fw={700} component="h1" w="8ch" py="20px">
