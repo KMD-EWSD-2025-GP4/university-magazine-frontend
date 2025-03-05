@@ -19,7 +19,7 @@ export function useLogin() {
       });
       setUser({
         username: res.data.user.name,
-        role: "student",
+        role: res.data.user.role,
         token: res.data.token,
       });
       if (res.data.user.role === roles.admin) {
