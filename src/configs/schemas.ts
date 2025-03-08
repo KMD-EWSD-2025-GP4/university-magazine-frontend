@@ -69,10 +69,11 @@ export type GetUserResponseType = UserDetailType;
 export const facultySchema = z.object({
   id: z.string(),
   name: z.string(),
+  status: z.string()
 });
 
 export type FacultyType = z.infer<typeof facultySchema>;
-export type GetFacultiesResponseType = FacultyType[];
+export type GetFacultiesResponseType = FacultyType;
 
 export const academicYearsSchema = z.object({
   status: z.enum(["active", "inactive"], {
