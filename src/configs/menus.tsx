@@ -10,6 +10,7 @@ export const routes = {
   "academic-years": "/d/years",
   "new-academic-year": "/d/years/new",
   "system-parameter": "/d/system-param/faculty",
+  "details-faculty" : "/d/system-param/faculty/:id",
   "terms-conditions": "/d/system-param/term&Conditions",
   reports: "/d/reports",
   contributions: "/contributions",
@@ -61,6 +62,7 @@ export const adminMenus = [
   menus["academic-years"],
   menus["system-parameters"],
   menus["reports"],
+
 ];
 
 
