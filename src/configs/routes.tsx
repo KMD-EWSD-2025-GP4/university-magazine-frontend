@@ -15,7 +15,7 @@ import {
   ContributionsRoute,
   EditContributionsRoute,
   MyContributionsRoute,
-  NewContributionsRoute,
+  NewContributionRoute,
 } from "@/routes/contributions";
 export function Routes() {
   return (
@@ -51,7 +51,7 @@ export function Routes() {
           <Route path={routes.contributions} element={<ContributionsRoute />} />
           <Route
             path={routes["new-contribution"]}
-            element={<NewContributionsRoute />}
+            element={<NewContributionRoute />}
           />
           <Route
             path={routes["edit-contribution"]}

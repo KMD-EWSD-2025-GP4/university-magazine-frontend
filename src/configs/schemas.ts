@@ -111,3 +111,20 @@ export type AcademicYearDetailType = AcademicYearType & {
 
 export type GetAcademicYearsResponseType = AcademicYearDetailType[];
 export type GetAcademicYearResponseType = AcademicYearDetailType;
+
+export const contributionSchema = z.object({
+  title: z.string().min(1, "Title cannot be blank."),
+  description: z.string(),
+  article: z.object({
+    path: z.string(),
+  }),
+  images: z
+    .array(
+      z.object({
+        path: z.string(),
+      })
+    )
+    .optional(),
+});
+
+export type ContributionType = z.infer<typeof contributionSchema>;
