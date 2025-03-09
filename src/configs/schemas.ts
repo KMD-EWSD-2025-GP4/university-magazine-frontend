@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const loginSchema = z.object({
-  username: z.string().min(1, "Username cannot be blank."),
+  email: z.string().min(1, "Email cannot be blank."),
   password: z.string().min(1, "Password cannot be blank"),
 });
 
@@ -69,22 +69,19 @@ export type GetUserResponseType = UserDetailType;
 export const facultySchema = z.object({
   id: z.string(),
   name: z.string(),
-  status: z.string()
+  status: z.string(),
 });
 export type FacultyType = z.infer<typeof facultySchema>;
 export type GetFacultiesResponseType = FacultyType;
-
 
 export const termsSchema = z.object({
   id: z.string(),
   name: z.string(),
   content: z.string(),
-})
+});
 
 export type TermsType = z.infer<typeof termsSchema>;
 export type GetTermsResponseType = TermsType;
-
-
 
 export const academicYearsSchema = z.object({
   status: z.enum(["active", "inactive"], {

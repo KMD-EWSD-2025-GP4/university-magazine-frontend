@@ -6,7 +6,7 @@ import { useUserStore } from "@/store/useUser";
 import { showNotification } from "@mantine/notifications";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
-// import axios from "axios";
+
 export function useLogin() {
   const { setUser } = useUserStore();
   const navigate = useNavigate();
@@ -40,8 +40,7 @@ export function useRegister() {
       //const response = await axios.post("/api/register", data);
       return data;
     },
-    onSuccess: (res) => {
-      console.log(res);
+    onSuccess: () => {
       showNotification({
         title: "Registration Successful!",
         message: "You have successfully registered.",
