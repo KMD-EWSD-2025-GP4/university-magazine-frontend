@@ -22,6 +22,7 @@ export function useLogin() {
         role: res.data.user.role,
         token: res.data.token,
         email: res.data.user.email,
+        facultyId: res.data.user.facultyId,
       });
       if (res.data.user.role === roles.admin) {
         navigate(routes["user-management"]);

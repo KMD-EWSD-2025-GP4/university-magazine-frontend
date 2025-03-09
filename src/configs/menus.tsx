@@ -1,6 +1,5 @@
 import { CalendarIcon, ReportIcon, SystemIcon, UsersIcon } from "@/icons";
 
-
 export const routes = {
   login: "/",
   dashboard: "/d",
@@ -9,8 +8,9 @@ export const routes = {
   "new-user": "/d/users/new",
   "academic-years": "/d/years",
   "new-academic-year": "/d/years/new",
+  "edit-academic-year": "/d/years/:id",
   "system-parameter": "/d/system-param/faculty",
-  "details-faculty" : "/d/system-param/faculty/:id",
+  "details-faculty": "/d/system-param/faculty/:id",
   "terms-conditions": "/d/system-param/term&Conditions",
   reports: "/d/reports",
   contributions: "/contributions",
@@ -19,24 +19,23 @@ export const routes = {
   "my-contributions": "/contributions/my",
 };
 
-
 const menus = {
   "user-management": {
     label: "User Management",
     icon: UsersIcon,
     href: routes["user-management"],
-    submenus: []
+    submenus: [],
   },
   "academic-years": {
     label: "Academic Years",
     icon: CalendarIcon,
     href: routes["academic-years"],
-    submenus: []
+    submenus: [],
   },
   "system-parameters": {
     label: "System Parameter",
     icon: SystemIcon,
-    href:'',
+    href: "",
     submenus: [
       {
         label: "Faculty",
@@ -52,29 +51,28 @@ const menus = {
     label: "Reports",
     icon: ReportIcon,
     href: routes.reports,
-    submenus: []
+    submenus: [],
   },
 };
-
 
 export const adminMenus = [
   menus["user-management"],
   menus["academic-years"],
   menus["system-parameters"],
   menus["reports"],
-
 ];
 
-
-export const adminRoutes = adminMenus.flatMap((menu) => {
-  const mainHref = menu.href ? [menu.href] : [];
-  const subHrefs = menu.submenus && Array.isArray(menu.submenus)
-    ? menu.submenus.map((submenu) => submenu.href)
-    : []; 
-
-  return [...mainHref, ...subHrefs];
-});
-
+export const adminRoutes = [
+  routes["user-management"],
+  routes["academic-years"],
+  routes["system-parameter"],
+  routes.reports,
+  routes["terms-conditions"],
+  routes["details-faculty"],
+  routes["new-academic-year"],
+  routes["edit-academic-year"],
+  routes["new-user"],
+];
 
 export const studentRoutes = [
   routes.contributions,

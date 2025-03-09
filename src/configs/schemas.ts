@@ -119,7 +119,7 @@ export type AcademicYearDetailType = AcademicYearType & {
 };
 
 export type GetAcademicYearsResponseType = AcademicYearDetailType[];
-export type GetAcademicYearResponseType = AcademicYearDetailType;
+export type GetAcademicYearResponseType = [AcademicYearDetailType];
 
 export const contributionSchema = z.object({
   title: z.string().min(1, "Title cannot be blank."),

@@ -13,6 +13,8 @@ import { useForm, zodResolver } from "@mantine/form";
 import { useNavigate } from "react-router";
 import { Dropzone, MIME_TYPES } from "@mantine/dropzone";
 import { Stack } from "@mantine/core";
+import { showNotification } from "@mantine/notifications";
+import { uploadFile } from "@/services/common";
 
 type ContributionProps = {
   create?: boolean;
@@ -28,10 +30,27 @@ export function ContributionForm({
   handleSubmit,
 }: ContributionProps) {
   const navigate = useNavigate();
-  const { onSubmit, getInputProps } = useForm({
+  const { onSubmit, getInputProps, setFieldValue, values } = useForm({
     initialValues,
     validate: zodResolver(contributionSchema),
   });
+
+  const handleDropDoc = async (files: File[]) => {
+    const file = files[0];
+    const res = await uploadFile(file);
+    setFieldValue("article", res);
+  };
+
+  const handleReject = () => {
+    // (files) => console.log("rejected files", files)
+    showNotification({
+      color: "red",
+      title: "Invalid File",
+      message: "Please upload a valid file",
+    });
+  };
+
+  console.log("values", values);
 
   return (
     <Paper
@@ -61,6 +80,7 @@ export function ContributionForm({
           clearable
           id="image"
           leftSectionWidth={100}
+          multiple={false}
           leftSection={
             <Paper
               bg="gray"
@@ -81,8 +101,9 @@ export function ContributionForm({
 
         <Dropzone
           mt="sm"
-          onDrop={(files) => console.log("accepted files", files)}
-          onReject={(files) => console.log("rejected files", files)}
+          multiple={false}
+          onDrop={handleDropDoc}
+          onReject={handleReject}
           maxSize={5 * 1024 ** 2}
           accept={[MIME_TYPES.doc, MIME_TYPES.docx]}
           h={130}

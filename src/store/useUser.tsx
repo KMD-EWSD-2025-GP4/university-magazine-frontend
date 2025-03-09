@@ -7,6 +7,7 @@ interface User {
   token: string;
   username: string;
   email: string;
+  facultyId?: string;
 }
 export interface UserState {
   user: User | undefined;
@@ -26,6 +27,7 @@ export const useUserStore = create<UserState, [["zustand/persist", unknown]]>(
             role: usr?.role,
             token: usr?.token,
             email: usr?.email,
+            facultyId: usr?.facultyId,
           },
         });
       },
