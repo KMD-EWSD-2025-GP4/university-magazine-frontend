@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { useNavigate, useParams, Link } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router";
 import {
   Button,
   Container,
@@ -17,8 +17,11 @@ import {
 } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 
-import { useGetFacultyById, useUpdateFaculty, useCreateFaculty } from "./queries";
-
+import {
+  useGetFacultyById,
+  useUpdateFaculty,
+  useCreateFaculty,
+} from "./queries";
 
 interface FacultyFormValues {
   name: string;
@@ -30,7 +33,11 @@ export function DetailsFacultyRoute() {
   const navigate = useNavigate();
   const isEditMode = id !== "new";
 
-  const { data: faculty, isLoading, isError } = useGetFacultyById(id!, {
+  const {
+    data: faculty,
+    isLoading,
+    isError,
+  } = useGetFacultyById(id!, {
     enabled: isEditMode,
   });
 
@@ -47,19 +54,16 @@ export function DetailsFacultyRoute() {
     defaultValues: { name: "", status: "" },
   });
 
-
-
-
   // Populate form if editing
   useEffect(() => {
-    
     if (isEditMode && faculty) {
       setValue("name", faculty.name);
-      setValue("status", faculty.status?.toLowerCase() === "active" ? "active" : "inactive");
+      setValue(
+        "status",
+        faculty.status?.toLowerCase() === "active" ? "active" : "inactive"
+      );
     }
   }, [faculty, isEditMode, setValue]);
-
-
 
   const onSubmit = async (data: FacultyFormValues) => {
     try {
@@ -67,17 +71,28 @@ export function DetailsFacultyRoute() {
 
       if (isEditMode) {
         await updateFacultyMutation.mutateAsync({ id: id!, ...formattedData });
-        showNotification({ title: "Success", message: "Faculty updated successfully", color: "green" });
+        showNotification({
+          title: "Success",
+          message: "Faculty updated successfully",
+          color: "green",
+        });
       } else {
         await createFacultyMutation.mutateAsync(formattedData);
-        showNotification({ title: "Success", message: "New Faculty created successfully", color: "green" });
+        showNotification({
+          title: "Success",
+          message: "New Faculty created successfully",
+          color: "green",
+        });
       }
-
 
       navigate(-1);
     } catch (error) {
       console.error("Error updating faculty:", error);
-      showNotification({ title: "Error", message: "Something went wrong", color: "red" });
+      showNotification({
+        title: "Error",
+        message: "Something went wrong",
+        color: "red",
+      });
     }
   };
 
@@ -88,11 +103,15 @@ export function DetailsFacultyRoute() {
     <Container size="sm" mt="lg">
       {/* Breadcrumbs */}
       <Breadcrumbs mb="md">
-        <Anchor component={Link} to="/d/system-param/faculty">Faculty List</Anchor>
+        <Anchor component={Link} to="/d/system-param/faculty">
+          Faculty List
+        </Anchor>
         <Text>{isEditMode ? "Faculty Details" : "New Faculty"}</Text>
       </Breadcrumbs>
 
-      <Title order={2} mb="md">{isEditMode ? "Detail Faculty" : "Add Faculty"}</Title>
+      <Title order={2} mb="md">
+        {isEditMode ? "Detail Faculty" : "Add Faculty"}
+      </Title>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack>
@@ -108,7 +127,11 @@ export function DetailsFacultyRoute() {
             control={control}
             rules={{ required: "Status is required" }}
             render={({ field }) => (
-              <Radio.Group label="Status" value={field.value} onChange={field.onChange}>
+              <Radio.Group
+                label="Status"
+                value={field.value}
+                onChange={field.onChange}
+              >
                 <Flex gap="md">
                   <Radio value="active" label="Active" />
                   <Radio value="inactive" label="Inactive" />
@@ -119,8 +142,13 @@ export function DetailsFacultyRoute() {
           {errors.status && <Text color="red">{errors.status.message}</Text>}
 
           <Group mt="lg" justify="flex-end">
-            <Button variant="default" onClick={() => navigate(-1)}>Cancel</Button>
-            <Button type="submit" style={{ backgroundColor: "#0A284B", color: "white" }}>
+            <Button variant="default" onClick={() => navigate(-1)}>
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              style={{ backgroundColor: "#0A284B", color: "white" }}
+            >
               {isEditMode ? "Update" : "Create"}
             </Button>
           </Group>
