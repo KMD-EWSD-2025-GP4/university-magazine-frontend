@@ -5,7 +5,9 @@ import {
   userSchema,
   UserType,
 } from "@/configs/schemas";
+import { RotateIcon } from "@/icons/RotateIcon";
 import {
+  ActionIcon,
   Button,
   Group,
   Paper,
@@ -70,6 +72,18 @@ export function UserForm({
         <TextInput
           placeholder="Enter Password"
           label="Password"
+          rightSection={
+            <ActionIcon
+              aria-label="generate password"
+              variant="subtle"
+              onClick={() => {
+                const password = Math.random().toString(36).slice(-8);
+                getInputProps("password").onChange(password);
+              }}
+            >
+              <RotateIcon />
+            </ActionIcon>
+          }
           {...getInputProps("password")}
         />
 
