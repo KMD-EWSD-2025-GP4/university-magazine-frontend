@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { roles } from "./rbac";
 
 export const loginSchema = z.object({
   email: z.string().min(1, "Email cannot be blank."),
@@ -36,25 +37,54 @@ export type LoginResponseType = {
   token: string;
 };
 
-export const userSchema = z.object({
-  name: z.string().min(1, "Name cannot be blank."),
-  email: z.string().min(1, "Email cannot be blank."),
-  faculty: z.string().min(1, "Faculty cannot be blank."),
-  role: z.string().min(1, "Role cannot be blank."),
-  password: z.string().min(1, "Password cannot be blank."),
-  status: z.string().min(1, "Status cannot be blank."),
-});
+export const userSchema = z
+  .object({
+    name: z.string().min(1, "Name cannot be blank."),
+    email: z.string().min(1, "Email cannot be blank."),
+    facultyId: z.string().optional(),
+    role: z.string().min(1, "Role cannot be blank."),
+    password: z.string().min(1, "Password cannot be blank."),
+    status: z.string().min(1, "Status cannot be blank."),
+  })
+  .refine(
+    (data) => {
+      if (data.facultyId) return true;
+      if (data.role === roles.guest) return false;
+      if (data.role === roles.student) return false;
+      return true;
+    },
+    {
+      message: "Faculty cannot be blank.",
+      path: ["facultyId"],
+    }
+  );
 
-export const updateUserSchema = z.object({
-  name: z.string().min(1, "Name cannot be blank."),
-  email: z.string().min(1, "Email cannot be blank."),
-  faculty: z.string().min(1, "Faculty cannot be blank."),
-  role: z.string().min(1, "Role cannot be blank."),
-  password: z.string().optional(),
-  status: z.string().min(1, "Status cannot be blank."),
-});
+export const updateUserSchema = z
+  .object({
+    name: z.string().min(1, "Name cannot be blank."),
+    email: z.string().min(1, "Email cannot be blank."),
+    facultyId: z.string().optional(),
+    role: z.string().min(1, "Role cannot be blank."),
+    password: z.string().optional(),
+    status: z.string().min(1, "Status cannot be blank."),
+  })
+  .refine(
+    (data) => {
+      if (data.facultyId) return true;
+      if (data.role === roles.guest) return false;
+      if (data.role === roles.student) return false;
+      return true;
+    },
+    {
+      message: "Faculty cannot be blank.",
+      path: ["facultyId"],
+    }
+  );
 
 export type UserType = z.infer<typeof userSchema>;
+export type UpdateUserType = z.infer<typeof updateUserSchema> & {
+  userId: string;
+};
 export type UserDetailType = Omit<UserType, "password"> & {
   id: string;
   lastLogin: boolean | null;

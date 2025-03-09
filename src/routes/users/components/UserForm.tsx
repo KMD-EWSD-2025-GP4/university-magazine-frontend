@@ -1,5 +1,10 @@
 import { FacultySelect, RoleSelect } from "@/components/select";
-import { updateUserSchema, userSchema, UserType } from "@/configs/schemas";
+import {
+  updateUserSchema,
+  UpdateUserType,
+  userSchema,
+  UserType,
+} from "@/configs/schemas";
 import {
   Button,
   Group,
@@ -15,8 +20,8 @@ import { useNavigate } from "react-router";
 type UserFormProps = {
   create?: boolean;
   loading: boolean;
-  initialValues: UserType;
-  handleSubmit: (data: UserType) => void;
+  initialValues: UserType | UpdateUserType;
+  handleSubmit: (data: UserType | UpdateUserType) => void;
 };
 
 export function UserForm({
@@ -26,7 +31,7 @@ export function UserForm({
   handleSubmit,
 }: UserFormProps) {
   const navigate = useNavigate();
-  const { onSubmit, getInputProps } = useForm<UserType>({
+  const { onSubmit, getInputProps } = useForm<UserType | UpdateUserType>({
     initialValues,
     validate: zodResolver(create ? userSchema : updateUserSchema),
   });
@@ -53,7 +58,7 @@ export function UserForm({
         <FacultySelect
           placeholder="Enter Faculty"
           label="Faculty"
-          {...getInputProps("faculty")}
+          {...getInputProps("facultyId")}
         />
 
         <RoleSelect

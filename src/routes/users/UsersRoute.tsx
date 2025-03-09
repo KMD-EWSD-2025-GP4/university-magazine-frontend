@@ -16,7 +16,7 @@ import {
   Text,
   TextInput,
 } from "@mantine/core";
-import { Link } from "react-router";
+import { Link, useSearchParams } from "react-router";
 import { routes } from "@/configs/menus";
 import { useGetUsers } from "./queries";
 import { UserDetailType } from "@/configs/schemas";
@@ -28,7 +28,22 @@ import { PageLoading } from "@/components/loading/PageLoading";
 const defaultMRTOptions = getDefaultMRTOptions<UserDetailType>();
 
 export function UsersRoute() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const name = searchParams.get("name") || "";
+  const status = searchParams.get("status") || "";
+  const role = searchParams.get("role") || "";
+
   const { data = [], isPending } = useGetUsers();
+
+  const filteredData = useMemo(() => {
+    return data.filter((user) => {
+      return (
+        user?.name?.toLowerCase().includes(name?.toLowerCase()) &&
+        user?.status?.toLowerCase().includes(status?.toLowerCase()) &&
+        user?.role?.toLowerCase().includes(role?.toLowerCase())
+      );
+    });
+  }, [data, name, status, role]);
 
   const columns = useMemo<MRT_ColumnDef<UserDetailType>[]>(
     () => [
@@ -48,8 +63,8 @@ export function UsersRoute() {
         accessorKey: "status",
         header: "Status",
         Cell: ({ cell }) => (
-          <Badge color={cell.getValue() === "active" ? "green" : "red"}>
-            {(cell.getValue() as string) ?? "api"}
+          <Badge color={cell.getValue() !== "active" ? "red" : "green"}>
+            {(cell.getValue() as string) ?? "active"}
           </Badge>
         ),
       },
@@ -86,7 +101,6 @@ export function UsersRoute() {
               >
                 Detail
               </Menu.Item>
-              <Menu.Item color="red">Delete</Menu.Item>
             </Menu.Dropdown>
           </Menu>
         ),
@@ -98,12 +112,32 @@ export function UsersRoute() {
   const table = useMantineReactTable({
     ...defaultMRTOptions,
     columns,
-    data,
+    data: filteredData,
     renderTopToolbarCustomActions: () => (
       <Group gap="md" align="center">
-        <TextInput placeholder="Search by name" />
-        <StatusSelect />
-        <RoleSelect />
+        <TextInput
+          placeholder="Search by name"
+          value={name}
+          onChange={(e) => {
+            setSearchParams({
+              name: e.target.value,
+              status,
+              role,
+            });
+          }}
+        />
+        <StatusSelect
+          value={status}
+          onChange={(value) =>
+            setSearchParams({ status: value || "", name, role })
+          }
+        />
+        <RoleSelect
+          value={role}
+          onChange={(value) =>
+            setSearchParams({ role: value || "", name, status })
+          }
+        />
       </Group>
     ),
   });
