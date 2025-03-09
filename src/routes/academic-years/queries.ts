@@ -49,6 +49,7 @@ export function useCreateAcademicYear() {
 }
 
 export function useUpdateAcademicYear() {
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (data: AcademicYearDetailType) => updateAcademicYear(data),
@@ -61,6 +62,7 @@ export function useUpdateAcademicYear() {
       queryClient.invalidateQueries({
         queryKey: academicYearsKeys.lists(),
       });
+      navigate(routes["academic-years"]);
     },
   });
 }

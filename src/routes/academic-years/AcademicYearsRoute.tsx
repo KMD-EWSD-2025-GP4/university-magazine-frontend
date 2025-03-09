@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { useCallback, useMemo } from "react";
 import {
   MantineReactTable,
@@ -15,7 +16,7 @@ import {
   Stack,
   Text,
 } from "@mantine/core";
-import { Link } from "react-router";
+import { Link, useSearchParams } from "react-router";
 import { routes } from "@/configs/menus";
 import { useDeleteAcademicYear, useGetAcademicYears } from "./queries";
 import { AcademicYearDetailType } from "@/configs/schemas";
@@ -28,8 +29,30 @@ import { modals } from "@mantine/modals";
 const defaultMRTOptions = getDefaultMRTOptions<AcademicYearDetailType>();
 
 export function AcademicYearsRoute() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const startDate = searchParams.get("startDate") || "";
+  const endDate = searchParams.get("endDate") || "";
+
   const { data = [], isPending } = useGetAcademicYears();
   const deleteMutation = useDeleteAcademicYear();
+
+  const filteredData = useMemo(() => {
+    let tmp = data;
+
+    if (startDate) {
+      tmp = data.filter((academicYear) =>
+        dayjs(academicYear.startDate).isAfter(startDate)
+      );
+    }
+
+    if (endDate) {
+      tmp = tmp.filter((academicYear) =>
+        dayjs(academicYear.endDate).isBefore(endDate)
+      );
+    }
+
+    return tmp;
+  }, [data, endDate, startDate]);
 
   const handleDelete = useCallback(
     (id: string) => {
@@ -116,15 +139,25 @@ export function AcademicYearsRoute() {
   const table = useMantineReactTable({
     ...defaultMRTOptions,
     columns,
-    data,
+    data: filteredData,
     renderTopToolbarCustomActions: () => (
       <Group gap="md" align="center">
         <DatePickerInput
+          clearable
           w={200}
+          value={startDate ? new Date(startDate) : null}
+          onChange={(value) =>
+            setSearchParams({ startDate: value?.toISOString() || "", endDate })
+          }
           placeholder="Start Date"
           leftSection={<CalendarIcon2 size={18} />}
         />
         <DatePickerInput
+          clearable
+          value={endDate ? new Date(endDate) : null}
+          onChange={(value) =>
+            setSearchParams({ endDate: value?.toISOString() || "", startDate })
+          }
           w={200}
           placeholder="End Date"
           leftSection={<CalendarIcon2 size={18} />}
