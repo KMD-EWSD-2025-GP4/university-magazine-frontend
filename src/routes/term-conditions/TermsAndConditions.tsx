@@ -12,7 +12,7 @@ import {
   Loader,
 } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router";
 import { useGetTerms, useCreateTerms, useUpdateTerms } from "./queries";
 
 export function TermsAndConditions() {
@@ -43,7 +43,12 @@ export function TermsAndConditions() {
     }
 
     try {
-      if (isEditing && termsData && Array.isArray(termsData) && termsData.length > 0) {
+      if (
+        isEditing &&
+        termsData &&
+        Array.isArray(termsData) &&
+        termsData.length > 0
+      ) {
         await updateTermsMutation.mutateAsync({
           id: termsData[0].id,
           content: terms,
@@ -80,7 +85,8 @@ export function TermsAndConditions() {
   };
 
   if (isLoading) return <Loader />;
-  if (isError) return <Text color="red">Error loading terms. Please try again.</Text>;
+  if (isError)
+    return <Text color="red">Error loading terms. Please try again.</Text>;
 
   return (
     <Container size="md" mt="lg">

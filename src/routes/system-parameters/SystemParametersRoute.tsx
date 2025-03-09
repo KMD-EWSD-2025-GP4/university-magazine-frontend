@@ -17,9 +17,9 @@ import {
   Select,
   Flex,
 } from "@mantine/core";
-import { modals } from "@mantine/modals"; 
-import { Link } from "react-router-dom";
-import { useQueryClient } from "@tanstack/react-query"; 
+import { modals } from "@mantine/modals";
+import { Link } from "react-router";
+import { useQueryClient } from "@tanstack/react-query";
 import { routes } from "@/configs/menus";
 import { useGetFaculties, useDeleteFaculty } from "./queries";
 import { FacultyType } from "@/configs/schemas";
@@ -29,7 +29,7 @@ import { PageLoading } from "@/components/loading/PageLoading";
 const defaultMRTOptions = getDefaultMRTOptions<FacultyType>();
 
 export function SystemParametersRoute() {
-  const queryClient = useQueryClient(); 
+  const queryClient = useQueryClient();
   const { data = [], isPending, isError } = useGetFaculties();
   const deleteFacultyMutation = useDeleteFaculty();
 
@@ -72,7 +72,8 @@ export function SystemParametersRoute() {
       centered: true,
       children: (
         <Text size="sm">
-          Are you sure you want to delete this faculty? This action cannot be undone.
+          Are you sure you want to delete this faculty? This action cannot be
+          undone.
         </Text>
       ),
       labels: { confirm: "Delete", cancel: "Cancel" },
@@ -144,7 +145,10 @@ export function SystemParametersRoute() {
                 >
                   View Details
                 </Menu.Item>
-                <Menu.Item color="red" onClick={() => handleDeleteFaculty(facultyId)}>
+                <Menu.Item
+                  color="red"
+                  onClick={() => handleDeleteFaculty(facultyId)}
+                >
                   Delete
                 </Menu.Item>
               </Menu.Dropdown>
@@ -184,7 +188,6 @@ export function SystemParametersRoute() {
           <Button onClick={handleExportCSV} variant="outline" color="gray">
             Export CSV
           </Button>
-      
         </Group>
       </Flex>
     ),
