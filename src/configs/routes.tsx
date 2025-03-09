@@ -10,6 +10,7 @@ import {
   NewAcademicYearRoute,
 } from "@/routes/academic-years";
 import { SystemParametersRoute } from "@/routes/system-parameters";
+import { DetailsFacultyRoute } from "@/routes/system-parameters";
 import { RegisterRoute } from "@/routes/auth";
 import {
   ContributionsRoute,
@@ -45,7 +46,11 @@ export function Routes() {
             path={routes["system-parameter"]}
             element={<SystemParametersRoute />}
           />
-           <Route
+          <Route
+            path={routes["details-faculty"]}
+            element={<DetailsFacultyRoute />}
+          />
+          <Route
             path={routes["terms-conditions"]}
             element={<TermsAndConditions />}
           />
