@@ -84,6 +84,7 @@ export const studentRoutes = [
 export const defaultRoutes = {
   admin: routes.dashboard,
   student: routes.contributions,
+  guest: routes.contributions,
 };
 
 export const loginRoutes = {
