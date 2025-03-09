@@ -1,0 +1,9 @@
+.mantine-Carousel-indicators {
+  bottom: -16px;
+}
+
+.mantine-Carousel-indicator {
+  background-color: #a5cfff;
+  width: 7px;
+  height: 7px;
+}

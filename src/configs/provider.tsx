@@ -12,6 +12,9 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Notifications, showNotification } from "@mantine/notifications";
 import { AxiosError } from "axios";
 import { ModalsProvider } from "@mantine/modals";
+import "@mantine/carousel/styles.css";
+import "@mantine/dropzone/styles.css";
+import "../global.css";
 
 const theme = createTheme({
   primaryColor: "gray",

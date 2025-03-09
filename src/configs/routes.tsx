@@ -16,7 +16,7 @@ import {
   ContributionsRoute,
   EditContributionsRoute,
   MyContributionsRoute,
-  NewContributionsRoute,
+  NewContributionRoute,
 } from "@/routes/contributions";
 import { TermsAndConditions } from "@/routes/term-conditions/TermsAndConditions";
 export function Routes() {
@@ -61,7 +61,7 @@ export function Routes() {
           <Route path={routes.contributions} element={<ContributionsRoute />} />
           <Route
             path={routes["new-contribution"]}
-            element={<NewContributionsRoute />}
+            element={<NewContributionRoute />}
           />
           <Route
             path={routes["edit-contribution"]}

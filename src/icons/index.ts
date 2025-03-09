@@ -5,3 +5,6 @@ export * from "./ReportIcon";
 export * from "./SystemIcon";
 export * from "./UsersIcon";
 export * from "./ThreeDotIcon";
+export * from "./PlusIcon";
+export * from "./ListIcon";
+export * from "./MessageIcon";
