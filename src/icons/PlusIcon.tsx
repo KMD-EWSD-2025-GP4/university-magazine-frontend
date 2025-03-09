@@ -17,8 +17,8 @@ export function PlusIcon({ size, style, ...others }: PlusIconProps) {
         d="M12.2832 5.5V19.5M5.2832 12.5H19.2832"
         stroke="#F8F9FA"
         stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );

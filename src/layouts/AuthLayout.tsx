@@ -16,10 +16,7 @@ export function AuthLayout() {
   const navigate = useNavigate();
   const isAuthenticated = Boolean(user?.role);
   const isLoginRoute = Object.values(loginRoutes).includes(location.pathname);
-  
-  const isDetailsFacultyRoute = location.pathname.startsWith(
-    routes["details-faculty"].replace(":id", "")
-  );
+
   useEffect(() => {
     /**
      * Redirect to login page
@@ -59,10 +56,9 @@ export function AuthLayout() {
      */
     if (
       user?.role === roles.admin &&
-      !adminRoutes.includes(location.pathname) &&
-      !isDetailsFacultyRoute
+      !adminRoutes.includes(location.pathname)
     ) {
-      navigate(defaultRoutes.admin, { replace: true });
+      // navigate(defaultRoutes.admin, { replace: true });
       return;
     }
   }, [

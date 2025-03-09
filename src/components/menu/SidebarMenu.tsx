@@ -1,5 +1,5 @@
 import { NavLink, ScrollArea, ThemeIcon, Box } from "@mantine/core";
-import { Link as ReactRouterLink, useLocation, Location } from "react-router-dom";
+import { Link as ReactRouterLink, useLocation, Location } from "react-router";
 import { adminMenus } from "@/configs/menus";
 import { LogoutIcon } from "@/icons";
 
@@ -12,7 +12,11 @@ type MenuItem = {
 };
 
 // ✅ Recursive Function to Render Submenus (Fully Typed)
-const renderSubMenu = (submenus: MenuItem[] = [], location: Location, level = 1) => {
+const renderSubMenu = (
+  submenus: MenuItem[] = [],
+  location: Location,
+  level = 1
+) => {
   return submenus.map((submenu) => (
     <NavLink
       key={submenu.label}
@@ -30,7 +34,11 @@ const renderSubMenu = (submenus: MenuItem[] = [], location: Location, level = 1)
   ));
 };
 
-export default function SidebarMenu({ handleLogout }: { handleLogout: () => void }) {
+export default function SidebarMenu({
+  handleLogout,
+}: {
+  handleLogout: () => void;
+}) {
   const location = useLocation(); // ✅ Now properly typed
 
   return (
@@ -42,10 +50,16 @@ export default function SidebarMenu({ handleLogout }: { handleLogout: () => void
           component={menu.href ? ReactRouterLink : undefined}
           to={menu.href || "#"}
           active={menu.href === location.pathname}
-          leftSection={menu.icon ? <ThemeIcon variant="light">{<menu.icon size={18} />}</ThemeIcon> : undefined}
+          leftSection={
+            menu.icon ? (
+              <ThemeIcon variant="light">{<menu.icon size={18} />}</ThemeIcon>
+            ) : undefined
+          }
           childrenOffset={28}
         >
-          {menu.submenus && menu.submenus.length > 0 ? renderSubMenu(menu.submenus, location) : null}
+          {menu.submenus && menu.submenus.length > 0
+            ? renderSubMenu(menu.submenus, location)
+            : null}
         </NavLink>
       ))}
 

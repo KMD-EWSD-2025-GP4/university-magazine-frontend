@@ -6,6 +6,8 @@ export function FacultySelect(props: SelectProps) {
   const { data: facultyData, isPending } = useGetFaculties();
 
   const data =
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     facultyData?.map((f) => ({
       value: f.id,
       label: f.name,

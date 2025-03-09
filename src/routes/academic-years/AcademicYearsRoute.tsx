@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import {
   MantineReactTable,
   useMantineReactTable,
@@ -17,17 +17,35 @@ import {
 } from "@mantine/core";
 import { Link } from "react-router";
 import { routes } from "@/configs/menus";
-import { useGetAcademicYears } from "./queries";
+import { useDeleteAcademicYear, useGetAcademicYears } from "./queries";
 import { AcademicYearDetailType } from "@/configs/schemas";
 import { CalendarIcon2, ThreeDotsIcon } from "@/icons";
 import { formatServerDatetime } from "@/utils/dates";
 import { PageLoading } from "@/components/loading/PageLoading";
 import { DatePickerInput } from "@mantine/dates";
+import { modals } from "@mantine/modals";
 
 const defaultMRTOptions = getDefaultMRTOptions<AcademicYearDetailType>();
 
 export function AcademicYearsRoute() {
   const { data = [], isPending } = useGetAcademicYears();
+  const deleteMutation = useDeleteAcademicYear();
+
+  const handleDelete = useCallback(
+    (id: string) => {
+      modals.openConfirmModal({
+        title: "Delete Academic Year",
+        centered: true,
+        children: <Text size="sm">Are you sure you want to delete?</Text>,
+        labels: { confirm: "Delete", cancel: "Cancel" },
+        confirmProps: { color: "red" },
+        onConfirm: () => {
+          deleteMutation.mutate(id);
+        },
+      });
+    },
+    [deleteMutation]
+  );
 
   const columns = useMemo<MRT_ColumnDef<AcademicYearDetailType>[]>(
     () => [
@@ -81,13 +99,18 @@ export function AcademicYearsRoute() {
               >
                 Detail
               </Menu.Item>
-              <Menu.Item color="red">Delete</Menu.Item>
+              <Menu.Item
+                color="red"
+                onClick={() => handleDelete(cell.getValue() as string)}
+              >
+                Delete
+              </Menu.Item>
             </Menu.Dropdown>
           </Menu>
         ),
       },
     ],
-    []
+    [handleDelete]
   );
 
   const table = useMantineReactTable({
