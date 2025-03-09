@@ -1,5 +1,6 @@
 import { apiClient } from "@/configs/apiClient";
 import {
+  AcademicYearDetailType,
   AcademicYearType,
   GetAcademicYearResponseType,
   GetAcademicYearsResponseType,
@@ -15,6 +16,14 @@ export function getAcademicYear(id: string) {
   );
 }
 
-export function createUser(data: AcademicYearType) {
-  return apiClient.post("", data);
+export function createAcademicYear(academicYear: AcademicYearType) {
+  return apiClient.post("/admin/academic-year", academicYear);
+}
+
+export function updateAcademicYear(academicYear: AcademicYearDetailType) {
+  return apiClient.put("/admin/academic-year", academicYear);
+}
+
+export function deleteAcademicYear(id: string) {
+  return apiClient.delete("/admin/academic-year", { data: { id: id } });
 }

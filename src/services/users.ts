@@ -2,11 +2,12 @@ import { apiClient } from "@/configs/apiClient";
 import {
   GetUserResponseType,
   GetUsersResponseType,
+  UpdateUserType,
   UserType,
 } from "@/configs/schemas";
 
 export function getUsers() {
-  return apiClient.get<GetUsersResponseType>("/user?email=student3@gmail.com");
+  return apiClient.get<GetUsersResponseType>("/user");
 }
 
 export function getUser(id: string) {
@@ -14,5 +15,9 @@ export function getUser(id: string) {
 }
 
 export function createUser(data: UserType) {
-  return apiClient.post("/users?email=student3@gmail.com", data);
+  return apiClient.post("/admin/user", data);
+}
+
+export function updateUser(data: UpdateUserType) {
+  return apiClient.put("/admin/user", data);
 }

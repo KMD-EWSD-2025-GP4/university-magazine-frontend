@@ -9,7 +9,6 @@ export function NewFeedLayout() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  console.log("location", location);
   return (
     <div>
       <Paper

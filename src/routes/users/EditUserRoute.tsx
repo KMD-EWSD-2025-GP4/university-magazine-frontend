@@ -1,16 +1,19 @@
-import { UserType } from "@/configs/schemas";
-import { useGetUser } from "./queries";
+import { UpdateUserType, UserType } from "@/configs/schemas";
+import { useGetUser, useUpdateUser } from "./queries";
 import { UserForm } from "./components/UserForm";
 import { useParams } from "react-router";
 import { PageLoading } from "@/components/loading/PageLoading";
 
 export function EditUserRoute() {
   const { id = "" } = useParams();
-
   const { data, isPending } = useGetUser(id);
+  const updateMutation = useUpdateUser();
 
-  const onSubmit = (data: UserType) => {
-    console.log("data", data);
+  const onSubmit = (data: UserType | UpdateUserType) => {
+    updateMutation.mutate({
+      ...data,
+      userId: id,
+    });
   };
 
   if (isPending) {
@@ -20,12 +23,12 @@ export function EditUserRoute() {
   return (
     <div>
       <UserForm
-        loading={false}
+        loading={updateMutation.isPending}
         handleSubmit={onSubmit}
         initialValues={{
           name: data?.name || "",
           email: data?.email || "",
-          faculty: data?.faculty || "",
+          facultyId: data?.facultyId || "",
           role: data?.role || "",
           password: "",
           status: data?.status || "active",

@@ -14,10 +14,10 @@ import { useForm, zodResolver } from "@mantine/form";
 import { loginSchema, LoginType } from "@/configs/schemas";
 
 export function LoginRoute() {
-  const { getInputProps, onSubmit, key } = useForm({
+  const { getInputProps, onSubmit, key } = useForm<LoginType>({
     initialValues: {
-      username: "emilys",
-      password: "emilyspass",
+      email: "",
+      password: "",
     },
     validate: zodResolver(loginSchema),
   });
@@ -41,8 +41,8 @@ export function LoginRoute() {
               label="Email"
               placeholder="example@gmail.com"
               required
-              key={key("username")}
-              {...getInputProps("username")}
+              key={key("email")}
+              {...getInputProps("email")}
               className={classes.inputField}
             />
 

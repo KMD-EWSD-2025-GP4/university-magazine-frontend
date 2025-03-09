@@ -11,7 +11,6 @@ export function handleLogout(cb?: LogoutCallback) {
     children: <Text size="sm">Are you sure you want to logout?</Text>,
     labels: { confirm: "Logout", cancel: "Cancel" },
     confirmProps: { color: "red" },
-    onCancel: () => console.log("Cancel"),
     onConfirm: () => {
       useUserStore.getState().removeUser();
       if (cb) {
