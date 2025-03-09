@@ -50,6 +50,17 @@ export function ContributionForm({
     });
   };
 
+  const handleImageChanges = async (files: File[]) => {
+    console.log("files", files);
+    const uploadedFiles = await Promise.all(
+      files.map((file) => uploadFile(file))
+    );
+
+    console.log("uploadedFiles", uploadedFiles);
+
+    setFieldValue("images", uploadedFiles);
+  };
+
   console.log("values", values);
 
   return (
@@ -80,7 +91,8 @@ export function ContributionForm({
           clearable
           id="image"
           leftSectionWidth={100}
-          multiple={false}
+          multiple
+          onChange={handleImageChanges}
           leftSection={
             <Paper
               bg="gray"

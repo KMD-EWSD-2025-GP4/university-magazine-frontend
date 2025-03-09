@@ -137,3 +137,7 @@ export const contributionSchema = z.object({
 });
 
 export type ContributionType = z.infer<typeof contributionSchema>;
+export type GetMyContributionsResponseType = {
+  items: ContributionType[];
+  nextCursor: string | null;
+};

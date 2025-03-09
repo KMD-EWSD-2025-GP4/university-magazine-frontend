@@ -16,7 +16,7 @@ export function PlusIcon({ size, style, ...others }: PlusIconProps) {
       <path
         d="M12.2832 5.5V19.5M5.2832 12.5H19.2832"
         stroke="#F8F9FA"
-        stroke-width="2"
+        strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
