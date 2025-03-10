@@ -6,6 +6,7 @@ export const routes = {
   register: "/register",
   "user-management": "/d/users",
   "new-user": "/d/users/new",
+  "edit-user": "/d/users/:id",
   "academic-years": "/d/years",
   "new-academic-year": "/d/years/new",
   "edit-academic-year": "/d/years/:id",
@@ -64,6 +65,7 @@ export const adminMenus = [
 
 export const adminRoutes = [
   routes["user-management"],
+  routes["edit-user"],
   routes["academic-years"],
   routes["system-parameter"],
   routes.reports,
