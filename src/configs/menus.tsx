@@ -12,6 +12,7 @@ export const routes = {
   "edit-academic-year": "/d/years/:id",
   "system-parameter": "/d/system-param/faculty",
   "details-faculty": "/d/system-param/faculty/:id",
+  "new-faculty": "/d/system-param/faculty/new",
   "terms-conditions": "/d/system-param/term&Conditions",
   reports: "/d/reports",
   contributions: "/contributions",
@@ -74,6 +75,7 @@ export const adminRoutes = [
   routes["new-academic-year"],
   routes["edit-academic-year"],
   routes["new-user"],
+  routes['new-faculty']
 ];
 
 export const studentRoutes = [
