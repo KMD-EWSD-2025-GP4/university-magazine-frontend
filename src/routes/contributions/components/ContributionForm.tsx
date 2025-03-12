@@ -44,7 +44,6 @@ export function ContributionForm({
   };
 
   const handleReject = () => {
-    // (files) => console.log("rejected files", files)
     showNotification({
       color: "red",
       title: "Invalid File",
@@ -59,8 +58,6 @@ export function ContributionForm({
 
     setFieldValue("images", uploadedFiles);
   };
-
-  console.log("values", values);
 
   return (
     <Paper
