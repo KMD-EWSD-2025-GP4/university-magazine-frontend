@@ -12,7 +12,7 @@ import { Outlet, useLocation, useNavigate, useParams } from "react-router";
 import { validate } from "uuid";
 
 export function AuthLayout() {
-  const { id } = useParams();
+  const { id = "" } = useParams();
   const location = useLocation();
   const user = useUserStore((state) => state?.user);
   const navigate = useNavigate();
@@ -21,8 +21,7 @@ export function AuthLayout() {
     if (!validate(id)) {
       return location.pathname;
     }
-    const uuid = location.pathname.split("/").pop() || "";
-    return location.pathname.replace(uuid, ":id");
+    return location.pathname.replace(id, ":id");
   }, [id, location.pathname]);
 
   const isAuthenticated = Boolean(user?.role);

@@ -21,3 +21,17 @@ apiClient.interceptors.request.use(
     return Promise.reject(error);
   }
 );
+
+apiClient.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    const removeAuth = useUserStore.getState().removeUser;
+    if (error.status === 401) {
+      removeAuth();
+    }
+    console.error("Request error:", error);
+    return Promise.reject(error);
+  }
+);
