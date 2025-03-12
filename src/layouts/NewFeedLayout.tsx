@@ -1,10 +1,20 @@
 import { routes } from "@/configs/menus";
-import { PlusIcon, ListIcon } from "@/icons";
+import { PlusIcon, ListIcon, LogoutIcon } from "@/icons";
 import { useUserStore } from "@/store/useUser";
 import { handleLogout } from "@/utils/auth";
-import { Box, Button, Container, Flex, Paper, Text } from "@mantine/core";
+import {
+  Box,
+  Button,
+  Container,
+  Flex,
+  Image,
+  Paper,
+  Stack,
+  Text,
+} from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
-import { NavLink, Outlet, useLocation, useNavigate } from "react-router";
+import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router";
+import iconLogo from "@/assets/logo.png";
 
 export function NewFeedLayout() {
   const user = useUserStore((state) => state.user);
@@ -21,24 +31,45 @@ export function NewFeedLayout() {
         c="#fff"
         radius={0}
       >
-        <Flex w="100%" align="center">
-          <Text size="32px" fw={700} component="h1" w="8ch" py="20px">
-            University Magazine
-          </Text>
+        <Flex w="100%" align="center" justify="space-between">
+          <Box py="20px">
+            <Link to={routes.contributions}>
+              <Image src={iconLogo} width={209} height={58} alt="logo" />
+            </Link>
+          </Box>
 
-          <Button
-            onClick={() => {
-              handleLogout(() => {
-                navigate("/login");
-                showNotification({
-                  title: "Logout Success!",
-                  message: "You have successfully logged out.",
+          <Stack gap="xs" align="end">
+            <Text c="white" opacity={0.8} size="sm">
+              Welcome “{user?.username}” from University Magazine Portal !{" "}
+            </Text>
+
+            <Button
+              leftSection={
+                <Box
+                  style={{
+                    transform: "rotateY(180deg)",
+                  }}
+                >
+                  <LogoutIcon stroke="#FFF" width={20} />
+                </Box>
+              }
+              variant="transparent"
+              color="white"
+              td="underline"
+              size="sm"
+              onClick={() => {
+                handleLogout(() => {
+                  navigate("/login");
+                  showNotification({
+                    title: "Logout Success!",
+                    message: "You have successfully logged out.",
+                  });
                 });
-              });
-            }}
-          >
-            Logout
-          </Button>
+              }}
+            >
+              Logout
+            </Button>
+          </Stack>
         </Flex>
       </Paper>
 
