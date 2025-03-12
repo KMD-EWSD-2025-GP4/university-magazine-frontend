@@ -1,6 +1,7 @@
 import { contributionSchema, ContributionType } from "@/configs/schemas";
 import { formatDate } from "@/utils/dates";
 import {
+  ActionIcon,
   Button,
   FileInput,
   Group,
@@ -15,6 +16,7 @@ import { Dropzone, MIME_TYPES } from "@mantine/dropzone";
 import { Stack } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import { uploadFile } from "@/services/common";
+import { XIcon } from "@/icons";
 
 type ContributionProps = {
   create?: boolean;
@@ -42,7 +44,6 @@ export function ContributionForm({
   };
 
   const handleReject = () => {
-    // (files) => console.log("rejected files", files)
     showNotification({
       color: "red",
       title: "Invalid File",
@@ -51,17 +52,12 @@ export function ContributionForm({
   };
 
   const handleImageChanges = async (files: File[]) => {
-    console.log("files", files);
     const uploadedFiles = await Promise.all(
       files.map((file) => uploadFile(file))
     );
 
-    console.log("uploadedFiles", uploadedFiles);
-
     setFieldValue("images", uploadedFiles);
   };
-
-  console.log("values", values);
 
   return (
     <Paper
@@ -72,7 +68,7 @@ export function ContributionForm({
       mx="auto"
     >
       <Text size="26px" component="h1" fw={700}>
-        New Contribution
+        {create ? "New" : "Update"} Contribution
       </Text>
 
       <Stack gap="lg">
@@ -88,11 +84,9 @@ export function ContributionForm({
         <TextInput label="Description" {...getInputProps("description")} />
 
         <FileInput
-          clearable
           id="image"
           leftSectionWidth={100}
           multiple
-          onChange={handleImageChanges}
           leftSection={
             <Paper
               bg="gray"
@@ -109,6 +103,37 @@ export function ContributionForm({
           }
           label="Image Upload (640 x 210)"
           accept="image/*"
+          {...getInputProps("images")}
+          onChange={handleImageChanges}
+          valueComponent={(file) => {
+            const images = file.value as unknown as {
+              path: string;
+            }[];
+            return (
+              <Stack>
+                {images.map((f) => (
+                  <Group gap="xs" key={f.path}>
+                    <Text size="xs">{f.path?.split("/")?.pop()}</Text>
+                    <ActionIcon
+                      style={{
+                        pointerEvents: "auto",
+                      }}
+                      variant="subtle"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        const filtered = getInputProps("images")?.value?.filter(
+                          (i: { path: string }) => i.path !== f.path
+                        );
+                        setFieldValue("images", filtered);
+                      }}
+                    >
+                      <XIcon />
+                    </ActionIcon>
+                  </Group>
+                ))}
+              </Stack>
+            );
+          }}
         />
 
         <Dropzone
@@ -120,6 +145,7 @@ export function ContributionForm({
           accept={[MIME_TYPES.doc, MIME_TYPES.docx]}
           h={130}
           bg="#F7FAFE"
+          onClick={values.article.path ? () => {} : undefined}
         >
           <Group
             justify="center"
@@ -128,12 +154,33 @@ export function ContributionForm({
             style={{ pointerEvents: "none" }}
           >
             <div>
-              <Text size="xl" inline>
-                Drag file or Browse
-              </Text>
-              <Text size="sm" c="dimmed" inline mt={7}>
-                Format: Only .doc or .docx format
-              </Text>
+              {values.article.path ? (
+                <Group gap="xs">
+                  <Text size="lg" inline>
+                    {values.article.path?.split("/")?.pop()}
+                  </Text>
+                  <ActionIcon
+                    style={{
+                      pointerEvents: "auto",
+                    }}
+                    variant="subtle"
+                    onClick={() => {
+                      setFieldValue("article", { path: "" });
+                    }}
+                  >
+                    <XIcon />
+                  </ActionIcon>
+                </Group>
+              ) : (
+                <>
+                  <Text size="xl" inline>
+                    Drag file or Browse
+                  </Text>
+                  <Text size="sm" c="dimmed" inline mt={7}>
+                    Format: Only .doc or .docx format
+                  </Text>
+                </>
+              )}
             </div>
           </Group>
         </Dropzone>

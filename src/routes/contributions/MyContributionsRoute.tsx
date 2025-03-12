@@ -1,5 +1,7 @@
 import { PageLoading } from "@/components/loading/PageLoading";
 import { useGetMyContributions } from "./queries";
+import { Contribution } from "./components/Contribution";
+import { Container, Stack } from "@mantine/core";
 
 export function MyContributionsRoute() {
   const { data, isPending } = useGetMyContributions();
@@ -8,7 +10,19 @@ export function MyContributionsRoute() {
     return <PageLoading />;
   }
 
-  console.log("data", data);
+  const contributions = data?.pages.flatMap((page) => page?.items) || [];
 
-  return <div>my contribution</div>;
+  return (
+    <Container size="sm" py="20px">
+      <Stack gap="xl">
+        {contributions.map((contribution) => (
+          <Contribution
+            authored
+            key={contribution.id}
+            contribution={contribution}
+          />
+        ))}
+      </Stack>
+    </Container>
+  );
 }

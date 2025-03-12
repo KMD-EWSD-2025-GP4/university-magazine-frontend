@@ -1,8 +1,8 @@
 export const roles = {
-  student: "student",
-  admin: "admin",
-  guest: "guest",
-  // marketing_coordinator: "marketing_coordinator",
+  student: "student" as const,
+  admin: "admin" as const,
+  guest: "guest" as const,
+  marketing_coordinator: "marketing_coordinator" as const,
   // marketing_manager: "marketing_manager",
 };
 

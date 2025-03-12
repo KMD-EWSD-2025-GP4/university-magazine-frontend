@@ -33,6 +33,7 @@ export type LoginResponseType = {
     name: string;
     role: string;
     facultyId: string;
+    facultyName: string;
   };
   token: string;
 };
@@ -167,7 +168,26 @@ export const contributionSchema = z.object({
 });
 
 export type ContributionType = z.infer<typeof contributionSchema>;
+export type ContributionDetailType = ContributionType & {
+  id: string;
+  studentName: string;
+  status: string;
+  submissionDate: string;
+  academicYear: string;
+  assets: {
+    id: string;
+    type: "image" | "article";
+    url: string;
+    filePath: string;
+  }[];
+};
+
 export type GetMyContributionsResponseType = {
-  items: ContributionType[];
-  nextCursor: string | null;
+  items: ContributionDetailType[];
+  nextCursor: number | null;
+};
+
+export type GetContributionDetailType = {
+  success: true;
+  data: ContributionDetailType;
 };

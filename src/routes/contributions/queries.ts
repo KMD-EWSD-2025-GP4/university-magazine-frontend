@@ -3,8 +3,10 @@ import { contributionsKeys } from "@/configs/query-keys";
 import { ContributionType } from "@/configs/schemas";
 import {
   createContribution,
+  getContribution,
   getContributions,
   getMyContribution,
+  updateContribution,
 } from "@/services/contribution";
 import { showNotification } from "@mantine/notifications";
 import {
@@ -20,40 +22,62 @@ export function useCreateContribution() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (data: ContributionType) => createContribution(data),
-    onSuccess: () => {
+    onSuccess: (res) => {
       queryClient.invalidateQueries({
         queryKey: contributionsKeys.lists(),
       });
       showNotification({
         title: "Success!",
-        message: "Contribution created successfully",
+        message: res.data?.message || "Contribution created successfully",
       });
       navigate(routes["my-contributions"]);
     },
   });
 }
 
-export function useGetContributions() {
+export function useGetContribution(id: string) {
   return useQuery({
-    queryKey: [contributionsKeys.lists()],
-    queryFn: () => getContributions(),
-    select: (res) => res.data,
+    queryKey: contributionsKeys.list(id),
+    queryFn: () => getContribution(id),
+    enabled: !!id,
+    select: (data) => data.data.data,
+  });
+}
+
+export function useGetContributions() {
+  return useInfiniteQuery({
+    queryKey: contributionsKeys.lists(),
+    queryFn: async ({ pageParam }) => getContributions(pageParam),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
   });
 }
 
 export function useGetMyContributions() {
   return useInfiniteQuery({
-    queryFn: ({ pageParam }) => getMyContribution(pageParam),
-    getNextPageParam: (lastPage, allPages) => {
-      console.log({ lastPage, allPages });
-      return true;
+    queryKey: contributionsKeys.myLists(),
+    queryFn: async ({ pageParam }) => getMyContribution(pageParam),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
+  });
+}
+
+export function useUpdateContribution() {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: { id: string; data: ContributionType }) =>
+      updateContribution(data),
+    onSuccess: (res) => {
+      queryClient.invalidateQueries({
+        queryKey: contributionsKeys.lists(),
+      });
+      showNotification({
+        title: "Success!",
+        message: res.data?.message || "Contribution updated successfully",
+      });
+      navigate(routes["my-contributions"]);
     },
-    getPreviousPageParam: (firstPage, allPages) => {
-      console.log({ firstPage, allPages });
-      return;
-    },
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    select: (data) => data.pages.flatMap((page) => page?.data?.items),
   });
 }
