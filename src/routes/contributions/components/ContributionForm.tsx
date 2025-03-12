@@ -1,6 +1,7 @@
 import { contributionSchema, ContributionType } from "@/configs/schemas";
 import { formatDate } from "@/utils/dates";
 import {
+  ActionIcon,
   Button,
   FileInput,
   Group,
@@ -15,6 +16,7 @@ import { Dropzone, MIME_TYPES } from "@mantine/dropzone";
 import { Stack } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import { uploadFile } from "@/services/common";
+import { XIcon } from "@/icons";
 
 type ContributionProps = {
   create?: boolean;
@@ -30,7 +32,7 @@ export function ContributionForm({
   handleSubmit,
 }: ContributionProps) {
   const navigate = useNavigate();
-  const { onSubmit, getInputProps, setFieldValue } = useForm({
+  const { onSubmit, getInputProps, setFieldValue, values } = useForm({
     initialValues,
     validate: zodResolver(contributionSchema),
   });
@@ -57,6 +59,8 @@ export function ContributionForm({
 
     setFieldValue("images", uploadedFiles);
   };
+
+  console.log("values", values);
 
   return (
     <Paper
@@ -115,6 +119,7 @@ export function ContributionForm({
           accept={[MIME_TYPES.doc, MIME_TYPES.docx]}
           h={130}
           bg="#F7FAFE"
+          onClick={values.article.path ? () => {} : undefined}
         >
           <Group
             justify="center"
@@ -123,12 +128,33 @@ export function ContributionForm({
             style={{ pointerEvents: "none" }}
           >
             <div>
-              <Text size="xl" inline>
-                Drag file or Browse
-              </Text>
-              <Text size="sm" c="dimmed" inline mt={7}>
-                Format: Only .doc or .docx format
-              </Text>
+              {values.article.path ? (
+                <Group gap="xs">
+                  <Text size="lg" inline>
+                    {values.article.path?.split("/")?.pop()}
+                  </Text>
+                  <ActionIcon
+                    style={{
+                      pointerEvents: "auto",
+                    }}
+                    variant="subtle"
+                    onClick={() => {
+                      setFieldValue("article", { path: "" });
+                    }}
+                  >
+                    <XIcon />
+                  </ActionIcon>
+                </Group>
+              ) : (
+                <>
+                  <Text size="xl" inline>
+                    Drag file or Browse
+                  </Text>
+                  <Text size="sm" c="dimmed" inline mt={7}>
+                    Format: Only .doc or .docx format
+                  </Text>
+                </>
+              )}
             </div>
           </Group>
         </Dropzone>
