@@ -71,7 +71,7 @@ export function ContributionForm({
       mx="auto"
     >
       <Text size="26px" component="h1" fw={700}>
-        New Contribution
+        {create ? "New" : "Update"} Contribution
       </Text>
 
       <Stack gap="lg">
@@ -87,11 +87,9 @@ export function ContributionForm({
         <TextInput label="Description" {...getInputProps("description")} />
 
         <FileInput
-          clearable
           id="image"
           leftSectionWidth={100}
           multiple
-          onChange={handleImageChanges}
           leftSection={
             <Paper
               bg="gray"
@@ -108,6 +106,37 @@ export function ContributionForm({
           }
           label="Image Upload (640 x 210)"
           accept="image/*"
+          {...getInputProps("images")}
+          onChange={handleImageChanges}
+          valueComponent={(file) => {
+            const images = file.value as unknown as {
+              path: string;
+            }[];
+            return (
+              <Stack>
+                {images.map((f) => (
+                  <Group gap="xs" key={f.path}>
+                    <Text size="xs">{f.path?.split("/")?.pop()}</Text>
+                    <ActionIcon
+                      style={{
+                        pointerEvents: "auto",
+                      }}
+                      variant="subtle"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        const filtered = getInputProps("images")?.value?.filter(
+                          (i: { path: string }) => i.path !== f.path
+                        );
+                        setFieldValue("images", filtered);
+                      }}
+                    >
+                      <XIcon />
+                    </ActionIcon>
+                  </Group>
+                ))}
+              </Stack>
+            );
+          }}
         />
 
         <Dropzone

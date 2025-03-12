@@ -4,6 +4,7 @@ import {
   Button,
   Group,
   Image,
+  Menu,
   Paper,
   Stack,
   Text,
@@ -14,7 +15,7 @@ import { ContributionDetailType } from "@/configs/schemas";
 import { formatRelativeTime } from "@/utils/dates";
 import { Can } from "@/components/core";
 import { roles } from "@/configs/rbac";
-import { NavLink } from "react-router";
+import { Link } from "react-router";
 import { DownloadIcon } from "@/icons";
 
 export function Contribution({
@@ -36,7 +37,7 @@ export function Contribution({
           </Avatar>
 
           <Stack gap="xs">
-            <Text> {contribution.studentName || "Not implemented"}</Text>
+            <Text> {contribution.studentName || "Default"}</Text>
             <Text>{formatRelativeTime(contribution.submissionDate)}</Text>
           </Stack>
 
@@ -50,7 +51,7 @@ export function Contribution({
               {contribution.status}
             </Badge>
           ) : (
-            <Text ml="auto">{"not implemented"}</Text>
+            <Text ml="auto">{contribution.academicYear || "2025-2026"}</Text>
           )}
         </Group>
 
@@ -124,7 +125,7 @@ export function Contribution({
               </Button>
             </Can>
 
-            <Button
+            {/* <Button
               component={NavLink}
               to={`/contributions/${contribution.id}`}
               leftSection={<ThreeDotsIcon />}
@@ -134,7 +135,39 @@ export function Contribution({
               fw={400}
             >
               More
-            </Button>
+            </Button> */}
+
+            <Menu shadow="md" width={200}>
+              <Menu.Target>
+                <Button
+                  leftSection={<ThreeDotsIcon />}
+                  variant="light"
+                  flex={1}
+                  h="44px"
+                  fw={400}
+                >
+                  More
+                </Button>
+              </Menu.Target>
+
+              <Menu.Dropdown>
+                {authored && (
+                  <Menu.Item
+                    component={Link}
+                    to={`/contributions/${contribution.id}/edit`}
+                  >
+                    Update
+                  </Menu.Item>
+                )}
+
+                <Menu.Item
+                  component={Link}
+                  to={`/contributions/${contribution.id}`}
+                >
+                  View Details
+                </Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
           </Group>
         )}
       </Stack>

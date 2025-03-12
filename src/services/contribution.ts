@@ -26,3 +26,13 @@ export async function getMyContribution(pageParam: unknown) {
 export function getContribution(id: string) {
   return apiClient.get<GetContributionDetailType>(`/contribution/${id}`);
 }
+
+export function updateContribution({
+  id,
+  data,
+}: {
+  id: string;
+  data: ContributionType;
+}) {
+  return apiClient.put(`/contribution/${id}`, data);
+}

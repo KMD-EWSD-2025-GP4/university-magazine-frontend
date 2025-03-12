@@ -173,52 +173,21 @@ export type ContributionDetailType = ContributionType & {
   studentName: string;
   status: string;
   submissionDate: string;
+  academicYear: string;
   assets: {
     id: string;
     type: "image" | "article";
     url: string;
+    filePath: string;
   }[];
 };
+
 export type GetMyContributionsResponseType = {
   items: ContributionDetailType[];
   nextCursor: number | null;
 };
+
 export type GetContributionDetailType = {
   success: true;
   data: ContributionDetailType;
 };
-
-// {
-//   "id": "f080a454-6676-4e7d-9b3e-a9c99312cc99",
-//   "title": "Test a1",
-//   "description": "test d1",
-//   "studentId": "e5604d51-f4c9-418f-b2a1-8c71c007c930",
-//   "academicYearId": "40c4c70f-4824-4d56-bc9c-c71fb5870cdc",
-//   "facultyId": "a9373d6e-7792-40e3-a984-8d578e3c1e68",
-//   "submissionDate": "2025-03-12T07:50:32.793Z",
-//   "lastUpdated": "2025-03-12T07:50:32.801Z",
-//   "status": "pending",
-//   "viewCount": 0,
-//   "createdAt": "2025-03-12T07:50:32.801Z",
-//   "updatedAt": "2025-03-12T07:50:32.801Z",
-//   "assets": [
-//     {
-//       "id": "faeaf34e-aec3-4679-a5cb-afd93376b199",
-//       "contributionId": "f080a454-6676-4e7d-9b3e-a9c99312cc99",
-//       "type": "article",
-//       "filePath": "uploads/e5604d51-f4c9-418f-b2a1-8c71c007c930/150f6b5e-d559-452a-8bdc-00fbbcccfcd9.docx",
-//       "createdAt": "2025-03-12T07:50:32.805Z",
-//       "updatedAt": "2025-03-12T07:50:32.805Z",
-//       "url": "https://ewsd-bucket.s3.ap-southeast-1.amazonaws.com/uploads/e5604d51-f4c9-418f-b2a1-8c71c007c930/150f6b5e-d559-452a-8bdc-00fbbcccfcd9.docx?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAQFLZDMRPCOHBBG52%2F20250312%2Fap-southeast-1%2Fs3%2Faws4_request&X-Amz-Date=20250312T080610Z&X-Amz-Expires=604800&X-Amz-Signature=e3463bd3313e944fbaaff52f6ae60ebca7f6bb9a5bd71a882e78c83a5c06fdf5&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject"
-//     },
-//     {
-//       "id": "50d5aaf0-20c9-4ceb-821e-34d42d606d84",
-//       "contributionId": "f080a454-6676-4e7d-9b3e-a9c99312cc99",
-//       "type": "image",
-//       "filePath": "uploads/e5604d51-f4c9-418f-b2a1-8c71c007c930/9310e1a5-7e2a-4955-af33-b715af63668a.jpg",
-//       "createdAt": "2025-03-12T07:50:32.808Z",
-//       "updatedAt": "2025-03-12T07:50:32.808Z",
-//       "url": "https://ewsd-bucket.s3.ap-southeast-1.amazonaws.com/uploads/e5604d51-f4c9-418f-b2a1-8c71c007c930/9310e1a5-7e2a-4955-af33-b715af63668a.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAQFLZDMRPCOHBBG52%2F20250312%2Fap-southeast-1%2Fs3%2Faws4_request&X-Amz-Date=20250312T080610Z&X-Amz-Expires=604800&X-Amz-Signature=dcf158bf891eb3b966baeda044c89956aa850dcb3e71a656b69483d808a2dd7e&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject"
-//     }
-//   ]
-// }

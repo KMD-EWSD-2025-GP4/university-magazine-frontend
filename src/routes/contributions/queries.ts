@@ -6,6 +6,7 @@ import {
   getContribution,
   getContributions,
   getMyContribution,
+  updateContribution,
 } from "@/services/contribution";
 import { showNotification } from "@mantine/notifications";
 import {
@@ -21,13 +22,13 @@ export function useCreateContribution() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (data: ContributionType) => createContribution(data),
-    onSuccess: () => {
+    onSuccess: (res) => {
       queryClient.invalidateQueries({
         queryKey: contributionsKeys.lists(),
       });
       showNotification({
         title: "Success!",
-        message: "Contribution created successfully",
+        message: res.data?.message || "Contribution created successfully",
       });
       navigate(routes["my-contributions"]);
     },
@@ -60,17 +61,23 @@ export function useGetMyContributions() {
     getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
   });
 }
-// export function useGetMyContributions() {
-//   return useInfiniteQuery({
-//     queryFn: ({ pageParam }) => getMyContribution(pageParam),
-//     getNextPageParam: (lastPage, allPages) => {
-//       console.log({ lastPage, allPages });
-//       return true;
-//     },
-//     getPreviousPageParam: (firstPage, allPages) => {
-//       console.log({ firstPage, allPages });
-//       return;
-//     },
-//     select: (data) => data.pages.flatMap((page) => page?.data?.items),
-//   });
-// }
+
+export function useUpdateContribution() {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: { id: string; data: ContributionType }) =>
+      updateContribution(data),
+    onSuccess: (res) => {
+      queryClient.invalidateQueries({
+        queryKey: contributionsKeys.lists(),
+      });
+      showNotification({
+        title: "Success!",
+        message: res.data?.message || "Contribution updated successfully",
+      });
+      navigate(routes["my-contributions"]);
+    },
+  });
+}
