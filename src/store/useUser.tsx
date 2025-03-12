@@ -1,13 +1,14 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { encryptStorage } from "@/utils/encryptStore";
+import { RoleType } from "@/configs/rbac";
 
 interface User {
-  role: string;
+  role: RoleType;
   token: string;
   username: string;
   email: string;
-  facultyId?: string;
+  facultyName?: string;
 }
 export interface UserState {
   user: User | undefined;
@@ -27,7 +28,7 @@ export const useUserStore = create<UserState, [["zustand/persist", unknown]]>(
             role: usr?.role,
             token: usr?.token,
             email: usr?.email,
-            facultyId: usr?.facultyId,
+            facultyName: usr?.facultyName,
           },
         });
       },

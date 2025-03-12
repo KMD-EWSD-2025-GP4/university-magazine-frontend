@@ -20,6 +20,8 @@ import {
   NewContributionRoute,
 } from "@/routes/contributions";
 import { TermsAndConditions } from "@/routes/term-conditions/TermsAndConditions";
+import ContributionDetailsRoute from "@/routes/contributions/ContributionDetailsRoute";
+
 export function Routes() {
   return (
     <ReactRouterRoutes>
@@ -75,6 +77,10 @@ export function Routes() {
           <Route
             path={routes["my-contributions"]}
             element={<MyContributionsRoute />}
+          />
+          <Route
+            path={routes["contribution-details"]}
+            element={<ContributionDetailsRoute />}
           />
         </Route>
       </Route>

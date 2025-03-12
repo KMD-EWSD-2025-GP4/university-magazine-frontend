@@ -3,6 +3,7 @@ import { contributionsKeys } from "@/configs/query-keys";
 import { ContributionType } from "@/configs/schemas";
 import {
   createContribution,
+  getContribution,
   getContributions,
   getMyContribution,
 } from "@/services/contribution";
@@ -33,27 +34,43 @@ export function useCreateContribution() {
   });
 }
 
-export function useGetContributions() {
+export function useGetContribution(id: string) {
   return useQuery({
-    queryKey: [contributionsKeys.lists()],
-    queryFn: () => getContributions(),
-    select: (res) => res.data,
+    queryKey: contributionsKeys.list(id),
+    queryFn: () => getContribution(id),
+    enabled: !!id,
+    select: (data) => data.data.data,
+  });
+}
+
+export function useGetContributions() {
+  return useInfiniteQuery({
+    queryKey: contributionsKeys.lists(),
+    queryFn: async ({ pageParam }) => getContributions(pageParam),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
   });
 }
 
 export function useGetMyContributions() {
   return useInfiniteQuery({
-    queryFn: ({ pageParam }) => getMyContribution(pageParam),
-    getNextPageParam: (lastPage, allPages) => {
-      console.log({ lastPage, allPages });
-      return true;
-    },
-    getPreviousPageParam: (firstPage, allPages) => {
-      console.log({ firstPage, allPages });
-      return;
-    },
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    select: (data) => data.pages.flatMap((page) => page?.data?.items),
+    queryKey: contributionsKeys.myLists(),
+    queryFn: async ({ pageParam }) => getMyContribution(pageParam),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
   });
 }
+// export function useGetMyContributions() {
+//   return useInfiniteQuery({
+//     queryFn: ({ pageParam }) => getMyContribution(pageParam),
+//     getNextPageParam: (lastPage, allPages) => {
+//       console.log({ lastPage, allPages });
+//       return true;
+//     },
+//     getPreviousPageParam: (firstPage, allPages) => {
+//       console.log({ firstPage, allPages });
+//       return;
+//     },
+//     select: (data) => data.pages.flatMap((page) => page?.data?.items),
+//   });
+// }

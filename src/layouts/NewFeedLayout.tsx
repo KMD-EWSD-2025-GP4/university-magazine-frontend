@@ -1,11 +1,13 @@
 import { routes } from "@/configs/menus";
 import { PlusIcon, ListIcon } from "@/icons";
+import { useUserStore } from "@/store/useUser";
 import { handleLogout } from "@/utils/auth";
-import { Button, Container, Flex, Paper, Text } from "@mantine/core";
+import { Box, Button, Container, Flex, Paper, Text } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router";
 
 export function NewFeedLayout() {
+  const user = useUserStore((state) => state.user);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -49,12 +51,12 @@ export function NewFeedLayout() {
         shadow="md"
       >
         <Flex align="center" gap="md">
-          <Text>
-            <Text component="span">Faculty of </Text>
+          <Box>
+            <Text component="span">{user?.facultyName?.slice(0, 10)} </Text>
             <Text fw={600} fs="italic" component="div">
-              Computer Science and IT
+              {user?.facultyName?.slice(10)}
             </Text>
-          </Text>
+          </Box>
 
           {location.pathname === routes["my-contributions"] ? (
             <Button

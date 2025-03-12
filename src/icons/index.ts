@@ -8,3 +8,5 @@ export * from "./ThreeDotIcon";
 export * from "./PlusIcon";
 export * from "./ListIcon";
 export * from "./MessageIcon";
+export * from "./ChevronDownIcon";
+export * from "./DownloadIcon";

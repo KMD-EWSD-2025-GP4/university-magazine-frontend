@@ -1,4 +1,5 @@
 import { CalendarIcon, ReportIcon, SystemIcon, UsersIcon } from "@/icons";
+import { roles } from "./rbac";
 
 export const routes = {
   login: "/",
@@ -17,8 +18,9 @@ export const routes = {
   reports: "/d/reports",
   contributions: "/contributions",
   "new-contribution": "/contributions/new",
-  "edit-contribution": "/contributions/:id",
+  "edit-contribution": "/contributions/:id/edit",
   "my-contributions": "/contributions/my",
+  "contribution-details": "/contributions/:id",
 };
 
 const menus = {
@@ -75,7 +77,7 @@ export const adminRoutes = [
   routes["new-academic-year"],
   routes["edit-academic-year"],
   routes["new-user"],
-  routes['new-faculty']
+  routes["new-faculty"],
 ];
 
 export const studentRoutes = [
@@ -83,12 +85,14 @@ export const studentRoutes = [
   routes["my-contributions"],
   routes["new-contribution"],
   routes["edit-contribution"],
+  routes["contribution-details"],
 ];
 
 export const defaultRoutes = {
-  admin: routes.dashboard,
-  student: routes.contributions,
-  guest: routes.contributions,
+  [roles.admin]: routes["user-management"],
+  [roles.student]: routes.contributions,
+  [roles.guest]: routes.contributions,
+  [roles.marketing_coordinator]: routes.dashboard,
 };
 
 export const loginRoutes = {

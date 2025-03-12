@@ -1,20 +1,17 @@
-import { Flex, Stack } from "@mantine/core";
+import { Flex, Stack, Text } from "@mantine/core";
 import { LeftPanel } from "./components/LeftPanel";
-import { Contribution } from "./components/Contribution";
 import { useGetContributions } from "./queries";
 import { PageLoading } from "@/components/loading/PageLoading";
-import { useUserStore } from "@/store/useUser";
+import { Contribution } from "./components/Contribution";
 
 export function ContributionsRoute() {
-  const user = useUserStore((state) => state.user);
   const { data, isPending } = useGetContributions();
 
-  console.log("user", user);
   if (isPending) {
     return <PageLoading />;
   }
 
-  console.log("data", data);
+  const contributions = data?.pages.flatMap((page) => page?.items) || [];
 
   return (
     <div>
@@ -22,7 +19,19 @@ export function ContributionsRoute() {
         <LeftPanel />
 
         <Stack flex={1} gap="100px">
-          <Contribution />
+          {contributions.map((contribution) => (
+            <Contribution
+              authored
+              key={contribution.id}
+              contribution={contribution}
+            />
+          ))}
+
+          {contributions.length === 0 && (
+            <Text ta="center" py="120px">
+              No Contribution Found!
+            </Text>
+          )}
         </Stack>
       </Flex>
     </div>

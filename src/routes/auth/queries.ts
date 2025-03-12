@@ -1,6 +1,6 @@
 import { LoginType, RegisterType } from "@/configs/schemas";
 import { routes } from "@/configs/menus";
-import { roles } from "@/configs/rbac";
+import { roles, RoleType } from "@/configs/rbac";
 import { login } from "@/services/auth";
 import { useUserStore } from "@/store/useUser";
 import { showNotification } from "@mantine/notifications";
@@ -19,10 +19,10 @@ export function useLogin() {
       });
       setUser({
         username: res.data.user.name,
-        role: res.data.user.role,
+        role: res.data.user.role as RoleType,
         token: res.data.token,
         email: res.data.user.email,
-        facultyId: res.data.user.facultyId,
+        facultyName: res.data.user.facultyName,
       });
       if (res.data.user.role === roles.admin) {
         navigate(routes["user-management"]);
