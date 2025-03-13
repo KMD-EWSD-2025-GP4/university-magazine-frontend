@@ -37,26 +37,30 @@ export function AcademicYearForm({
       p="xl"
     >
       <Text size="26px" component="h1" fw={700}>
-        New Academic Years Registration
+        {create ? "New" : "Update"} Academic Years Registration
       </Text>
 
       <SimpleGrid cols={2} mt={48} verticalSpacing={48} spacing={48}>
         <DatePickerInput
+          label="Start Date"
           placeholder="Start Date"
           leftSection={<CalendarIcon2 size={18} />}
           {...getInputProps("startDate")}
         />
         <DatePickerInput
+          label="End Date"
           placeholder="End Date"
           leftSection={<CalendarIcon2 size={18} />}
           {...getInputProps("endDate")}
         />
         <DatePickerInput
+          label="New Closure Date"
           placeholder="New Closure Date"
           leftSection={<CalendarIcon2 size={18} />}
           {...getInputProps("newClosureDate")}
         />
         <DatePickerInput
+          label="Final Closure Date"
           placeholder="Final Closure Date"
           leftSection={<CalendarIcon2 size={18} />}
           {...getInputProps("finalClosureDate")}
