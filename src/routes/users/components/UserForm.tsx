@@ -34,17 +34,24 @@ export function UserForm({
   handleSubmit,
 }: UserFormProps) {
   const navigate = useNavigate();
-  const { onSubmit, getInputProps, isTouched } = useForm<
+  const { onSubmit, getInputProps, isDirty, resetDirty } = useForm<
     UserType | UpdateUserType
   >({
     initialValues,
     validate: zodResolver(create ? userSchema : updateUserSchema),
   });
 
-  usePrompt(isTouched());
+  usePrompt(isDirty());
 
   return (
-    <Paper component="form" onSubmit={onSubmit(handleSubmit)} p="xl">
+    <Paper
+      component="form"
+      onSubmit={onSubmit((values) => {
+        resetDirty();
+        handleSubmit(values);
+      })}
+      p="xl"
+    >
       <Text size="26px" component="h1" fw={700}>
         {create ? "New User Registration" : "Update User Information"}
       </Text>

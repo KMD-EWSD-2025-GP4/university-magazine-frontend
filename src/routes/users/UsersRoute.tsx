@@ -37,9 +37,11 @@ export function UsersRoute() {
 
   const filteredData = useMemo(() => {
     return data.filter((user) => {
+      if (status && user?.status?.toLowerCase() !== status?.toLowerCase()) {
+        return false;
+      }
       return (
         user?.name?.toLowerCase().includes(name?.toLowerCase()) &&
-        user?.status?.toLowerCase().includes(status?.toLowerCase()) &&
         user?.role?.toLowerCase().includes(role?.toLowerCase())
       );
     });

@@ -20,15 +20,22 @@ export function AcademicYearForm({
   handleSubmit,
 }: AcademicYearProps) {
   const navigate = useNavigate();
-  const { onSubmit, getInputProps, isTouched } = useForm({
+  const { onSubmit, getInputProps, isDirty, resetDirty } = useForm({
     initialValues,
     validate: zodResolver(academicYearsSchema),
   });
 
-  usePrompt(isTouched());
+  usePrompt(isDirty());
 
   return (
-    <Paper component="form" onSubmit={onSubmit(handleSubmit)} p="xl">
+    <Paper
+      component="form"
+      onSubmit={onSubmit((data) => {
+        resetDirty();
+        handleSubmit(data);
+      })}
+      p="xl"
+    >
       <Text size="26px" component="h1" fw={700}>
         New Academic Years Registration
       </Text>

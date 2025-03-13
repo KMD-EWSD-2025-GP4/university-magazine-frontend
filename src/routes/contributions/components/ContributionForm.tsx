@@ -33,14 +33,19 @@ export function ContributionForm({
   handleSubmit,
 }: ContributionProps) {
   const navigate = useNavigate();
-  const { onSubmit, getInputProps, setFieldValue, isTouched, values } = useForm(
-    {
-      initialValues,
-      validate: zodResolver(contributionSchema),
-    }
-  );
+  const {
+    onSubmit,
+    getInputProps,
+    setFieldValue,
+    isDirty,
+    resetDirty,
+    values,
+  } = useForm({
+    initialValues,
+    validate: zodResolver(contributionSchema),
+  });
 
-  usePrompt(isTouched());
+  usePrompt(isDirty());
 
   const handleDropDoc = async (files: File[]) => {
     const file = files[0];
@@ -67,7 +72,10 @@ export function ContributionForm({
   return (
     <Paper
       component="form"
-      onSubmit={onSubmit(handleSubmit)}
+      onSubmit={onSubmit((data) => {
+        resetDirty();
+        handleSubmit(data);
+      })}
       p="xl"
       maw={720}
       mx="auto"
