@@ -1,4 +1,5 @@
 import { academicYearsSchema, AcademicYearType } from "@/configs/schemas";
+import usePrompt from "@/hooks/usePrompt";
 import { CalendarIcon2 } from "@/icons";
 import { Button, Group, Paper, Radio, SimpleGrid, Text } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
@@ -19,10 +20,12 @@ export function AcademicYearForm({
   handleSubmit,
 }: AcademicYearProps) {
   const navigate = useNavigate();
-  const { onSubmit, getInputProps } = useForm({
+  const { onSubmit, getInputProps, isTouched } = useForm({
     initialValues,
     validate: zodResolver(academicYearsSchema),
   });
+
+  usePrompt(isTouched());
 
   return (
     <Paper component="form" onSubmit={onSubmit(handleSubmit)} p="xl">

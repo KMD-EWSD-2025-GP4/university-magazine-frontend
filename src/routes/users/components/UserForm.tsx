@@ -5,6 +5,7 @@ import {
   userSchema,
   UserType,
 } from "@/configs/schemas";
+import usePrompt from "@/hooks/usePrompt";
 import { RotateIcon } from "@/icons/RotateIcon";
 import {
   ActionIcon,
@@ -33,10 +34,14 @@ export function UserForm({
   handleSubmit,
 }: UserFormProps) {
   const navigate = useNavigate();
-  const { onSubmit, getInputProps } = useForm<UserType | UpdateUserType>({
+  const { onSubmit, getInputProps, isTouched } = useForm<
+    UserType | UpdateUserType
+  >({
     initialValues,
     validate: zodResolver(create ? userSchema : updateUserSchema),
   });
+
+  usePrompt(isTouched());
 
   return (
     <Paper component="form" onSubmit={onSubmit(handleSubmit)} p="xl">

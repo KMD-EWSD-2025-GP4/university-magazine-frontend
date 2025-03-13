@@ -17,6 +17,7 @@ import { Stack } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import { uploadFile } from "@/services/common";
 import { XIcon } from "@/icons";
+import usePrompt from "@/hooks/usePrompt";
 
 type ContributionProps = {
   create?: boolean;
@@ -32,10 +33,14 @@ export function ContributionForm({
   handleSubmit,
 }: ContributionProps) {
   const navigate = useNavigate();
-  const { onSubmit, getInputProps, setFieldValue, values } = useForm({
-    initialValues,
-    validate: zodResolver(contributionSchema),
-  });
+  const { onSubmit, getInputProps, setFieldValue, isTouched, values } = useForm(
+    {
+      initialValues,
+      validate: zodResolver(contributionSchema),
+    }
+  );
+
+  usePrompt(isTouched());
 
   const handleDropDoc = async (files: File[]) => {
     const file = files[0];
