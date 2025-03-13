@@ -88,8 +88,8 @@ export type UpdateUserType = z.infer<typeof updateUserSchema> & {
 };
 export type UserDetailType = Omit<UserType, "password"> & {
   id: string;
-  lastLogin: boolean | null;
-  lastLoginAt: string | null;
+  // lastLogin: boolean | null;
+  lastLogin: string | null;
   browser: string | null;
   totalLogins: number | null;
 };

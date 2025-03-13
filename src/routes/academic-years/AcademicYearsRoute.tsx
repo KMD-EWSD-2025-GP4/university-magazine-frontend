@@ -21,12 +21,20 @@ import { routes } from "@/configs/menus";
 import { useDeleteAcademicYear, useGetAcademicYears } from "./queries";
 import { AcademicYearDetailType } from "@/configs/schemas";
 import { CalendarIcon2, ThreeDotsIcon } from "@/icons";
-import { formatServerDatetime } from "@/utils/dates";
+import { formatDate, getEndOfDay, getStartOfDay } from "@/utils/dates";
 import { PageLoading } from "@/components/loading/PageLoading";
 import { DatePickerInput } from "@mantine/dates";
 import { modals } from "@mantine/modals";
+import { mkConfig, generateCsv, download } from "export-to-csv";
 
 const defaultMRTOptions = getDefaultMRTOptions<AcademicYearDetailType>();
+
+const csvConfig = mkConfig({
+  fieldSeparator: ",",
+  decimalSeparator: ".",
+  useKeysAsHeaders: true,
+  filename: "academic-years",
+});
 
 export function AcademicYearsRoute() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -41,18 +49,31 @@ export function AcademicYearsRoute() {
 
     if (startDate) {
       tmp = data.filter((academicYear) =>
-        dayjs(academicYear.startDate).isAfter(startDate)
+        dayjs(academicYear.startDate).isSameOrAfter(startDate)
       );
     }
 
     if (endDate) {
       tmp = tmp.filter((academicYear) =>
-        dayjs(academicYear.endDate).isBefore(endDate)
+        dayjs(academicYear.endDate).isSameOrBefore(endDate)
       );
     }
 
     return tmp;
   }, [data, endDate, startDate]);
+
+  const handleExportData = () => {
+    const csv = generateCsv(csvConfig)(
+      filteredData.map((ay) => ({
+        ...ay,
+        startDate: formatDate(ay.startDate),
+        endDate: formatDate(ay.endDate),
+        finalClosureDate: formatDate(ay.finalClosureDate),
+        newClosureDate: formatDate(ay.newClosureDate),
+      }))
+    );
+    download(csvConfig)(csv);
+  };
 
   const handleDelete = useCallback(
     (id: string) => {
@@ -77,9 +98,7 @@ export function AcademicYearsRoute() {
         header: "Start Date",
         Cell: ({ cell }) => (
           <Text style={{ whiteSpace: "nowrap" }}>
-            {cell.getValue()
-              ? formatServerDatetime(cell.getValue() as string)
-              : ""}
+            {cell.getValue() ? formatDate(cell.getValue() as string) : ""}
           </Text>
         ),
       },
@@ -88,9 +107,7 @@ export function AcademicYearsRoute() {
         header: "End Date",
         Cell: ({ cell }) => (
           <Text style={{ whiteSpace: "nowrap" }}>
-            {cell.getValue()
-              ? formatServerDatetime(cell.getValue() as string)
-              : ""}
+            {cell.getValue() ? formatDate(cell.getValue() as string) : ""}
           </Text>
         ),
       },
@@ -141,13 +158,13 @@ export function AcademicYearsRoute() {
     columns,
     data: filteredData,
     renderTopToolbarCustomActions: () => (
-      <Group gap="md" align="center">
+      <Group gap="md" align="center" w="100%">
         <DatePickerInput
           clearable
           w={200}
           value={startDate ? new Date(startDate) : null}
           onChange={(value) =>
-            setSearchParams({ startDate: value?.toISOString() || "", endDate })
+            setSearchParams({ startDate: getStartOfDay(value) || "", endDate })
           }
           placeholder="Start Date"
           leftSection={<CalendarIcon2 size={18} />}
@@ -156,12 +173,24 @@ export function AcademicYearsRoute() {
           clearable
           value={endDate ? new Date(endDate) : null}
           onChange={(value) =>
-            setSearchParams({ endDate: value?.toISOString() || "", startDate })
+            setSearchParams({
+              endDate: getEndOfDay(value) || "",
+              startDate,
+            })
           }
           w={200}
           placeholder="End Date"
           leftSection={<CalendarIcon2 size={18} />}
         />
+        <Button onClick={() => setSearchParams({})}>Refresh</Button>
+        <Button
+          ml="auto"
+          onClick={handleExportData}
+          variant="outline"
+          color="gray"
+        >
+          Export CSV
+        </Button>
       </Group>
     ),
   });

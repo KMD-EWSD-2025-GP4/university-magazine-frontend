@@ -22,10 +22,18 @@ import { useGetUsers } from "./queries";
 import { UserDetailType } from "@/configs/schemas";
 import { RoleSelect, StatusSelect } from "@/components/select";
 import { ThreeDotsIcon } from "@/icons";
-import { formatServerDatetime } from "@/utils/dates";
+import { formatDate, formatDatetime } from "@/utils/dates";
 import { PageLoading } from "@/components/loading/PageLoading";
+import { mkConfig, generateCsv, download } from "export-to-csv";
 
 const defaultMRTOptions = getDefaultMRTOptions<UserDetailType>();
+
+const csvConfig = mkConfig({
+  fieldSeparator: ",",
+  decimalSeparator: ".",
+  useKeysAsHeaders: true,
+  filename: "users",
+});
 
 export function UsersRoute() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -46,6 +54,16 @@ export function UsersRoute() {
       );
     });
   }, [data, name, status, role]);
+
+  const handleExportData = () => {
+    const csv = generateCsv(csvConfig)(
+      filteredData.map((user) => ({
+        ...user,
+        lastLogin: formatDate(user.lastLogin),
+      }))
+    );
+    download(csvConfig)(csv);
+  };
 
   const columns = useMemo<MRT_ColumnDef<UserDetailType>[]>(
     () => [
@@ -79,9 +97,7 @@ export function UsersRoute() {
         header: "Last Logged In",
         Cell: ({ cell }) => (
           <Text style={{ whiteSpace: "nowrap" }}>
-            {cell.getValue()
-              ? formatServerDatetime(cell.getValue() as string)
-              : ""}
+            {cell.getValue() ? formatDatetime(cell.getValue() as string) : ""}
           </Text>
         ),
       },
@@ -116,7 +132,7 @@ export function UsersRoute() {
     columns,
     data: filteredData,
     renderTopToolbarCustomActions: () => (
-      <Group gap="md" align="center">
+      <Group gap="md" align="center" w="100%">
         <TextInput
           placeholder="Search by name"
           value={name}
@@ -140,6 +156,16 @@ export function UsersRoute() {
             setSearchParams({ role: value || "", name, status })
           }
         />
+        <Button onClick={() => setSearchParams({})}>Refresh</Button>
+
+        <Button
+          ml="auto"
+          onClick={handleExportData}
+          variant="outline"
+          color="gray"
+        >
+          Export CSV
+        </Button>
       </Group>
     ),
   });
