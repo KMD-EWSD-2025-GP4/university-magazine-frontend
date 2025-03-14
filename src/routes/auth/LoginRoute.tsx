@@ -83,7 +83,7 @@ export function LoginRoute() {
                   textDecoration: "none",
                 }}
               >
-                Login here
+                Register here
               </Link>
             </Text>
           </Paper>

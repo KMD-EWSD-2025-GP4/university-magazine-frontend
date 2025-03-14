@@ -13,9 +13,21 @@
 
 .leftPanel {
     flex: 1;
-    background-color: #ececec;
+    background-image: url('../../assets/login.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 60%;
   }
   
+.registerLeftPanel{
+    flex: 1;
+    background-image: url('../../assets/register.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 60%;
+  }
   .rightPanel {
     flex: 1;
     display: flex;
@@ -24,9 +36,12 @@
     background-color: #ffffff;
   }
   
+
+
+
   .formContainer {
-    width: 400px;
-    max-width: 90%;
+    width: 500px;
+    max-width: 100%;
     padding: 0 !important;
 
   }

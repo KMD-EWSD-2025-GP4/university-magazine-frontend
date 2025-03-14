@@ -1,7 +1,7 @@
 import { LoginType, RegisterType } from "@/configs/schemas";
 import { routes } from "@/configs/menus";
 import { roles, RoleType } from "@/configs/rbac";
-import { login } from "@/services/auth";
+import { login, register } from "@/services/auth";
 import { useUserStore } from "@/store/useUser";
 import { showNotification } from "@mantine/notifications";
 import { useMutation } from "@tanstack/react-query";
@@ -37,10 +37,7 @@ export function useRegister() {
   const navigate = useNavigate();
 
   return useMutation({
-    mutationFn: async (data: RegisterType) => {
-      //const response = await axios.post("/api/register", data);
-      return data;
-    },
+    mutationFn: async (data: RegisterType) => register(data),
     onSuccess: () => {
       showNotification({
         title: "Registration Successful!",

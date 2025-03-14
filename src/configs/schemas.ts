@@ -10,15 +10,27 @@ export type LoginType = z.infer<typeof loginSchema>;
 
 export const registerSchema = z
   .object({
-    email: z.string().email({ message: "Invalid email address" }),
-    username: z
+    email: z
       .string()
-      .min(3, { message: "Username must be at least 3 characters" }),
+      .email({ message: "Invalid email address format" })
+      .regex(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, {
+        message: "Invalid email format",
+      }),
+    name: z
+      .string()
+      .min(3, { message: "Name must be at least 3 characters" })
+      .regex(/^[A-Za-z\s]+$/, {
+        message: "Name must not contain special characters or numbers",
+      }),
     password: z
       .string()
-      .min(6, { message: "Password must be at least 6 characters" }),
+      .min(6, { message: "Password must be at least 6 characters" })
+      .regex(/[0-9]/, { message: "Password must contain at least one number" })
+      .regex(/[!@#$%^&*(),.?":{}|<>]/, {
+        message: "Password must contain at least one special character",
+      }),
     confirmPassword: z.string(),
-    faculty: z.string().min(1, { message: "Faculty is required" }),
+    facultyId: z.string().min(1, { message: "Faculty is required" }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
@@ -26,6 +38,7 @@ export const registerSchema = z
   });
 
 export type RegisterType = z.infer<typeof registerSchema>;
+export type RegisterResponseType = RegisterType;
 export type LoginResponseType = {
   user: {
     id: string;

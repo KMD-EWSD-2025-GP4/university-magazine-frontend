@@ -91,7 +91,7 @@ export function TermsAndConditions() {
   return (
     <Container size="md" mt="lg">
       <Breadcrumbs mb="md">
-        <Anchor component={Link} to="/d/system-param">
+        <Anchor component={Link} to="/d/system-param/faculty">
           System Parameters
         </Anchor>
         <Text>Terms & Conditions</Text>
