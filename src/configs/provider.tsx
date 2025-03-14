@@ -15,6 +15,10 @@ import { ModalsProvider } from "@mantine/modals";
 import "@mantine/carousel/styles.css";
 import "@mantine/dropzone/styles.css";
 import "../global.css";
+import relativeTime from "dayjs/plugin/relativeTime";
+import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
+import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
+import dayjs from "dayjs";
 
 const theme = createTheme({
   primaryColor: "gray",
@@ -57,6 +61,10 @@ const theme = createTheme({
     }),
   },
 });
+
+dayjs.extend(relativeTime);
+dayjs.extend(isSameOrAfter);
+dayjs.extend(isSameOrBefore);
 
 type ExtendedCustomColors = "primary" | DefaultMantineColor;
 

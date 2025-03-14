@@ -1,4 +1,5 @@
 import { academicYearsSchema, AcademicYearType } from "@/configs/schemas";
+import usePrompt from "@/hooks/usePrompt";
 import { CalendarIcon2 } from "@/icons";
 import { Button, Group, Paper, Radio, SimpleGrid, Text } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
@@ -19,34 +20,47 @@ export function AcademicYearForm({
   handleSubmit,
 }: AcademicYearProps) {
   const navigate = useNavigate();
-  const { onSubmit, getInputProps } = useForm({
+  const { onSubmit, getInputProps, isDirty, resetDirty } = useForm({
     initialValues,
     validate: zodResolver(academicYearsSchema),
   });
 
+  usePrompt(isDirty());
+
   return (
-    <Paper component="form" onSubmit={onSubmit(handleSubmit)} p="xl">
+    <Paper
+      component="form"
+      onSubmit={onSubmit((data) => {
+        resetDirty();
+        handleSubmit(data);
+      })}
+      p="xl"
+    >
       <Text size="26px" component="h1" fw={700}>
-        New Academic Years Registration
+        {create ? "New" : "Update"} Academic Years Registration
       </Text>
 
       <SimpleGrid cols={2} mt={48} verticalSpacing={48} spacing={48}>
         <DatePickerInput
+          label="Start Date"
           placeholder="Start Date"
           leftSection={<CalendarIcon2 size={18} />}
           {...getInputProps("startDate")}
         />
         <DatePickerInput
+          label="End Date"
           placeholder="End Date"
           leftSection={<CalendarIcon2 size={18} />}
           {...getInputProps("endDate")}
         />
         <DatePickerInput
+          label="New Closure Date"
           placeholder="New Closure Date"
           leftSection={<CalendarIcon2 size={18} />}
           {...getInputProps("newClosureDate")}
         />
         <DatePickerInput
+          label="Final Closure Date"
           placeholder="Final Closure Date"
           leftSection={<CalendarIcon2 size={18} />}
           {...getInputProps("finalClosureDate")}
