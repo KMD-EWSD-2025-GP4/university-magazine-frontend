@@ -1,5 +1,4 @@
 import {
-  // Anchor,
   Button,
   Container,
   Paper,
@@ -7,13 +6,13 @@ import {
   Text,
   TextInput,
   Title,
-  Select,
 } from "@mantine/core";
 import { Link } from "react-router";
 import classes from "./LoginRoute.module.css";
 import { useForm, zodResolver } from "@mantine/form";
 import { registerSchema, RegisterType } from "@/configs/schemas";
 import { useRegister } from "./queries";
+import { FacultySelect } from "@/components/select";
 
 export function RegisterRoute() {
   const { mutate, isPending } = useRegister();
@@ -21,24 +20,34 @@ export function RegisterRoute() {
   const form = useForm<RegisterType>({
     initialValues: {
       email: "",
-      username: "",
+      name: "",
       password: "",
       confirmPassword: "",
-      faculty: "",
+      facultyId: "",
     },
     validate: zodResolver(registerSchema),
   });
 
   const handleSubmit = (values: RegisterType) => {
-    mutate(values);
+    console.log('aaa',values)
+    if (!values.email || !values.name || !values.password) {
+      console.error("Form validation failed", form.errors);
+      return;
+    }
+
+    mutate(values, {
+      onSuccess: () => {
+        console.log("Registration successful");
+      },
+      onError: (error) => {
+        console.error("Registration failed", error);
+      },
+    });
   };
 
   return (
     <div className={classes.wrapper}>
-      {/* Left panel (gray background) */}
-      <div className={classes.leftPanel} />
-
-      {/* Right panel (register form) */}
+      <div className={classes.registerLeftPanel} />
       <div className={classes.rightPanel}>
         <Container className={classes.formContainer}>
           <Title ta="left" className={classes.title}>
@@ -59,11 +68,11 @@ export function RegisterRoute() {
             />
 
             <TextInput
-              label="Username"
-              placeholder="Choose a username"
+              label="Full Name"
+              placeholder="Enter your full name"
               required
               mt="md"
-              {...form.getInputProps("username")}
+              {...form.getInputProps("name")}
               className={classes.inputField}
             />
 
@@ -85,29 +94,24 @@ export function RegisterRoute() {
               className={classes.inputField}
             />
 
-            <Select
-              label="Choose Faculty"
-              placeholder="Select your faculty"
-              data={[
-                { value: "computing", label: "Computing" },
-                { value: "business", label: "Business" },
-                { value: "engineering", label: "Engineering" },
-                { value: "design", label: "Design" },
-              ]}
-              required
-              {...form.getInputProps("faculty")}
-              className={classes.inputField}
+            <FacultySelect
+              placeholder="Select Faculty"
+              label="Faculty"
+              {...form.getInputProps("facultyId")}
             />
+
             <Button
               fullWidth
               mt="xl"
-              type="submit"
+              type="button"
               loading={isPending}
               className={classes.submitButton}
+              onClick={() => {
+                form.onSubmit(handleSubmit)();
+              }}
             >
               Register
             </Button>
-
             <Text ta="center" mt="md" size="sm">
               Already have an account?{" "}
               <Link
