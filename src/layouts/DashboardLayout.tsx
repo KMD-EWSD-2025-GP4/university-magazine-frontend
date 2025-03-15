@@ -5,6 +5,7 @@ import { handleLogout } from "@/utils/auth";
 import { showNotification } from "@mantine/notifications";
 import SidebarMenu from "@/components/menu/SidebarMenu";
 import { useUserStore } from "@/store/useUser";
+import { Breadcrumbs } from "@/components/core";
 export function DashboardLayout() {
   const user = useUserStore((state) => state.user);
   const [opened, { toggle }] = useDisclosure();
@@ -53,6 +54,7 @@ export function DashboardLayout() {
       {/* MAIN CONTENT */}
       <AppShell.Main>
         <Container size="xl">
+          <Breadcrumbs />
           <Outlet />
         </Container>
       </AppShell.Main>

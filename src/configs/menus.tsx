@@ -23,7 +23,7 @@ export const routes = {
   "contribution-details": "/contributions/:id",
 };
 
-const menus = {
+export const menus = {
   "user-management": {
     label: "User Management",
     icon: UsersIcon,
@@ -55,6 +55,30 @@ const menus = {
     label: "Reports",
     icon: ReportIcon,
     href: routes.reports,
+    submenus: [],
+  },
+
+  /**
+   * route label for breadcrumbs
+   */
+  "new-user": {
+    label: "New User",
+    href: routes["new-user"],
+    submenus: [],
+  },
+  "edit-user": {
+    label: "Edit User",
+    href: routes["edit-user"],
+    submenus: [],
+  },
+  "new-academic-year": {
+    label: "New Academic Year",
+    href: routes["new-academic-year"],
+    submenus: [],
+  },
+  "edit-academic-year": {
+    label: "Edit Academic Year",
+    href: routes["edit-academic-year"],
     submenus: [],
   },
 };
