@@ -42,25 +42,33 @@ export function AcademicYearForm({
 
       <SimpleGrid cols={2} mt={48} verticalSpacing={48} spacing={48}>
         <DatePickerInput
+          clearable
           label="Start Date"
           placeholder="Start Date"
+          maxDate={getInputProps("endDate").value}
           leftSection={<CalendarIcon2 size={18} />}
           {...getInputProps("startDate")}
         />
         <DatePickerInput
+          clearable
           label="End Date"
+          minDate={getInputProps("startDate").value}
           placeholder="End Date"
           leftSection={<CalendarIcon2 size={18} />}
           {...getInputProps("endDate")}
         />
         <DatePickerInput
+          clearable
           label="New Closure Date"
+          maxDate={getInputProps("finalClosureDate").value}
           placeholder="New Closure Date"
           leftSection={<CalendarIcon2 size={18} />}
           {...getInputProps("newClosureDate")}
         />
         <DatePickerInput
+          clearable
           label="Final Closure Date"
+          minDate={getInputProps("newClosureDate").value}
           placeholder="Final Closure Date"
           leftSection={<CalendarIcon2 size={18} />}
           {...getInputProps("finalClosureDate")}
