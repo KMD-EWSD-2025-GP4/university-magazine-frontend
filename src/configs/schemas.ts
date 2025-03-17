@@ -193,6 +193,7 @@ export type ContributionDetailType = ContributionType & {
     url: string;
     filePath: string;
   }[];
+  updatedAt: string;
 };
 
 export type GetMyContributionsResponseType = {

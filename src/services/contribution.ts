@@ -15,6 +15,11 @@ export async function getContributions(pageParam: unknown) {
   return res.data;
 }
 
+export async function getMCContributions() {
+  const res = await apiClient.get(`/contribution/faculty/all`);
+  return res.data;
+}
+
 export async function getMyContribution(pageParam: unknown) {
   console.log("pageParam", pageParam);
   const res = await apiClient.get<GetMyContributionsResponseType>(

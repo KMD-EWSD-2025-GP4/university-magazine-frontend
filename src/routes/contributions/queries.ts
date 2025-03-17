@@ -5,6 +5,7 @@ import {
   createContribution,
   getContribution,
   getContributions,
+  getMCContributions,
   getMyContribution,
   updateContribution,
 } from "@/services/contribution";
@@ -59,6 +60,13 @@ export function useGetMyContributions() {
     queryFn: async ({ pageParam }) => getMyContribution(pageParam),
     initialPageParam: 0,
     getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
+  });
+}
+
+export function useGetMCContributions() {
+  return useQuery({
+    queryKey: contributionsKeys.myLists(),
+    queryFn: getMCContributions,
   });
 }
 

@@ -20,7 +20,7 @@ export function LeftPanel() {
         <Stack p="20px" align="center" gap="sm">
           <Avatar color="gray" radius="100%" size="xl">
             {`${user?.username?.split(" ")[0][0]}${
-              user?.username?.split(" ")?.[1]?.[0]
+              user?.username?.split(" ")?.[1]?.[0] || ""
             }`}
           </Avatar>
 

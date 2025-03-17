@@ -15,6 +15,7 @@ import {
 import { showNotification } from "@mantine/notifications";
 import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router";
 import iconLogo from "@/assets/logo.png";
+import { roles } from "@/configs/rbac";
 
 export function NewFeedLayout() {
   const user = useUserStore((state) => state.user);
@@ -89,7 +90,33 @@ export function NewFeedLayout() {
             </Text>
           </Box>
 
-          {location.pathname === routes["my-contributions"] ? (
+          {user?.role === roles.student &&
+            location.pathname !== routes["my-contributions"] && (
+              <>
+                <Button
+                  variant="filled"
+                  color="primary"
+                  ml="auto"
+                  w={220}
+                  leftSection={<PlusIcon />}
+                  component={NavLink}
+                  to={routes["new-contribution"]}
+                >
+                  Add Contribution
+                </Button>
+                <Button
+                  variant="outline"
+                  w={220}
+                  leftSection={<ListIcon />}
+                  component={NavLink}
+                  to={routes["my-contributions"]}
+                >
+                  My Contribution
+                </Button>
+              </>
+            )}
+
+          {location.pathname === routes["my-contributions"] && (
             <Button
               variant="outline"
               ml="auto"
@@ -100,29 +127,6 @@ export function NewFeedLayout() {
             >
               All Contributions
             </Button>
-          ) : (
-            <>
-              <Button
-                variant="filled"
-                color="primary"
-                ml="auto"
-                w={220}
-                leftSection={<PlusIcon />}
-                component={NavLink}
-                to={routes["new-contribution"]}
-              >
-                Add Contribution
-              </Button>
-              <Button
-                variant="outline"
-                w={220}
-                leftSection={<ListIcon />}
-                component={NavLink}
-                to={routes["my-contributions"]}
-              >
-                My Contribution
-              </Button>
-            </>
           )}
         </Flex>
       </Paper>
