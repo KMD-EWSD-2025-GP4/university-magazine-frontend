@@ -1,8 +1,9 @@
-import { Flex, Stack, Text } from "@mantine/core";
+import { Flex, Stack } from "@mantine/core";
 import { LeftPanel } from "./components/LeftPanel";
 import { useGetContributions } from "./queries";
 import { PageLoading } from "@/components/loading/PageLoading";
 import { Contribution } from "./components/Contribution";
+import { NoContribution } from "@/components/NoContribution";
 
 export function ContributionsRoute() {
   const { data, isPending } = useGetContributions();
@@ -27,11 +28,7 @@ export function ContributionsRoute() {
             />
           ))}
 
-          {contributions?.length === 0 && (
-            <Text ta="center" py="120px">
-              No Contribution Found!
-            </Text>
-          )}
+          {contributions?.length === 0 && <NoContribution />}
         </Stack>
       </Flex>
     </div>
