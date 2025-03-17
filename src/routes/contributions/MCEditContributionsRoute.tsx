@@ -1,4 +1,4 @@
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import {
   useCommentContribution,
   useGetContribution,
@@ -6,10 +6,11 @@ import {
 } from "./queries";
 import { PageLoading } from "@/components/loading/PageLoading";
 import { Contribution } from "./components/Contribution";
-import { Container } from "@mantine/core";
+import { Button, Container } from "@mantine/core";
 
 export function MCEditContributionsRoute() {
   const { id = "" } = useParams();
+  const navigate = useNavigate();
 
   const { data, isPending } = useGetContribution(id);
   const updateMutation = useUpdateContributionStatus();
@@ -35,6 +36,9 @@ export function MCEditContributionsRoute() {
 
   return (
     <Container size="sm" py="20px">
+      <Button onClick={() => navigate(-1)} my="md">
+        Back
+      </Button>
       <Contribution
         loading={updateMutation.isPending}
         commenting={commentMutation.isPending}

@@ -65,3 +65,9 @@ export function commentContribution({
     comment,
   });
 }
+
+export function downloadSelectedContributions() {
+  return apiClient.get(`/contribution/download-selected`, {
+    responseType: "blob",
+  });
+}

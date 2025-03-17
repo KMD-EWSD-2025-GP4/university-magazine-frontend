@@ -23,6 +23,9 @@ import {
 import { useMemo } from "react";
 import { Link, useSearchParams } from "react-router";
 import { useGetMCContributions } from "./queries";
+import { downloadSelectedContributions } from "@/services/contribution";
+import { Can } from "@/components/core";
+import { roles } from "@/configs/rbac";
 
 const defaultMRTOptions = getDefaultMRTOptions<ContributionDetailType>();
 
@@ -141,10 +144,18 @@ export function MCContributionsRoute() {
         />
 
         <Button onClick={() => setSearchParams({})}>Refresh</Button>
-
-        <Button ml="auto" onClick={() => {}} variant="outline" color="gray">
-          Export CSV
-        </Button>
+        <Can roles={[roles.marketing_manager]}>
+          <Button
+            ml="auto"
+            onClick={() => {
+              downloadSelectedContributions();
+            }}
+            variant="outline"
+            color="gray"
+          >
+            Download Zip
+          </Button>
+        </Can>
       </Group>
     ),
   });
