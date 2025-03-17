@@ -27,7 +27,7 @@ export function ContributionsRoute() {
             />
           ))}
 
-          {contributions.length === 0 && (
+          {contributions?.length === 0 && (
             <Text ta="center" py="120px">
               No Contribution Found!
             </Text>

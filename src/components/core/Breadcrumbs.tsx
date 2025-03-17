@@ -14,7 +14,7 @@ export function Breadcrumbs() {
     return [menu];
   });
 
-  if (paths.length < 2) {
+  if (paths?.length < 2) {
     return null;
   }
 
