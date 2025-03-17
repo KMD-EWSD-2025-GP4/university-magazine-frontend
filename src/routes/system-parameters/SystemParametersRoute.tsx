@@ -17,8 +17,7 @@ import {
   Select,
   Flex,
   Breadcrumbs,
-  Anchor
-
+  Anchor,
 } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { Link } from "react-router";
@@ -92,7 +91,7 @@ export function SystemParametersRoute() {
   };
 
   const handleExportCSV = () => {
-    if (filteredFaculties.length === 0) {
+    if (filteredFaculties?.length === 0) {
       alert("No data available to export.");
       return;
     }
@@ -207,11 +206,11 @@ export function SystemParametersRoute() {
   return (
     <Stack gap="xl" p="xl">
       <Breadcrumbs mb="md">
-              <Anchor component={Link} to="/d/system-param/faculty">
-                System Parameters
-              </Anchor>
-              <Text>Faculty</Text>
-            </Breadcrumbs>
+        <Anchor component={Link} to="/d/system-param/faculty">
+          System Parameters
+        </Anchor>
+        <Text>Faculty</Text>
+      </Breadcrumbs>
       <Group justify="space-between">
         <Text size="26px" component="h1" fw={700}>
           Faculty Management

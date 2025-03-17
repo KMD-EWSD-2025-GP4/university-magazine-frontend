@@ -26,7 +26,7 @@ export function TermsAndConditions() {
 
   // Load existing terms if available
   useEffect(() => {
-    if (Array.isArray(termsData) && termsData.length > 0) {
+    if (Array.isArray(termsData) && termsData?.length > 0) {
       setTerms(termsData[0].content);
       setIsEditing(true);
     }
@@ -47,7 +47,7 @@ export function TermsAndConditions() {
         isEditing &&
         termsData &&
         Array.isArray(termsData) &&
-        termsData.length > 0
+        termsData?.length > 0
       ) {
         await updateTermsMutation.mutateAsync({
           id: termsData[0].id,
