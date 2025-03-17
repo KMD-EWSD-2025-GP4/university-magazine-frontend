@@ -21,6 +21,8 @@ import {
 import {
   ContributionsRoute,
   EditContributionsRoute,
+  MCContributionsRoute,
+  MCEditContributionsRoute,
   MyContributionsRoute,
   NewContributionRoute,
 } from "@/routes/contributions";
@@ -85,6 +87,14 @@ export const router = createBrowserRouter(
         <Route
           path={routes["contribution-details"]}
           element={<ContributionDetailsRoute />}
+        />
+        <Route
+          path={routes["mc-contributions"]}
+          element={<MCContributionsRoute />}
+        />
+        <Route
+          path={routes["mc-update-contributions"]}
+          element={<MCEditContributionsRoute />}
         />
       </Route>
     </Route>

@@ -1,6 +1,7 @@
+import { UserAvatar } from "@/components/UserAvatar";
 import { CalendarIcon3 } from "@/icons/CalendarIcon3";
 import { useUserStore } from "@/store/useUser";
-import { Avatar, Paper, Stack, Text } from "@mantine/core";
+import { Paper, Stack, Text } from "@mantine/core";
 
 export function LeftPanel() {
   const user = useUserStore((state) => state.user);
@@ -18,11 +19,7 @@ export function LeftPanel() {
 
       <Paper shadow="lg" radius="md">
         <Stack p="20px" align="center" gap="sm">
-          <Avatar color="gray" radius="100%" size="xl">
-            {`${user?.username?.split(" ")[0][0]}${
-              user?.username?.split(" ")?.[1]?.[0]
-            }`}
-          </Avatar>
+          <UserAvatar name={user?.username || ""} />
 
           <Text size="sm" w="20ch" ta="center">
             {user?.username}

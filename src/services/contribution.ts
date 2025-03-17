@@ -15,6 +15,11 @@ export async function getContributions(pageParam: unknown) {
   return res.data;
 }
 
+export async function getMCContributions() {
+  const res = await apiClient.get(`/contribution/faculty/all`);
+  return res.data;
+}
+
 export async function getMyContribution(pageParam: unknown) {
   console.log("pageParam", pageParam);
   const res = await apiClient.get<GetMyContributionsResponseType>(
@@ -35,4 +40,34 @@ export function updateContribution({
   data: ContributionType;
 }) {
   return apiClient.put(`/contribution/${id}`, data);
+}
+
+export function updateContributionStatus({
+  id,
+  status,
+}: {
+  id: string;
+  status: "selected" | "rejected";
+}) {
+  return apiClient.put(`/contribution/${id}/status`, {
+    status,
+  });
+}
+
+export function commentContribution({
+  id,
+  comment,
+}: {
+  id: string;
+  comment: string;
+}) {
+  return apiClient.post(`/contribution/${id}/comment`, {
+    comment,
+  });
+}
+
+export function downloadSelectedContributions() {
+  return apiClient.get(`/contribution/download-selected`, {
+    responseType: "blob",
+  });
 }

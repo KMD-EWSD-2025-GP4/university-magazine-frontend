@@ -21,6 +21,8 @@ export const routes = {
   "edit-contribution": "/contributions/:id/edit",
   "my-contributions": "/contributions/my",
   "contribution-details": "/contributions/:id",
+  "mc-contributions": "/mc/contributions",
+  "mc-update-contributions": "/mc/contributions/:id",
 };
 
 export const menus = {
@@ -116,7 +118,7 @@ export const defaultRoutes = {
   [roles.admin]: routes["user-management"],
   [roles.student]: routes.contributions,
   [roles.guest]: routes.contributions,
-  [roles.marketing_coordinator]: routes.dashboard,
+  [roles.marketing_coordinator]: routes["mc-contributions"],
 };
 
 export const loginRoutes = {
