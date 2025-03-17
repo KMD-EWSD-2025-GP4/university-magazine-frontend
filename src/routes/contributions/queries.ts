@@ -2,6 +2,7 @@ import { routes } from "@/configs/menus";
 import { contributionsKeys } from "@/configs/query-keys";
 import { ContributionType } from "@/configs/schemas";
 import {
+  commentContribution,
   createContribution,
   getContribution,
   getContributions,
@@ -107,6 +108,23 @@ export function useUpdateContributionStatus() {
         message: res.data?.message || "Contribution updated successfully",
       });
       navigate(routes["mc-contributions"]);
+    },
+  });
+}
+
+export function useCommentContribution(id: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data: { id: string; comment: string }) =>
+      commentContribution(data),
+    onSuccess: () => {
+      showNotification({
+        title: "Success!",
+        message: "Comment added successfully",
+      });
+      queryClient.invalidateQueries({
+        queryKey: contributionsKeys.details(id),
+      });
     },
   });
 }

@@ -35,7 +35,7 @@ export function MCContributionsRoute() {
 
   const filteredData = useMemo(() => {
     return (
-      data?.items.filter((item: ContributionDetailType) => {
+      data?.items?.filter((item: ContributionDetailType) => {
         if (status && item?.status?.toLowerCase() !== status?.toLowerCase()) {
           return false;
         }

@@ -53,3 +53,15 @@ export function updateContributionStatus({
     status,
   });
 }
+
+export function commentContribution({
+  id,
+  comment,
+}: {
+  id: string;
+  comment: string;
+}) {
+  return apiClient.post(`/contribution/${id}/comment`, {
+    comment,
+  });
+}

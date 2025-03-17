@@ -194,6 +194,11 @@ export type ContributionDetailType = ContributionType & {
     filePath: string;
   }[];
   updatedAt: string;
+  comments: {
+    by: string;
+    content: string;
+    createdAt: string;
+  }[];
 };
 
 export type GetMyContributionsResponseType = {

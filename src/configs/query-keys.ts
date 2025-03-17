@@ -28,4 +28,5 @@ export const contributionsKeys = {
   list: (id: number | string) => [...usersKeys.lists(), { id }],
   myLists: () => [...usersKeys.lists(), "my"],
   mcLists: () => [...usersKeys.lists(), "mc"],
+  details: (id: number | string) => [...usersKeys.lists(), { id }],
 };
