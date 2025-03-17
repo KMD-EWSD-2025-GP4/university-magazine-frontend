@@ -1,46 +1,29 @@
 import { useParams } from "react-router";
-import { useGetContribution, useUpdateContribution } from "./queries";
+import { useGetContribution, useUpdateContributionStatus } from "./queries";
 import { PageLoading } from "@/components/loading/PageLoading";
-import { ContributionType } from "@/configs/schemas";
-import { ContributionForm } from "./components/ContributionForm";
+import { Contribution } from "./components/Contribution";
+import { Container } from "@mantine/core";
 
 export function MCEditContributionsRoute() {
   const { id = "" } = useParams();
 
   const { data, isPending } = useGetContribution(id);
-  const updateMutation = useUpdateContribution();
+  const updateMutation = useUpdateContributionStatus();
+
+  const handleSubmit = (status: "selected" | "rejected") => {
+    updateMutation.mutate({
+      id,
+      status,
+    });
+  };
 
   if (isPending) {
     return <PageLoading />;
   }
 
-  const onSubmit = (data: ContributionType) => {
-    updateMutation.mutate({
-      id,
-      data,
-    });
-  };
-
-  const articles = data?.assets.filter((a) => a.type === "article");
-  const images = data?.assets.filter((a) => a.type === "image");
-
   return (
-    <div>
-      <ContributionForm
-        loading={updateMutation.isPending}
-        handleSubmit={onSubmit}
-        initialValues={{
-          article: {
-            path: articles && articles?.length > 0 ? articles[0].filePath : "",
-          },
-          images:
-            images?.map((i) => ({
-              path: i.filePath,
-            })) || [],
-          title: data?.title || "",
-          description: data?.description || "",
-        }}
-      />
-    </div>
+    <Container size="sm" py="20px">
+      <Contribution contribution={data!} detailed onUpdate={handleSubmit} />
+    </Container>
   );
 }

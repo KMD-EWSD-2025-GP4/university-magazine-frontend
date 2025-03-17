@@ -41,3 +41,15 @@ export function updateContribution({
 }) {
   return apiClient.put(`/contribution/${id}`, data);
 }
+
+export function updateContributionStatus({
+  id,
+  status,
+}: {
+  id: string;
+  status: "selected" | "rejected";
+}) {
+  return apiClient.put(`/contribution/${id}/status`, {
+    status,
+  });
+}

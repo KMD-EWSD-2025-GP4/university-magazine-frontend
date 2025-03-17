@@ -60,7 +60,7 @@ export function NewFeedLayout() {
               size="sm"
               onClick={() => {
                 handleLogout(() => {
-                  navigate("/login");
+                  navigate("/");
                   showNotification({
                     title: "Logout Success!",
                     message: "You have successfully logged out.",

@@ -8,6 +8,7 @@ import {
   getMCContributions,
   getMyContribution,
   updateContribution,
+  updateContributionStatus,
 } from "@/services/contribution";
 import { showNotification } from "@mantine/notifications";
 import {
@@ -65,7 +66,7 @@ export function useGetMyContributions() {
 
 export function useGetMCContributions() {
   return useQuery({
-    queryKey: contributionsKeys.myLists(),
+    queryKey: contributionsKeys.mcLists(),
     queryFn: getMCContributions,
   });
 }
@@ -86,6 +87,26 @@ export function useUpdateContribution() {
         message: res.data?.message || "Contribution updated successfully",
       });
       navigate(routes["my-contributions"]);
+    },
+  });
+}
+
+export function useUpdateContributionStatus() {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: { id: string; status: "selected" | "rejected" }) =>
+      updateContributionStatus(data),
+    onSuccess: (res) => {
+      queryClient.invalidateQueries({
+        queryKey: contributionsKeys.lists(),
+      });
+      showNotification({
+        title: "Success!",
+        message: res.data?.message || "Contribution updated successfully",
+      });
+      navigate(routes["mc-contributions"]);
     },
   });
 }

@@ -17,23 +17,51 @@ import { Can } from "@/components/core";
 import { roles } from "@/configs/rbac";
 import { Link } from "react-router";
 import { DownloadIcon } from "@/icons";
+import { useUserStore } from "@/store/useUser";
+import { modals } from "@mantine/modals";
 
 export function Contribution({
   authored,
   contribution,
   detailed,
+  onUpdate,
+  loading,
 }: {
   contribution: ContributionDetailType;
   authored?: boolean;
   detailed?: boolean;
+  loading?: boolean;
+  onUpdate?: (status: "selected" | "rejected") => void;
 }) {
+  const user = useUserStore((state) => state.user);
   const images = contribution.assets.filter((a) => a.type === "image");
+
+  const handleUpdateStatus = (status: "selected" | "rejected") => {
+    modals.openConfirmModal({
+      title: "Update Status",
+      centered: true,
+      children: (
+        <Text size="sm">
+          Are you sure you want to update the status of this contribution to{" "}
+          <b>{status}</b>?
+        </Text>
+      ),
+      labels: { confirm: "Yes", cancel: "No" },
+      confirmProps: { color: "red" },
+      onConfirm: () => {
+        onUpdate?.(status);
+      },
+    });
+  };
+
   return (
     <Paper shadow={detailed ? "none" : "md"} p="lg">
       <Stack gap="xl">
         <Group align="center" gap="lg">
           <Avatar color="gray" radius="100%" size="xl">
-            {contribution.studentName || "PW"}
+            {`${contribution.studentName?.split(" ")[0][0]}${
+              contribution.studentName?.split(" ")?.[1]?.[0] || ""
+            }`}
           </Avatar>
 
           <Stack gap="xs">
@@ -125,18 +153,6 @@ export function Contribution({
               </Button>
             </Can>
 
-            {/* <Button
-              component={NavLink}
-              to={`/contributions/${contribution.id}`}
-              leftSection={<ThreeDotsIcon />}
-              variant="light"
-              flex={1}
-              h="44px"
-              fw={400}
-            >
-              More
-            </Button> */}
-
             <Menu shadow="md" width={200}>
               <Menu.Target>
                 <Button
@@ -169,6 +185,30 @@ export function Contribution({
               </Menu.Dropdown>
             </Menu>
           </Group>
+        )}
+
+        {user?.role === roles.marketing_coordinator && (
+          <>
+            <Group gap="xl">
+              <Button
+                flex={1}
+                variant="outline"
+                color="dark"
+                onClick={() => handleUpdateStatus("rejected")}
+                disabled={loading}
+              >
+                Reject
+              </Button>
+              <Button
+                flex={1}
+                color="primary"
+                onClick={() => handleUpdateStatus("selected")}
+                disabled={loading}
+              >
+                Select
+              </Button>
+            </Group>
+          </>
         )}
       </Stack>
     </Paper>
