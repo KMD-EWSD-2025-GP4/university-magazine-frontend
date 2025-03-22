@@ -7,12 +7,12 @@ import {
   Textarea,
   Text,
   Title,
-  Breadcrumbs,
-  Anchor,
+  // Breadcrumbs,
+  // Anchor,
   Loader,
 } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
-import { useNavigate, Link } from "react-router";
+import { useNavigate } from "react-router";
 import { useGetTerms, useCreateTerms, useUpdateTerms } from "./queries";
 
 export function TermsAndConditions() {
@@ -90,12 +90,12 @@ export function TermsAndConditions() {
 
   return (
     <Container size="md" mt="lg">
-      <Breadcrumbs mb="md">
+      {/* <Breadcrumbs mb="md">
         <Anchor component={Link} to="/d/system-param/faculty">
           System Parameters
         </Anchor>
         <Text>Terms & Conditions</Text>
-      </Breadcrumbs>
+      </Breadcrumbs> */}
 
       <Title order={2} mb="md">
         {isEditing ? "Edit Terms & Conditions" : "Register Terms & Conditions"}

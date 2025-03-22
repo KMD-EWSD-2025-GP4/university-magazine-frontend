@@ -16,8 +16,6 @@ import {
   TextInput,
   Select,
   Flex,
-  Breadcrumbs,
-  Anchor,
 } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { Link } from "react-router";
@@ -32,7 +30,7 @@ const defaultMRTOptions = getDefaultMRTOptions<FacultyType>();
 
 export function SystemParametersRoute() {
   const queryClient = useQueryClient();
-  const { data = [], isPending, isError } = useGetFaculties();
+  const { data = [], isPending, isError, refetch } = useGetFaculties();
   const deleteFacultyMutation = useDeleteFaculty();
 
   const getParamValue = (key: string) =>
@@ -42,6 +40,20 @@ export function SystemParametersRoute() {
   const [searchStatus, setSearchStatus] = useState(
     getParamValue("searchStatus")
   );
+
+  const [facultyList, setFacultyList] = useState<FacultyType[]>([]);
+
+  useEffect(() => {
+    const list = Array.isArray(data) ? data : data?.faculties ?? [];
+    setFacultyList(list);
+  }, [data]);
+
+  const handleRefresh = () => {
+    setSearchName("");
+    setSearchStatus("");
+    queryClient.invalidateQueries({ queryKey: ["faculties"] });
+    refetch();
+  };
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -53,8 +65,6 @@ export function SystemParametersRoute() {
 
     window.history.replaceState({}, "", `?${params.toString()}`);
   }, [searchName, searchStatus]);
-
-  const facultyList = Array.isArray(data) ? data : data?.faculties ?? [];
 
   const filteredFaculties = useMemo(() => {
     return facultyList.filter((faculty) => {
@@ -83,6 +93,8 @@ export function SystemParametersRoute() {
       onConfirm: () => {
         deleteFacultyMutation.mutate(facultyId, {
           onSuccess: () => {
+            // ✅ Remove from UI list
+            setFacultyList((prev) => prev.filter((f) => f.id !== facultyId));
             queryClient.invalidateQueries({ queryKey: ["faculties"] });
           },
         });
@@ -112,55 +124,51 @@ export function SystemParametersRoute() {
     document.body.removeChild(link);
   };
 
-  const columns = useMemo<MRT_ColumnDef<FacultyType>[]>(
-    () => [
-      {
-        accessorKey: "name",
-        header: "Faculty Name",
+  const columns = useMemo<MRT_ColumnDef<FacultyType>[]>(() => [
+    {
+      accessorKey: "name",
+      header: "Faculty Name",
+    },
+    {
+      accessorKey: "status",
+      header: "Status",
+      Cell: ({ cell }) => (
+        <Badge color={cell.getValue() === "active" ? "green" : "red"}>
+          {(cell.getValue() as string) ?? ""}
+        </Badge>
+      ),
+    },
+    {
+      header: "Actions",
+      accessorKey: "id",
+      Cell: ({ cell }) => {
+        const facultyId = cell.getValue() as string;
+        return (
+          <Menu shadow="md" width={200}>
+            <Menu.Target>
+              <ActionIcon variant="transparent">
+                <ThreeDotsIcon />
+              </ActionIcon>
+            </Menu.Target>
+            <Menu.Dropdown>
+              <Menu.Item
+                component={Link}
+                to={routes["details-faculty"].replace(":id", facultyId)}
+              >
+                View Details
+              </Menu.Item>
+              <Menu.Item
+                color="red"
+                onClick={() => handleDeleteFaculty(facultyId)}
+              >
+                Delete
+              </Menu.Item>
+            </Menu.Dropdown>
+          </Menu>
+        );
       },
-      {
-        accessorKey: "status",
-        header: "Status",
-        Cell: ({ cell }) => (
-          <Badge color={cell.getValue() === "active" ? "green" : "red"}>
-            {(cell.getValue() as string) ?? ""}
-          </Badge>
-        ),
-      },
-      {
-        header: "Actions",
-        accessorKey: "id",
-        Cell: ({ cell }) => {
-          const facultyId = cell.getValue() as string;
-          return (
-            <Menu shadow="md" width={200}>
-              <Menu.Target>
-                <ActionIcon variant="transparent">
-                  <ThreeDotsIcon />
-                </ActionIcon>
-              </Menu.Target>
-
-              <Menu.Dropdown>
-                <Menu.Item
-                  component={Link}
-                  to={routes["details-faculty"].replace(":id", facultyId)}
-                >
-                  View Details
-                </Menu.Item>
-                <Menu.Item
-                  color="red"
-                  onClick={() => handleDeleteFaculty(facultyId)}
-                >
-                  Delete
-                </Menu.Item>
-              </Menu.Dropdown>
-            </Menu>
-          );
-        },
-      },
-    ],
-    [deleteFacultyMutation]
-  );
+    },
+  ], [deleteFacultyMutation]);
 
   const table = useMantineReactTable({
     ...defaultMRTOptions,
@@ -184,6 +192,7 @@ export function SystemParametersRoute() {
             value={searchStatus}
             onChange={(value) => setSearchStatus(value || "")}
           />
+          <Button onClick={handleRefresh}>Refresh</Button>
         </Group>
 
         <Group gap="md">
@@ -205,12 +214,6 @@ export function SystemParametersRoute() {
 
   return (
     <Stack gap="xl" p="xl">
-      <Breadcrumbs mb="md">
-        <Anchor component={Link} to="/d/system-param/faculty">
-          System Parameters
-        </Anchor>
-        <Text>Faculty</Text>
-      </Breadcrumbs>
       <Group justify="space-between">
         <Text size="26px" component="h1" fw={700}>
           Faculty Management

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { useNavigate, useParams, Link } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import {
   Button,
   Container,
@@ -12,8 +12,8 @@ import {
   Text,
   TextInput,
   Title,
-  Breadcrumbs,
-  Anchor,
+  // Breadcrumbs,
+  // Anchor,
 } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 
@@ -102,12 +102,12 @@ export function DetailsFacultyRoute() {
   return (
     <Container size="sm" mt="lg">
       {/* Breadcrumbs */}
-      <Breadcrumbs mb="md">
+      {/* <Breadcrumbs mb="md">
         <Anchor component={Link} to="/d/system-param/faculty">
           Faculty List
         </Anchor>
         <Text>{isEditMode ? "Faculty Details" : "New Faculty"}</Text>
-      </Breadcrumbs>
+      </Breadcrumbs> */}
 
       <Title order={2} mb="md">
         {isEditMode ? "Detail Faculty" : "Add Faculty"}
