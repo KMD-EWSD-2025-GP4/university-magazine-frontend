@@ -33,7 +33,7 @@ import { DownloadIcon } from "@/icons";
 import { useUserStore } from "@/store/useUser";
 import { modals } from "@mantine/modals";
 import { UserAvatar } from "@/components/UserAvatar";
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { showNotification } from "@mantine/notifications";
 import { downloadFileFromUrl } from "@/services/contribution";
 
@@ -90,6 +90,16 @@ export function Contribution({
       });
       return;
     }
+
+    if (!(contribution.comments.length > 0) && user?.role === roles.student) {
+      showNotification({
+        title: "Warning",
+        message: "Student cannot start comments.",
+        color: "yellow",
+      });
+      return;
+    }
+
     onComment?.(comment);
     inputCommentRef.current!.value = "";
   };
@@ -105,6 +115,22 @@ export function Contribution({
     const encodedFileName = encodeURIComponent(fileUrl);
     navigate("/docs?url=" + encodedFileName);
   };
+
+  const enabledComment = useMemo(() => {
+    if (!detailed) {
+      return false;
+    }
+
+    if (user?.role === roles.marketing_coordinator) {
+      return true;
+    }
+
+    if (authored) {
+      return true;
+    }
+
+    return false;
+  }, [authored, detailed, user?.role]);
 
   return (
     <Paper shadow={detailed ? "none" : "md"} p="lg">
@@ -181,7 +207,7 @@ export function Contribution({
               pl={0}
               onClick={handleViewArticle}
             >
-              View article file 
+              View article file
             </Button>
 
             <Button
@@ -276,52 +302,54 @@ export function Contribution({
           </Group>
         )}
 
-        <Can roles={[roles.marketing_coordinator]}>
-          <Group align="start" gap={0} px="md">
-            <UserAvatar name={user?.username || ""} size="md" mr="md" />
-            <Textarea
-              placeholder="Write a comment"
-              flex={1}
-              minRows={2}
-              ref={inputCommentRef}
-            />
-            <ActionIcon
-              disabled={commenting}
-              aria-label="Send"
-              variant="subtle"
-              w={"52px"}
-              h={"52px"}
-              p={"sm"}
-              radius={"100%"}
-              ml="xs"
-              onClick={() => {
-                handleComment(inputCommentRef.current?.value || "");
-              }}
-            >
-              <PlaneIcon />
-            </ActionIcon>
-          </Group>
+        {enabledComment && (
+          <>
+            <Group align="start" gap={0} px="md">
+              <UserAvatar name={user?.username || ""} size="md" mr="md" />
+              <Textarea
+                placeholder="Write a comment"
+                flex={1}
+                minRows={2}
+                ref={inputCommentRef}
+              />
+              <ActionIcon
+                disabled={commenting}
+                aria-label="Send"
+                variant="subtle"
+                w={"52px"}
+                h={"52px"}
+                p={"sm"}
+                radius={"100%"}
+                ml="xs"
+                onClick={() => {
+                  handleComment(inputCommentRef.current?.value || "");
+                }}
+              >
+                <PlaneIcon />
+              </ActionIcon>
+            </Group>
 
-          <Group gap="xl">
-            <Button
-              flex={1}
-              variant="outline"
-              color="dark"
-              onClick={() => handleUpdateStatus("rejected")}
-              disabled={loading}
-            >
-              Reject
-            </Button>
-            <Button
-              flex={1}
-              color="primary"
-              onClick={() => handleUpdateStatus("selected")}
-              disabled={loading}
-            >
-              Select
-            </Button>
-          </Group>
-        </Can>
+            <Group gap="xl">
+              <Button
+                flex={1}
+                variant="outline"
+                color="dark"
+                onClick={() => handleUpdateStatus("rejected")}
+                disabled={loading}
+              >
+                Reject
+              </Button>
+              <Button
+                flex={1}
+                color="primary"
+                onClick={() => handleUpdateStatus("selected")}
+                disabled={loading}
+              >
+                Select
+              </Button>
+            </Group>
+          </>
+        )}
       </Stack>
     </Paper>
   );

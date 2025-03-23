@@ -4,11 +4,13 @@ import { encryptStorage } from "@/utils/encryptStore";
 import { RoleType } from "@/configs/rbac";
 
 interface User {
+  userId: string;
   role: RoleType;
   token: string;
   username: string;
   email: string;
   facultyName?: string;
+  firstTimeLogin?: boolean;
 }
 export interface UserState {
   user: User | undefined;
@@ -24,6 +26,7 @@ export const useUserStore = create<UserState, [["zustand/persist", unknown]]>(
       setUser: (usr) => {
         set({
           user: {
+            userId: usr?.userId,
             username: usr?.username,
             role: usr?.role,
             token: usr?.token,
@@ -35,7 +38,7 @@ export const useUserStore = create<UserState, [["zustand/persist", unknown]]>(
       removeUser: () => set({ user: undefined }),
     }),
     {
-      name: "storage", // name of the item in the storage (must be unique)
+      name: "auth", // name of the item in the storage (must be unique)
       storage: createJSONStorage(() => encryptStorage), // (optional) by default, 'localStorage' is used
     }
   )
