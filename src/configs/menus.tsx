@@ -23,6 +23,7 @@ export const routes = {
   "contribution-details": "/contributions/:id",
   "mc-contributions": "/mc/contributions",
   "mc-update-contributions": "/mc/contributions/:id",
+  "view-article": "/docs",
 };
 
 export const menus = {
@@ -104,6 +105,7 @@ export const adminRoutes = [
   routes["edit-academic-year"],
   routes["new-user"],
   routes["new-faculty"],
+  routes["view-article"],
 ];
 
 export const studentRoutes = [
@@ -112,6 +114,19 @@ export const studentRoutes = [
   routes["new-contribution"],
   routes["edit-contribution"],
   routes["contribution-details"],
+  routes["view-article"],
+];
+
+export const marketingCoordinatorRoutes = [
+  routes["mc-contributions"],
+  routes["mc-update-contributions"],
+  routes["view-article"],
+];
+
+export const marketingManagerRoutes = [
+  routes["mc-contributions"],
+  routes["mc-update-contributions"],
+  routes["view-article"],
 ];
 
 export const defaultRoutes = {

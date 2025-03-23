@@ -7,3 +7,11 @@
   width: 7px;
   height: 7px;
 }
+
+#react-doc-viewer {
+  scrollbar-width: none;
+}
+
+#react-doc-viewer #msdoc-renderer {
+  height: calc(100vh) !important;
+}
