@@ -35,6 +35,7 @@ import { modals } from "@mantine/modals";
 import { UserAvatar } from "@/components/UserAvatar";
 import { useRef, useState } from "react";
 import { showNotification } from "@mantine/notifications";
+import { downloadFileFromUrl } from "@/services/contribution";
 
 export function Contribution({
   authored,
@@ -57,6 +58,7 @@ export function Contribution({
   const inputCommentRef = useRef<HTMLTextAreaElement>(null);
   const user = useUserStore((state) => state.user);
   const images = contribution?.assets?.filter((a) => a.type === "image") || [];
+  const articles = contribution?.assets.filter((a) => a.type === "article");
 
   const handleUpdateStatus = (status: "selected" | "rejected") => {
     modals.openConfirmModal({
@@ -88,6 +90,18 @@ export function Contribution({
     }
     onComment?.(comment);
     inputCommentRef.current!.value = "";
+  };
+
+  const downloadAllImages = () => {
+    images.forEach((image) => {
+      downloadFileFromUrl(image.url, image.filePath);
+    });
+  };
+
+  const downloadAllArticles = () => {
+    articles.forEach((article) => {
+      downloadFileFromUrl(article.url, article.filePath);
+    });
   };
 
   return (
@@ -151,6 +165,7 @@ export function Contribution({
               justify="start"
               ta="start"
               pl={0}
+              onClick={downloadAllImages}
             >
               Download image files
             </Button>
@@ -162,6 +177,7 @@ export function Contribution({
               justify="start"
               ta="start"
               pl={0}
+              onClick={downloadAllArticles}
             >
               Download article files
             </Button>

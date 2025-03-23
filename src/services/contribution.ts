@@ -76,7 +76,6 @@ export async function downloadSelectedContributions() {
     responseType: "blob",
   });
   console.log("res", res);
-  // save to device
   const url = window.URL.createObjectURL(res.data);
   const link = document.createElement("a");
   link.href = url;
@@ -85,4 +84,18 @@ export async function downloadSelectedContributions() {
   window.URL.revokeObjectURL(url);
   link.remove();
   return res.data;
+}
+
+export async function downloadFileFromUrl(fileUrl: string, filename: string) {
+  fetch(fileUrl)
+    .then((response) => response.blob())
+    .then((blob) => {
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    })
+    .catch(console.error);
 }
