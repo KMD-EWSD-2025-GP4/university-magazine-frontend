@@ -20,6 +20,11 @@ export async function getMCContributions() {
   return res.data;
 }
 
+export async function getMMContributions() {
+  const res = await apiClient.get(`/contribution/all`);
+  return res.data;
+}
+
 export async function getMyContribution(pageParam: unknown) {
   console.log("pageParam", pageParam);
   const res = await apiClient.get<GetMyContributionsResponseType>(
@@ -66,8 +71,18 @@ export function commentContribution({
   });
 }
 
-export function downloadSelectedContributions() {
-  return apiClient.get(`/contribution/download-selected`, {
+export async function downloadSelectedContributions() {
+  const res = await apiClient.get(`/contribution/download-selected`, {
     responseType: "blob",
   });
+  console.log("res", res);
+  // save to device
+  const url = window.URL.createObjectURL(res.data);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "selected-contributions.zip";
+  link.click();
+  window.URL.revokeObjectURL(url);
+  link.remove();
+  return res.data;
 }

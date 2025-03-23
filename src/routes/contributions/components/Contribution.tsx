@@ -56,7 +56,7 @@ export function Contribution({
   const [showComment, setShowComment] = useState(false);
   const inputCommentRef = useRef<HTMLTextAreaElement>(null);
   const user = useUserStore((state) => state.user);
-  const images = contribution.assets?.filter((a) => a.type === "image") || [];
+  const images = contribution?.assets?.filter((a) => a.type === "image") || [];
 
   const handleUpdateStatus = (status: "selected" | "rejected") => {
     modals.openConfirmModal({
@@ -258,54 +258,52 @@ export function Contribution({
           </Group>
         )}
 
-        {user?.role === roles.marketing_coordinator && (
-          <>
-            <Group align="start" gap={0} px="md">
-              <UserAvatar name={user?.username || ""} size="md" mr="md" />
-              <Textarea
-                placeholder="Write a comment"
-                flex={1}
-                minRows={2}
-                ref={inputCommentRef}
-              />
-              <ActionIcon
-                disabled={commenting}
-                aria-label="Send"
-                variant="subtle"
-                w={"52px"}
-                h={"52px"}
-                p={"sm"}
-                radius={"100%"}
-                ml="xs"
-                onClick={() => {
-                  handleComment(inputCommentRef.current?.value || "");
-                }}
-              >
-                <PlaneIcon />
-              </ActionIcon>
-            </Group>
+        <Can roles={[roles.marketing_coordinator]}>
+          <Group align="start" gap={0} px="md">
+            <UserAvatar name={user?.username || ""} size="md" mr="md" />
+            <Textarea
+              placeholder="Write a comment"
+              flex={1}
+              minRows={2}
+              ref={inputCommentRef}
+            />
+            <ActionIcon
+              disabled={commenting}
+              aria-label="Send"
+              variant="subtle"
+              w={"52px"}
+              h={"52px"}
+              p={"sm"}
+              radius={"100%"}
+              ml="xs"
+              onClick={() => {
+                handleComment(inputCommentRef.current?.value || "");
+              }}
+            >
+              <PlaneIcon />
+            </ActionIcon>
+          </Group>
 
-            <Group gap="xl">
-              <Button
-                flex={1}
-                variant="outline"
-                color="dark"
-                onClick={() => handleUpdateStatus("rejected")}
-                disabled={loading}
-              >
-                Reject
-              </Button>
-              <Button
-                flex={1}
-                color="primary"
-                onClick={() => handleUpdateStatus("selected")}
-                disabled={loading}
-              >
-                Select
-              </Button>
-            </Group>
-          </>
-        )}
+          <Group gap="xl">
+            <Button
+              flex={1}
+              variant="outline"
+              color="dark"
+              onClick={() => handleUpdateStatus("rejected")}
+              disabled={loading}
+            >
+              Reject
+            </Button>
+            <Button
+              flex={1}
+              color="primary"
+              onClick={() => handleUpdateStatus("selected")}
+              disabled={loading}
+            >
+              Select
+            </Button>
+          </Group>
+        </Can>
       </Stack>
     </Paper>
   );
