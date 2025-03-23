@@ -34,6 +34,7 @@ import { useUserStore } from "@/store/useUser";
 import { modals } from "@mantine/modals";
 import { UserAvatar } from "@/components/UserAvatar";
 import { useRef, useState } from "react";
+import { showNotification } from "@mantine/notifications";
 
 export function Contribution({
   authored,
@@ -76,6 +77,15 @@ export function Contribution({
   };
 
   const handleComment = (comment: string) => {
+    const commentTrimmed = comment.trim();
+    if (!commentTrimmed) {
+      showNotification({
+        title: "Warning",
+        message: "Please enter a comment before submitting.",
+        color: "yellow",
+      });
+      return;
+    }
     onComment?.(comment);
     inputCommentRef.current!.value = "";
   };
