@@ -132,8 +132,6 @@ export function Contribution({
     return false;
   }, [authored, detailed, user?.role]);
 
-  console.log("enabledComment", enabledComment);
-
   return (
     <Paper shadow={detailed ? "none" : "md"} p="lg">
       <Stack gap="xl">
