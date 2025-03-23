@@ -28,6 +28,7 @@ import {
 } from "@/routes/contributions";
 import { TermsAndConditions } from "@/routes/term-conditions/TermsAndConditions";
 import ContributionDetailsRoute from "@/routes/contributions/ContributionDetailsRoute";
+import { ArticleDetailRoute } from "@/routes/articles";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -97,6 +98,8 @@ export const router = createBrowserRouter(
           element={<MCEditContributionsRoute />}
         />
       </Route>
+
+      <Route path={routes["view-article"]} element={<ArticleDetailRoute />} />
     </Route>
   )
 );

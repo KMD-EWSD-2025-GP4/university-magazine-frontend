@@ -28,7 +28,7 @@ import { ContributionDetailType } from "@/configs/schemas";
 import { formatRelativeTime } from "@/utils/dates";
 import { Can } from "@/components/core";
 import { roles } from "@/configs/rbac";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { DownloadIcon } from "@/icons";
 import { useUserStore } from "@/store/useUser";
 import { modals } from "@mantine/modals";
@@ -54,11 +54,13 @@ export function Contribution({
   onComment?: (comment: string) => void;
   commenting?: boolean;
 }) {
+  const navigate = useNavigate();
   const [showComment, setShowComment] = useState(false);
   const inputCommentRef = useRef<HTMLTextAreaElement>(null);
   const user = useUserStore((state) => state.user);
   const images = contribution?.assets?.filter((a) => a.type === "image") || [];
-  const articles = contribution?.assets.filter((a) => a.type === "article");
+  const articles =
+    contribution?.assets.filter((a) => a.type === "article") || [];
 
   const handleUpdateStatus = (status: "selected" | "rejected") => {
     modals.openConfirmModal({
@@ -98,10 +100,10 @@ export function Contribution({
     });
   };
 
-  const downloadAllArticles = () => {
-    articles.forEach((article) => {
-      downloadFileFromUrl(article.url, article.filePath);
-    });
+  const handleViewArticle = () => {
+    const fileUrl = articles[0].url;
+    const encodedFileName = encodeURIComponent(fileUrl);
+    navigate("/docs?url=" + encodedFileName);
   };
 
   return (
@@ -177,9 +179,9 @@ export function Contribution({
               justify="start"
               ta="start"
               pl={0}
-              onClick={downloadAllArticles}
+              onClick={handleViewArticle}
             >
-              Download article files
+              View article file 
             </Button>
 
             <Button
