@@ -18,6 +18,7 @@ export function useLogin() {
         message: "You have successfully logged in.",
       });
       setUser({
+        userId: res.data.user.id,
         username: res.data.user.name,
         role: res.data.user.role as RoleType,
         token: res.data.token,

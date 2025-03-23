@@ -199,6 +199,7 @@ export type ContributionDetailType = ContributionType & {
     content: string;
     createdAt: string;
   }[];
+  studentId: string;
 };
 
 export type GetMyContributionsResponseType = {
