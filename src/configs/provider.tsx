@@ -92,6 +92,9 @@ export function Provider({ children }: { children: ReactNode }) {
           }
         },
       },
+      queries: {
+        retry: 2,
+      },
     },
   });
 

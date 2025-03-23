@@ -1,5 +1,6 @@
 import { routes } from "@/configs/menus";
 import { contributionsKeys } from "@/configs/query-keys";
+import { roles } from "@/configs/rbac";
 import { ContributionType } from "@/configs/schemas";
 import {
   commentContribution,
@@ -7,10 +8,12 @@ import {
   getContribution,
   getContributions,
   getMCContributions,
+  getMMContributions,
   getMyContribution,
   updateContribution,
   updateContributionStatus,
 } from "@/services/contribution";
+import { useUserStore } from "@/store/useUser";
 import { showNotification } from "@mantine/notifications";
 import {
   useInfiniteQuery,
@@ -66,9 +69,14 @@ export function useGetMyContributions() {
 }
 
 export function useGetMCContributions() {
+  const user = useUserStore((state) => state.user);
   return useQuery({
     queryKey: contributionsKeys.mcLists(),
-    queryFn: getMCContributions,
+    queryFn:
+      user?.role === roles.marketing_manager
+        ? getMMContributions
+        : getMCContributions,
+    enabled: Boolean(user?.role),
   });
 }
 

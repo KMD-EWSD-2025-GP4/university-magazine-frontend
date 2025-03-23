@@ -119,6 +119,7 @@ export const defaultRoutes = {
   [roles.student]: routes.contributions,
   [roles.guest]: routes.contributions,
   [roles.marketing_coordinator]: routes["mc-contributions"],
+  [roles.marketing_manager]: routes["mc-contributions"],
 };
 
 export const loginRoutes = {
