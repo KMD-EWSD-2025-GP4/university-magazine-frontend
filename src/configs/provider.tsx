@@ -18,6 +18,7 @@ import "../global.css";
 import relativeTime from "dayjs/plugin/relativeTime";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
+import isBetween from "dayjs/plugin/isBetween";
 import dayjs from "dayjs";
 
 const theme = createTheme({
@@ -62,6 +63,7 @@ const theme = createTheme({
   },
 });
 
+dayjs.extend(isBetween);
 dayjs.extend(relativeTime);
 dayjs.extend(isSameOrAfter);
 dayjs.extend(isSameOrBefore);

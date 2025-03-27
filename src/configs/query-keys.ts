@@ -18,16 +18,16 @@ export const termsKeys = {
 
 export const academicYearsKeys = {
   all: ["academic-years"],
-  lists: () => [...usersKeys.all, "list"],
+  lists: () => [...academicYearsKeys.all, "list"],
   list: (id: number | string) => [...usersKeys.lists(), { id }],
 };
 
 export const contributionsKeys = {
   all: ["contributions"],
-  lists: () => [...usersKeys.all, "list"],
-  list: (id: number | string) => [...usersKeys.lists(), { id }],
-  myLists: () => [...usersKeys.lists(), "my"],
-  mcLists: () => [...usersKeys.lists(), "mc"],
-  mmLists: () => [...usersKeys.lists(), "mm"],
-  details: (id: number | string) => [...usersKeys.lists(), { id }],
+  lists: () => [...contributionsKeys.all, "list"],
+  list: (id: number | string) => [...contributionsKeys.lists(), { id }],
+  myLists: () => [...contributionsKeys.lists(), "my"],
+  mcLists: () => [...contributionsKeys.lists(), "mc"],
+  mmLists: () => [...contributionsKeys.lists(), "mm"],
+  details: (id: number | string) => [...contributionsKeys.lists(), { id }],
 };
