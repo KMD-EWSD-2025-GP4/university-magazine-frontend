@@ -9,7 +9,7 @@ export function Can({
   roles: RoleType[];
   children: ReactNode;
 }) {
-  const userRole = useUserStore((state) => state.user!.role);
+  const userRole = useUserStore((state) => state.user?.role) || "guest";
 
   if (roles.includes(userRole)) {
     return children;

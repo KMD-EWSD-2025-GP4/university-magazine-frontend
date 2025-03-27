@@ -38,7 +38,7 @@ export function deleteFaculty(facultyId: string) {
 
 // Terms & conditions
 export function getTerms() {
-  return apiClient.get<{ faculties: GetTermsResponseType[] }>("academic/term");
+  return apiClient.get<GetTermsResponseType[]>("academic/term");
 }
 
 export function getTermsById(id: string) {

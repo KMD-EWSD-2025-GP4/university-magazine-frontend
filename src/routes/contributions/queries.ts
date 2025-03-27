@@ -2,6 +2,7 @@ import { routes } from "@/configs/menus";
 import { contributionsKeys } from "@/configs/query-keys";
 import { roles } from "@/configs/rbac";
 import { ContributionType } from "@/configs/schemas";
+import { getTerms } from "@/services/common";
 import {
   commentContribution,
   createContribution,
@@ -55,7 +56,7 @@ export function useGetContributions() {
     queryKey: contributionsKeys.lists(),
     queryFn: async ({ pageParam }) => getContributions(pageParam),
     initialPageParam: 0,
-    getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
+    getNextPageParam: (lastPage) => lastPage?.nextCursor ?? undefined,
   });
 }
 
@@ -64,7 +65,7 @@ export function useGetMyContributions() {
     queryKey: contributionsKeys.myLists(),
     queryFn: async ({ pageParam }) => getMyContribution(pageParam),
     initialPageParam: 0,
-    getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
+    getNextPageParam: (lastPage) => lastPage?.nextCursor ?? undefined,
   });
 }
 
@@ -134,5 +135,11 @@ export function useCommentContribution(id: string) {
         queryKey: contributionsKeys.details(id),
       });
     },
+  });
+}
+
+export function useGetTerms() {
+  return useMutation({
+    mutationFn: getTerms,
   });
 }
