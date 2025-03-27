@@ -18,6 +18,10 @@ import { showNotification } from "@mantine/notifications";
 import { uploadFile } from "@/services/common";
 import { XIcon } from "@/icons";
 import usePrompt from "@/hooks/usePrompt";
+import { TermsAndConditionsDialog } from "./TermsAndConditionsDialog";
+import { useGetTerms } from "../queries";
+import { useUserStore } from "@/store/useUser";
+import { useState } from "react";
 
 type ContributionProps = {
   create?: boolean;
@@ -32,6 +36,10 @@ export function ContributionForm({
   initialValues,
   handleSubmit,
 }: ContributionProps) {
+  const [terms, setTerms] = useState("");
+  const [openedTerms, setOpenedTerms] = useState(false);
+  const { acceptedTerms, setAcceptedTerms } = useUserStore((state) => state);
+  const { mutate, isPending } = useGetTerms();
   const navigate = useNavigate();
   const {
     onSubmit,
@@ -44,7 +52,6 @@ export function ContributionForm({
     initialValues,
     validate: zodResolver(contributionSchema),
   });
-
   usePrompt(isDirty());
 
   const handleDropDoc = async (files: File[]) => {
@@ -69,10 +76,34 @@ export function ContributionForm({
     setFieldValue("images", uploadedFiles);
   };
 
+  const handleDecline = () => {
+    setOpenedTerms(false);
+    showNotification({
+      color: "red",
+      title: "Terms & Conditions Declined",
+      message: "Please accept terms & conditions before submitting",
+    });
+  };
+
+  const handleAgree = () => {
+    setAcceptedTerms(true);
+    setOpenedTerms(false);
+  };
+
   return (
     <Paper
       component="form"
       onSubmit={onSubmit((data) => {
+        if (!acceptedTerms) {
+          mutate(undefined, {
+            onSuccess: (res) => {
+              const termsContent = res.data?.[0]?.content || "";
+              setTerms(termsContent);
+              setOpenedTerms(true);
+            },
+          });
+          return;
+        }
         resetDirty();
         handleSubmit(data);
       })}
@@ -203,10 +234,34 @@ export function ContributionForm({
         <Button w={270} onClick={() => navigate(-1)}>
           Cancel
         </Button>
-        <Button color="primary.4" w={270} loading={loading} type="submit">
+        <Button
+          color="primary.4"
+          w={270}
+          loading={loading || isPending}
+          type="submit"
+        >
           {create ? "Add" : "Update"}
         </Button>
       </Group>
+
+      <button
+        type="button"
+        onClick={() => {
+          setAcceptedTerms(false);
+        }}
+      >
+        dd
+      </button>
+
+      <TermsAndConditionsDialog
+        terms={terms}
+        opened={openedTerms}
+        onClose={() => {
+          setOpenedTerms(false);
+        }}
+        onAgree={handleAgree}
+        onDecline={handleDecline}
+      />
     </Paper>
   );
 }

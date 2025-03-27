@@ -272,7 +272,7 @@ export function Contribution({
                     component={Link}
                     to={`/contributions/${contribution.id}/edit`}
                   >
-                    Update
+                    Update Contribution
                   </Menu.Item>
                 )}
 
@@ -280,7 +280,7 @@ export function Contribution({
                   component={Link}
                   to={`/contributions/${contribution.id}`}
                 >
-                  View Details
+                  View Contribution
                 </Menu.Item>
               </Menu.Dropdown>
             </Menu>

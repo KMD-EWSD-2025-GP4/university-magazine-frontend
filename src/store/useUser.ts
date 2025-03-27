@@ -14,6 +14,8 @@ interface User {
 }
 export interface UserState {
   user: User | undefined;
+  acceptedTerms: boolean;
+  setAcceptedTerms: (accepted: boolean) => void;
   setUser: (user: User) => void;
   removeUser: () => void;
 }
@@ -36,6 +38,8 @@ export const useUserStore = create<UserState, [["zustand/persist", unknown]]>(
         });
       },
       removeUser: () => set({ user: undefined }),
+      acceptedTerms: false,
+      setAcceptedTerms: (accepted) => set({ acceptedTerms: accepted }),
     }),
     {
       name: "auth", // name of the item in the storage (must be unique)
