@@ -29,13 +29,12 @@ import { formatRelativeTime } from "@/utils/dates";
 import { Can } from "@/components/core";
 import { roles } from "@/configs/rbac";
 import { Link, useNavigate } from "react-router";
-import { DownloadIcon } from "@/icons";
+import { ExportIcon } from "@/icons";
 import { useUserStore } from "@/store/useUser";
 import { modals } from "@mantine/modals";
 import { UserAvatar } from "@/components/UserAvatar";
 import { useMemo, useRef, useState } from "react";
 import { showNotification } from "@mantine/notifications";
-import { downloadFileFromUrl } from "@/services/contribution";
 
 export function Contribution({
   authored,
@@ -102,12 +101,6 @@ export function Contribution({
 
     onComment?.(comment);
     inputCommentRef.current!.value = "";
-  };
-
-  const downloadAllImages = () => {
-    images.forEach((image) => {
-      downloadFileFromUrl(image.url, image.filePath);
-    });
   };
 
   const handleViewArticle = () => {
@@ -186,19 +179,7 @@ export function Contribution({
         {detailed ? (
           <Stack>
             <Button
-              leftSection={<DownloadIcon />}
-              w="240px"
-              variant="transparent"
-              color="dark"
-              justify="start"
-              ta="start"
-              pl={0}
-              onClick={downloadAllImages}
-            >
-              Download image files
-            </Button>
-            <Button
-              leftSection={<DownloadIcon />}
+              leftSection={<ExportIcon />}
               w="240px"
               variant="transparent"
               color="dark"
@@ -210,25 +191,29 @@ export function Contribution({
               View article file
             </Button>
 
-            <Button
-              onClick={() => setShowComment((p) => !p)}
-              rightSection={
-                <div
-                  style={{
-                    transform: showComment ? "rotate(0deg)" : "rotate(180deg)",
-                  }}
-                >
-                  <ChevronDownIcon />
-                </div>
-              }
-              variant="transparent"
-              pl={0}
-              ta="start"
-              justify="start"
-            >
-              {contribution.comments.length || 0} comment
-              {contribution.comments?.length > 1 ? "s" : ""}
-            </Button>
+            {enabledComment && (
+              <Button
+                onClick={() => setShowComment((p) => !p)}
+                rightSection={
+                  <div
+                    style={{
+                      transform: showComment
+                        ? "rotate(0deg)"
+                        : "rotate(180deg)",
+                    }}
+                  >
+                    <ChevronDownIcon />
+                  </div>
+                }
+                variant="transparent"
+                pl={0}
+                ta="start"
+                justify="start"
+              >
+                {contribution.comments.length || 0} comment
+                {contribution.comments?.length > 1 ? "s" : ""}
+              </Button>
+            )}
 
             {showComment && (
               <Stack>
