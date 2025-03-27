@@ -12,3 +12,4 @@ export * from "./ChevronDownIcon";
 export * from "./DownloadIcon";
 export * from "./XIcon";
 export * from "./PlaneIcon";
+export * from "./ExportIcon";
