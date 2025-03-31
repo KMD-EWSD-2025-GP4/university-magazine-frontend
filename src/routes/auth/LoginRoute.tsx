@@ -6,89 +6,121 @@ import {
   PasswordInput,
   TextInput,
   Title,
+  Group,
+  Box,
+  Center,
+  Stack,
 } from "@mantine/core";
-import { Link } from "react-router";
-import classes from "./LoginRoute.module.css";
-import { useLogin } from "./queries";
+import { Link } from "react-router-dom";
 import { useForm, zodResolver } from "@mantine/form";
+import { useLogin } from "./queries";
 import { loginSchema, LoginType } from "@/configs/schemas";
+import { useMediaQuery } from "@mantine/hooks";
+import loginImage from "@/assets/login.png";
+
+
+function useBreakpoints() {
+  return {
+    isMobile: useMediaQuery("(max-width: 768px)"),
+    isTablet: useMediaQuery("(min-width: 769px) and (max-width: 1024px)"),
+    isDesktop: useMediaQuery("(min-width: 1025px)"),
+  };
+}
 
 export function LoginRoute() {
-  const { getInputProps, onSubmit, key } = useForm<LoginType>({
+  const form = useForm<LoginType>({
     initialValues: {
       email: "",
       password: "",
     },
     validate: zodResolver(loginSchema),
   });
-  const { mutate, isPending } = useLogin();
 
-  const handleSubmit = (values: LoginType) => {
-    mutate(values);
-  };
+  const { mutate, isPending } = useLogin();
+  const handleSubmit = (values: LoginType) => mutate(values);
+
+  const { isMobile, isTablet } = useBreakpoints();
+
+  const containerWidth = isMobile ? "95%" : isTablet ? 500 : 550;
+  const containerHeight = isMobile ? "auto" : 550;
 
   return (
-    <div className={classes.wrapper}>
-      <div className={classes.leftPanel} />
+    <Group gap={0} h="100vh" wrap="nowrap">
 
-      <div className={classes.rightPanel}>
-        <Container className={classes.formContainer}>
-          <Title ta="left" className={classes.title}>
-            LOGIN HERE
+      {!isMobile && (
+        <Box
+          style={{
+            flex: 1,
+            height: "100vh",
+            backgroundImage: `url(${loginImage})`,
+            backgroundSize: "contain",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+          }}
+        />
+      )}
+
+
+      <Center flex={1} bg="white">
+        <Container w={containerWidth} style={{ minHeight: containerHeight }}>
+          <Title order={2} mb="lg" ta="left" fw={900}>
+            Login Here
           </Title>
-          <Paper radius="md" component="form" onSubmit={onSubmit(handleSubmit)}>
-            <TextInput
-              label="Email"
-              placeholder="example@gmail.com"
-              required
-              key={key("email")}
-              {...getInputProps("email")}
-              className={classes.inputField}
-            />
 
-            <PasswordInput
-              label="Password"
-              placeholder="Your password"
-              required
-              mt="md"
-              key={key("password")}
-              {...getInputProps("password")}
-              className={classes.inputField}
-            />
+          <Paper
+            component="form"
+            radius="md"
+            p="lg"
+            onSubmit={form.onSubmit(handleSubmit)}
+            style={{ minHeight: 420 }}
+       
+          >
+            <Stack gap="sm">
+              <TextInput
+                label="Email"
+                placeholder="austin1234@gmail.com"
+                required
+                {...form.getInputProps("email")}
+              />
 
-            {/* <Group justify="space-between" align="center" mt="lg">
-              <Checkbox label="Remember me" />
-              <Anchor component="button" size="sm">
-                Forgot password?
-              </Anchor>
-            </Group> */}
+              <PasswordInput
+                label="Password"
+                placeholder="**********"
+                required
+                {...form.getInputProps("password")}
+              />
 
-            <Button
-              fullWidth
-              mt="xl"
-              type="submit"
-              loading={isPending}
-              className={classes.submitButton}
-            >
-              Login
-            </Button>
-
-            <Text ta="center" mt="md" size="sm">
-              Don't have an account?{" "}
-              <Link
-                to="/register"
-                style={{
-                  fontSize: "small",
-                  color: "blue",
-                  textDecoration: "none",
+              <Button
+                fullWidth
+                type="submit"
+                loading={isPending}
+                size="md"
+                radius="md"
+                styles={{
+                  root: {
+                    backgroundColor: "#0a2240",
+                    fontWeight: "bold",
+                    fontSize: "1rem",
+                    height: "45px",
+                  },
                 }}
               >
-                Register here
-              </Link>
-            </Text>
+                Login
+              </Button>
+
+              <Text size="sm" ta="center">
+                Don&apos;t have an account?{" "}
+                <Link
+                  to="/register"
+                  style={{ color: "blue", textDecoration: "none" }}
+                >
+                  Register here
+                </Link>
+              </Text>
+            </Stack>
           </Paper>
         </Container>
-      </div>
-    </div>
+      </Center>
+    </Group>
   );
 }

@@ -244,14 +244,14 @@ export function ContributionForm({
         </Button>
       </Group>
 
-      <button
+      {/* <button
         type="button"
         onClick={() => {
           setAcceptedTerms(false);
         }}
       >
         dd
-      </button>
+      </button> */}
 
       <TermsAndConditionsDialog
         terms={terms}
