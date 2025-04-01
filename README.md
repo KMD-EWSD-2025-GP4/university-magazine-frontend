@@ -1,50 +1,119 @@
-# React + TypeScript + Vite
+# University Magazine Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern web application built with React and TypeScript for managing university magazine submissions and publications.
 
-Currently, two official plugins are available:
+## 🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Modern and responsive UI using Mantine UI components
+- Document viewing and management
+- File upload capabilities with dropzone support
+- Form handling and validation
+- Data table management with sorting and filtering
+- Date handling and calendar features
+- Carousel and image galleries
+- CSV export functionality
+- Secure authentication and authorization
+- Real-time notifications
+- State management with Zustand
+- Data fetching and caching with React Query
 
-## Expanding the ESLint configuration
+## 🛠️ Technologies
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### Core
 
-- Configure the top-level `parserOptions` property like this:
+- React 18.3
+- TypeScript
+- Vite (for build tooling)
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+### UI Framework and Components
+
+- Mantine Core (v7)
+- Mantine Components:
+  - Carousel
+  - Dates
+  - Dropzone
+  - Forms
+  - Modals
+  - Notifications
+- Mantine React Table
+- Embla Carousel
+
+### State Management & Data Fetching
+
+- Zustand
+- TanStack React Query
+- Axios
+
+### Form Handling & Validation
+
+- React Hook Form
+- Zod
+
+### Utilities
+
+- Day.js (date manipulation)
+- UUID
+- Crypto-js
+- Export-to-CSV
+
+### Development Tools
+
+- ESLint
+- PostCSS
+- TypeScript ESLint
+
+## 🚦 Getting Started
+
+1. Clone the repository
+2. Install dependencies:
+
+   ```bash
+   pnpm install
+   ```
+
+3. Create a `.env` file with necessary environment variables
+
+4. Start the development server:
+
+   ```bash
+   pnpm dev
+   ```
+
+5. For production build:
+   ```bash
+   pnpm build
+   ```
+
+## 🐳 Docker Support
+
+The project includes Docker support for containerized deployment. Build the Docker image using:
+
+```bash
+docker build -t university-magazine-frontend .
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## 📝 Scripts
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+- `pnpm dev` - Start development server
+- `pnpm build` - Create production build
+- `pnpm build:force` - Force production build
+- `pnpm lint` - Run ESLint
+- `pnpm preview` - Preview production build
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+## 🔧 Configuration
+
+The project includes several configuration files:
+
+- `vite.config.ts` - Vite configuration
+- `tsconfig.json` - TypeScript configuration
+- `eslint.config.js` - ESLint configuration
+- `postcss.config.cjs` - PostCSS configuration
+- `nginx.conf` - Nginx configuration for production deployment
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a new Pull Request
