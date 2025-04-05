@@ -244,6 +244,15 @@ export function ContributionForm({
         </Button>
       </Group>
 
+      {/* <button
+        type="button"
+        onClick={() => {
+          setAcceptedTerms(false);
+        }}
+      >
+        dd
+      </button> */}
+
       <TermsAndConditionsDialog
         terms={terms}
         opened={openedTerms}

@@ -57,6 +57,7 @@ export function Contribution({
   const [showComment, setShowComment] = useState(false);
   const inputCommentRef = useRef<HTMLTextAreaElement>(null);
   const user = useUserStore((state) => state.user);
+
   const images = contribution?.assets?.filter((a) => a.type === "image") || [];
   const articles =
     contribution?.assets.filter((a) => a.type === "article") || [];
@@ -253,37 +254,39 @@ export function Contribution({
               </Button>
             </Can>
 
-            <Menu shadow="md" width={200}>
-              <Menu.Target>
-                <Button
-                  leftSection={<ThreeDotsIcon />}
-                  variant="light"
-                  flex={1}
-                  h="44px"
-                  fw={400}
-                >
-                  More
-                </Button>
-              </Menu.Target>
+            {contribution.status !== "selected" && (
+              <Menu shadow="md" width={200}>
+                <Menu.Target>
+                  <Button
+                    leftSection={<ThreeDotsIcon />}
+                    variant="light"
+                    flex={1}
+                    h="44px"
+                    fw={400}
+                  >
+                    More
+                  </Button>
+                </Menu.Target>
 
-              <Menu.Dropdown>
-                {authored && (
+                <Menu.Dropdown>
+                  {authored && (
+                    <Menu.Item
+                      component={Link}
+                      to={`/contributions/${contribution.id}/edit`}
+                    >
+                      Update Contribution
+                    </Menu.Item>
+                  )}
+
                   <Menu.Item
                     component={Link}
-                    to={`/contributions/${contribution.id}/edit`}
+                    to={`/contributions/${contribution.id}`}
                   >
-                    Update Contribution
+                    View Contribution
                   </Menu.Item>
-                )}
-
-                <Menu.Item
-                  component={Link}
-                  to={`/contributions/${contribution.id}`}
-                >
-                  View Contribution
-                </Menu.Item>
-              </Menu.Dropdown>
-            </Menu>
+                </Menu.Dropdown>
+              </Menu>
+            )}
           </Group>
         )}
 
@@ -313,26 +316,27 @@ export function Contribution({
                 <PlaneIcon />
               </ActionIcon>
             </Group>
-
-            <Group gap="xl">
-              <Button
-                flex={1}
-                variant="outline"
-                color="dark"
-                onClick={() => handleUpdateStatus("rejected")}
-                disabled={loading}
-              >
-                Reject
-              </Button>
-              <Button
-                flex={1}
-                color="primary"
-                onClick={() => handleUpdateStatus("selected")}
-                disabled={loading}
-              >
-                Select
-              </Button>
-            </Group>
+            {user?.role !== "student" && (
+              <Group gap="xl">
+                <Button
+                  flex={1}
+                  variant="outline"
+                  color="dark"
+                  onClick={() => handleUpdateStatus("rejected")}
+                  disabled={loading}
+                >
+                  Reject
+                </Button>
+                <Button
+                  flex={1}
+                  color="primary"
+                  onClick={() => handleUpdateStatus("selected")}
+                  disabled={loading}
+                >
+                  Select
+                </Button>
+              </Group>
+            )}
           </>
         )}
       </Stack>
