@@ -42,7 +42,7 @@ export const menus = {
   "system-parameters": {
     label: "System Parameter",
     icon: SystemIcon,
-    href: "",
+    href: "/d/system-param",
     submenus: [
       {
         label: "Faculty",
@@ -74,6 +74,22 @@ export const menus = {
     href: routes["edit-user"],
     submenus: [],
   },
+  "new-faculty": {
+    label: "New Faculty",
+    href: routes["new-faculty"],
+    submenus: [],
+  },
+  "edit-faculty": {
+    label: "Edit Faculty",
+    href: routes["details-faculty"],
+    submenus: [],
+  },
+  "system-param": {
+    label: "System Parameter",
+    href: routes["system-parameter"],
+    submenus: [],
+  },
+
   "new-academic-year": {
     label: "New Academic Year",
     href: routes["new-academic-year"],

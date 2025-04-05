@@ -5,7 +5,10 @@ import { Link, useLocation, useParams } from "react-router";
 export function Breadcrumbs() {
   const { id = "" } = useParams();
   const location = useLocation();
-  const paths = location.pathname?.replace(id, ":id")?.split("/")?.slice(2);
+  const paths = location.pathname
+    ?.replace(id === "new" ? "" : id, ":id")
+    ?.split("/")
+    ?.slice(2);
 
   const flattenMenus = Object.values(menus).flatMap((menu) => {
     if (menu.submenus && menu.submenus.length > 0) {
