@@ -269,7 +269,7 @@ export function Contribution({
               </Menu.Target>
 
               <Menu.Dropdown>
-                {authored && contribution.status !== "selected" && (
+                {authored && contribution.status === "pending" && (
                   <Menu.Item
                     component={Link}
                     to={`/contributions/${contribution.id}/edit`}
