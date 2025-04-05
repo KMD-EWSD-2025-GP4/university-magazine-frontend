@@ -11,13 +11,12 @@ import {
   Center,
   Stack,
 } from "@mantine/core";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { useForm, zodResolver } from "@mantine/form";
 import { useLogin } from "./queries";
 import { loginSchema, LoginType } from "@/configs/schemas";
 import { useMediaQuery } from "@mantine/hooks";
 import loginImage from "@/assets/login.png";
-
 
 function useBreakpoints() {
   return {
@@ -46,7 +45,6 @@ export function LoginRoute() {
 
   return (
     <Group gap={0} h="100vh" wrap="nowrap">
-
       {!isMobile && (
         <Box
           style={{
@@ -60,7 +58,6 @@ export function LoginRoute() {
         />
       )}
 
-
       <Center flex={1} bg="white">
         <Container w={containerWidth} style={{ minHeight: containerHeight }}>
           <Title order={2} mb="lg" ta="left" fw={900}>
@@ -73,7 +70,6 @@ export function LoginRoute() {
             p="lg"
             onSubmit={form.onSubmit(handleSubmit)}
             style={{ minHeight: 420 }}
-       
           >
             <Stack gap="sm">
               <TextInput

@@ -11,13 +11,13 @@ import {
   Center,
   Stack,
 } from "@mantine/core";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { useForm, zodResolver } from "@mantine/form";
 import { registerSchema, RegisterType } from "@/configs/schemas";
 import { useRegister } from "./queries";
 import { FacultySelect } from "@/components/select";
 import { useMediaQuery } from "@mantine/hooks";
-import registerImage from "@/assets/register.png"; 
+import registerImage from "@/assets/register.png";
 
 function useBreakpoints() {
   return {
@@ -137,10 +137,7 @@ export function RegisterRoute() {
 
               <Text size="sm" ta="center">
                 Already have an account?{" "}
-                <Link
-                  to="/"
-                  style={{ color: "blue", textDecoration: "none" }}
-                >
+                <Link to="/" style={{ color: "blue", textDecoration: "none" }}>
                   Login here
                 </Link>
               </Text>
