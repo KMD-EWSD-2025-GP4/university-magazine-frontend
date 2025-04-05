@@ -35,6 +35,7 @@ import { modals } from "@mantine/modals";
 import { UserAvatar } from "@/components/UserAvatar";
 import { useMemo, useRef, useState } from "react";
 import { showNotification } from "@mantine/notifications";
+import { contributionStatusColors } from "@/configs/constants";
 
 export function Contribution({
   authored,
@@ -144,7 +145,7 @@ export function Contribution({
           {authored ? (
             <Badge
               ml="auto"
-              color={contribution.status === "pending" ? "yellow" : "green"}
+              color={contributionStatusColors[contribution.status || ""]}
               tt="capitalize"
               fw={400}
             >
@@ -254,39 +255,37 @@ export function Contribution({
               </Button>
             </Can>
 
-            {contribution.status !== "selected" && (
-              <Menu shadow="md" width={200}>
-                <Menu.Target>
-                  <Button
-                    leftSection={<ThreeDotsIcon />}
-                    variant="light"
-                    flex={1}
-                    h="44px"
-                    fw={400}
-                  >
-                    More
-                  </Button>
-                </Menu.Target>
+            <Menu shadow="md" width={200}>
+              <Menu.Target>
+                <Button
+                  leftSection={<ThreeDotsIcon />}
+                  variant="light"
+                  flex={1}
+                  h="44px"
+                  fw={400}
+                >
+                  More
+                </Button>
+              </Menu.Target>
 
-                <Menu.Dropdown>
-                  {authored && (
-                    <Menu.Item
-                      component={Link}
-                      to={`/contributions/${contribution.id}/edit`}
-                    >
-                      Update Contribution
-                    </Menu.Item>
-                  )}
-
+              <Menu.Dropdown>
+                {authored && contribution.status !== "selected" && (
                   <Menu.Item
                     component={Link}
-                    to={`/contributions/${contribution.id}`}
+                    to={`/contributions/${contribution.id}/edit`}
                   >
-                    View Contribution
+                    Update Contribution
                   </Menu.Item>
-                </Menu.Dropdown>
-              </Menu>
-            )}
+                )}
+
+                <Menu.Item
+                  component={Link}
+                  to={`/contributions/${contribution.id}`}
+                >
+                  View Contribution
+                </Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
           </Group>
         )}
 

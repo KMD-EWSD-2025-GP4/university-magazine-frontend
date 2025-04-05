@@ -9,10 +9,11 @@ export function ArticleDetailRoute() {
   const [searchParams] = useSearchParams();
   const url = searchParams.get("url") || "";
 
-  console.log("url", url);
-
   useEffect(() => {
     document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "auto";
+    };
   }, []);
 
   const handleClose = () => {
@@ -44,7 +45,7 @@ export function ArticleDetailRoute() {
         className="test"
         documents={[
           {
-            uri: "https://ewsd-bucket.s3.ap-southeast-1.amazonaws.com/uploads/014d342d-a36e-4d8b-a647-c6ce2bc6cc47/6cec1e1e-2fbf-410d-8f0f-95b30f692d44.docx?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAQFLZDMRPCOHBBG52%2F20250323%2Fap-southeast-1%2Fs3%2Faws4_request&X-Amz-Date=20250323T122136Z&X-Amz-Expires=604800&X-Amz-Signature=48a0f168f80b7897bd5fbc21da0de121aaf73644112d135b00ca7cd4e9c40357&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+            uri: url,
             fileType: "docx",
           },
         ]}

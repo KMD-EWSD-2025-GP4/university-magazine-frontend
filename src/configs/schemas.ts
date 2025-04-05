@@ -184,7 +184,7 @@ export type ContributionType = z.infer<typeof contributionSchema>;
 export type ContributionDetailType = ContributionType & {
   id: string;
   studentName: string;
-  status: string;
+  status: "pending" | "selected" | "rejected";
   submissionDate: string;
   academicYear: string;
   assets: {
