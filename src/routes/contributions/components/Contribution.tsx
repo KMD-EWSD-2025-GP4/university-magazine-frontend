@@ -156,7 +156,15 @@ export function Contribution({
           )}
         </Group>
 
-        <Text>{contribution.description}</Text>
+        <Stack>
+          <Text>{contribution.title}</Text>
+
+          {detailed && (
+            <Text size="sm" c="dimmed">
+              {contribution.description}
+            </Text>
+          )}
+        </Stack>
 
         <Carousel
           withIndicators
