@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router";
-import { useGetContribution } from "./queries";
+import { useCommentContribution, useGetContribution } from "./queries";
 import { PageLoading } from "@/components/loading/PageLoading";
 import { Contribution } from "./components/Contribution";
 import { Button, Container } from "@mantine/core";
@@ -10,6 +10,15 @@ export default function ContributionDetailsRoute() {
   const navigate = useNavigate();
   const { data, isPending } = useGetContribution(id);
   const user = useUserStore((state) => state.user);
+
+  const commentMutation = useCommentContribution(id);
+
+  const handleComment = (comment: string) => {
+    commentMutation.mutate({
+      id,
+      comment,
+    });
+  };
 
   if (isPending) {
     return <PageLoading />;
@@ -30,6 +39,7 @@ export default function ContributionDetailsRoute() {
         contribution={data!}
         detailed
         authored={user?.userId === data?.studentId}
+        onComment={handleComment}
       />
     </Container>
   );
