@@ -1,1 +1,2 @@
-export * from "./ReportsRoute";
+export * from "./DataInsightRoute";
+export * from "./VisualDataReportRoute";

@@ -1,6 +1,14 @@
-import { CalendarIcon, ReportIcon, SystemIcon, UsersIcon } from "@/icons";
+import {
+  CalendarIcon,
+  ReportIcon,
+  SystemIcon,
+  UsersIcon,
+  MCContributionIcon,
+  ChartIcon,
+  DatabaseIcon,
+  HistogramIcon,
+} from "@/icons";
 import { roles } from "./rbac";
-import { MCContributionIcon } from "@/icons/MCContributionIcon";
 
 export const routes = {
   login: "/",
@@ -26,6 +34,8 @@ export const routes = {
   "mc-update-contributions": "/d/mc-contributions/:id",
   "view-article": "/docs",
   "guest-report": "/d/guest-report",
+  "data-insights": "/d/contributions-report/data-insights",
+  "visual-data-reports": "/d/contributions-report/visual-data-reports",
 };
 
 export const menus = {
@@ -75,6 +85,23 @@ export const menus = {
     icon: ReportIcon,
     href: routes["guest-report"],
     submenus: [],
+  },
+  "contribution-report": {
+    label: "Contributions",
+    icon: ChartIcon,
+    href: "/d/contributions-report",
+    submenus: [
+      {
+        label: "Data Insights",
+        href: routes["data-insights"],
+        icon: DatabaseIcon,
+      },
+      {
+        label: "Visual Data Reports",
+        href: routes["visual-data-reports"],
+        icon: HistogramIcon,
+      },
+    ],
   },
   "mc-contribution": {
     label: "All Contribution",
@@ -131,7 +158,11 @@ export const adminMenus = [
   menus["reports"],
 ];
 
-export const mcMenus = [menus["guest-report"], menus["mc-contribution"]];
+export const mcMenus = [
+  menus["guest-report"],
+  menus["contribution-report"],
+  menus["mc-contribution"],
+];
 
 export const adminRoutes = [
   routes["user-management"],

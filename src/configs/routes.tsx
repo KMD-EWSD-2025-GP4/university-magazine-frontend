@@ -6,7 +6,7 @@ import {
 import { AuthLayout, DashboardLayout, NewFeedLayout } from "@/layouts";
 import { LoginRoute, RegisterRoute } from "@/routes/auth";
 import { DashboardRoute } from "@/routes/dashboard";
-import { ReportRoutes } from "@/routes/reports";
+import { DataInsightRoute, VisualDataReportRoute } from "@/routes/reports";
 import { EditUserRoute, NewUserRoute, UsersRoute } from "@/routes/users";
 import { routes } from "./menus";
 import {
@@ -43,7 +43,7 @@ export const router = createBrowserRouter(
           path={`${routes["user-management"]}/:id`}
           element={<EditUserRoute />}
         />
-        <Route path={routes["reports"]} element={<ReportRoutes />} />
+
         <Route
           path={routes["academic-years"]}
           element={<AcademicYearsRoute />}
@@ -72,6 +72,11 @@ export const router = createBrowserRouter(
         <Route
           path={routes["mc-contributions"]}
           element={<MCContributionsRoute />}
+        />
+        <Route path={routes["data-insights"]} element={<DataInsightRoute />} />
+        <Route
+          path={routes["visual-data-reports"]}
+          element={<VisualDataReportRoute />}
         />
       </Route>
 

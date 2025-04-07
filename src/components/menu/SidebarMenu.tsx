@@ -1,4 +1,4 @@
-import { NavLink, ScrollArea, ThemeIcon, Box } from "@mantine/core";
+import { NavLink, ScrollArea, ThemeIcon } from "@mantine/core";
 import { Link as ReactRouterLink, useLocation, Location } from "react-router";
 import { adminMenus, mcMenus } from "@/configs/menus";
 import { LogoutIcon } from "@/icons";
@@ -25,7 +25,13 @@ const renderSubMenu = (
       component={ReactRouterLink}
       to={submenu.href || "#"}
       active={submenu.href === location.pathname}
-      leftSection={<Box ml={level * 20} />}
+      leftSection={
+        submenu.icon ? (
+          <ThemeIcon variant="transparent">
+            {<submenu.icon size={18} />}
+          </ThemeIcon>
+        ) : undefined
+      }
       childrenOffset={24}
     >
       {submenu.submenus && submenu.submenus.length > 0
@@ -65,7 +71,9 @@ export default function SidebarMenu({
           active={menu.href === location.pathname}
           leftSection={
             menu.icon ? (
-              <ThemeIcon variant="light">{<menu.icon size={18} />}</ThemeIcon>
+              <ThemeIcon variant="transparent">
+                {<menu.icon size={18} />}
+              </ThemeIcon>
             ) : undefined
           }
           childrenOffset={28}

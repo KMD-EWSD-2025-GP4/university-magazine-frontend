@@ -20,6 +20,7 @@ import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import isBetween from "dayjs/plugin/isBetween";
 import dayjs from "dayjs";
+import "@mantine/charts/styles.css";
 
 const theme = createTheme({
   primaryColor: "gray",

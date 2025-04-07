@@ -13,3 +13,7 @@ export * from "./DownloadIcon";
 export * from "./XIcon";
 export * from "./PlaneIcon";
 export * from "./ExportIcon";
+export * from "./ChartIcon";
+export * from "./MCContributionIcon";
+export * from "./HistogramIcon";
+export * from "./DatabaseIcon";
