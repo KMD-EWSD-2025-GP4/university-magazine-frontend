@@ -1,17 +1,18 @@
 import { NavLink, ScrollArea, ThemeIcon, Box } from "@mantine/core";
 import { Link as ReactRouterLink, useLocation, Location } from "react-router";
-import { adminMenus } from "@/configs/menus";
+import { adminMenus, mcMenus } from "@/configs/menus";
 import { LogoutIcon } from "@/icons";
+import { useMemo } from "react";
+import { useUserStore } from "@/store/useUser";
+import { roles } from "@/configs/rbac";
 
-// ✅ Define a TypeScript Type for Menu Items
 type MenuItem = {
   label: string;
   icon?: React.ElementType;
   href?: string;
-  submenus?: MenuItem[]; // ✅ Ensured it's optional
+  submenus?: MenuItem[];
 };
 
-// ✅ Recursive Function to Render Submenus (Fully Typed)
 const renderSubMenu = (
   submenus: MenuItem[] = [],
   location: Location,
@@ -39,11 +40,23 @@ export default function SidebarMenu({
 }: {
   handleLogout: () => void;
 }) {
-  const location = useLocation(); // ✅ Now properly typed
+  const user = useUserStore((state) => state.user);
+  const menus = useMemo(() => {
+    if (user?.role === roles.admin) {
+      return adminMenus;
+    }
+
+    if (user?.role === roles.marketing_coordinator) {
+      return mcMenus;
+    }
+
+    return [];
+  }, [user?.role]);
+  const location = useLocation();
 
   return (
     <ScrollArea>
-      {adminMenus.map((menu: MenuItem) => (
+      {menus.map((menu: MenuItem) => (
         <NavLink
           key={menu.label}
           label={menu.label}

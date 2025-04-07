@@ -1,5 +1,6 @@
 import { CalendarIcon, ReportIcon, SystemIcon, UsersIcon } from "@/icons";
 import { roles } from "./rbac";
+import { MCContributionIcon } from "@/icons/MCContributionIcon";
 
 export const routes = {
   login: "/",
@@ -21,12 +22,16 @@ export const routes = {
   "edit-contribution": "/contributions/:id/edit",
   "my-contributions": "/contributions/my",
   "contribution-details": "/contributions/:id",
-  "mc-contributions": "/mc/contributions",
-  "mc-update-contributions": "/mc/contributions/:id",
+  "mc-contributions": "/d/mc-contributions",
+  "mc-update-contributions": "/d/mc-contributions/:id",
   "view-article": "/docs",
+  "guest-report": "/d/guest-report",
 };
 
 export const menus = {
+  /**
+   * admin
+   */
   "user-management": {
     label: "User Management",
     icon: UsersIcon,
@@ -58,6 +63,23 @@ export const menus = {
     label: "Reports",
     icon: ReportIcon,
     href: routes.reports,
+    submenus: [],
+  },
+
+  /**
+   * marketing coordinator
+   */
+
+  "guest-report": {
+    label: "Guest Report",
+    icon: ReportIcon,
+    href: routes["guest-report"],
+    submenus: [],
+  },
+  "mc-contribution": {
+    label: "All Contribution",
+    icon: MCContributionIcon,
+    href: routes["mc-contributions"],
     submenus: [],
   },
 
@@ -108,6 +130,8 @@ export const adminMenus = [
   menus["system-parameters"],
   menus["reports"],
 ];
+
+export const mcMenus = [menus["guest-report"], menus["mc-contribution"]];
 
 export const adminRoutes = [
   routes["user-management"],
