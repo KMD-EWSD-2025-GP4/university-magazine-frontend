@@ -31,4 +31,6 @@ export const contributionsKeys = {
   mmLists: () => [...contributionsKeys.lists(), "mm"],
   details: (id: number | string) => [...contributionsKeys.lists(), { id }],
   report: () => [...contributionsKeys.lists(), "report"],
+  report2: () => [...contributionsKeys.lists(), "report2"],
+  report3: () => [...contributionsKeys.lists(), "report3"],
 };

@@ -1,14 +1,18 @@
 import { Box, Container, Flex, Paper, Stack, Text } from "@mantine/core";
 import { BarChart } from "@mantine/charts";
-import { useGetContributorsAndContributionsByYear } from "./queries";
+import {
+  useGetContributorsAndContributions,
+  useGetContributorsAndContributionsByYear,
+} from "./queries";
 import { PageLoading } from "@/components/loading/PageLoading";
 
 export function DataInsightRoute() {
   const { data, isLoading } = useGetContributorsAndContributionsByYear();
 
-  console.log("data", data);
+  const { data: data2, isLoading: isLoading2 } =
+    useGetContributorsAndContributions();
 
-  if (isLoading) {
+  if (isLoading || isLoading2) {
     return <PageLoading />;
   }
 
@@ -30,14 +34,14 @@ export function DataInsightRoute() {
           gap={"80px"}
         >
           <ContentCard
-            total={222}
+            total={data2?.totalContributions || 0}
             type="Contributions"
-            faculty="Faculty of Computer Science and IT"
+            faculty={data2?.facultyName || ""}
           />
           <ContentCard
-            total={54}
+            total={data2?.uniqueContributors}
             type="Contributors"
-            faculty="Faculty of Computer Science and IT"
+            faculty={data2?.facultyName || ""}
           />
         </Flex>
 
