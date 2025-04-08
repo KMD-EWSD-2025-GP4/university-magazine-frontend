@@ -6,7 +6,12 @@ import {
 import { AuthLayout, DashboardLayout, NewFeedLayout } from "@/layouts";
 import { LoginRoute, RegisterRoute } from "@/routes/auth";
 import { DashboardRoute } from "@/routes/dashboard";
-import { DataInsightRoute, VisualDataReportRoute } from "@/routes/reports";
+import {
+  DataInsightRoute,
+  MMContributionReports,
+  MMContributorReports,
+  VisualDataReportRoute,
+} from "@/routes/reports";
 import { EditUserRoute, NewUserRoute, UsersRoute } from "@/routes/users";
 import { routes } from "./menus";
 import {
@@ -23,6 +28,7 @@ import {
   EditContributionsRoute,
   MCContributionsRoute,
   MCEditContributionsRoute,
+  MMContributionsRoute,
   MyContributionsRoute,
   NewContributionRoute,
 } from "@/routes/contributions";
@@ -101,6 +107,18 @@ export const router = createBrowserRouter(
         <Route
           path={routes["mc-update-contributions"]}
           element={<MCEditContributionsRoute />}
+        />
+        <Route
+          path={routes["mm-contribution-reports"]}
+          element={<MMContributionReports />}
+        />
+        <Route
+          path={routes["mm-contributor-reports"]}
+          element={<MMContributorReports />}
+        />
+        <Route
+          path={routes["mm-contributions"]}
+          element={<MMContributionsRoute />}
         />
       </Route>
 

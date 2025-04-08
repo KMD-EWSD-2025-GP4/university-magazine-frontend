@@ -3,6 +3,8 @@ import {
   getContributorsAndContributions,
   getContributorsAndContributionsByYear,
   getMcUncommentedContribution,
+  getMMContributions,
+  getMMContributors,
 } from "@/services/report";
 import { useQuery } from "@tanstack/react-query";
 
@@ -26,6 +28,22 @@ export function useGetMcUncommentedContribution() {
   return useQuery({
     queryKey: contributionsKeys.report3(),
     queryFn: getMcUncommentedContribution,
+    select: (data) => data?.data,
+  });
+}
+
+export function useGetMMContributions() {
+  return useQuery({
+    queryKey: contributionsKeys.report4(),
+    queryFn: getMMContributions,
+    select: (data) => data?.data,
+  });
+}
+
+export function useGetMMContributors() {
+  return useQuery({
+    queryKey: contributionsKeys.report4(),
+    queryFn: getMMContributors,
     select: (data) => data?.data,
   });
 }

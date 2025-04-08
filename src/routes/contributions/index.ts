@@ -5,3 +5,4 @@ export * from "./EditContributionsRoute";
 export * from "./ContributionDetailsRoute";
 export * from "./MCContributionsRoute";
 export * from "./MCEditContributionsRoute";
+export * from "./MMContributionsRoute";

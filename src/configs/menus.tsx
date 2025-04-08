@@ -36,6 +36,9 @@ export const routes = {
   "guest-report": "/d/guest-report",
   "data-insights": "/d/contributions-report/data-insights",
   "visual-data-reports": "/d/contributions-report/visual-data-reports",
+  "mm-contributions": "/mm-contributions",
+  "mm-contribution-reports": "/contributions-report",
+  "mm-contributor-reports": "/contributors-report",
 };
 
 export const menus = {
@@ -195,9 +198,11 @@ export const marketingCoordinatorRoutes = [
 ];
 
 export const marketingManagerRoutes = [
-  routes["mc-contributions"],
+  routes["mm-contributions"],
   routes["mc-update-contributions"],
   routes["view-article"],
+  routes["mm-contribution-reports"],
+  routes["mm-contributor-reports"],
 ];
 
 export const defaultRoutes = {
@@ -205,7 +210,7 @@ export const defaultRoutes = {
   [roles.student]: routes.contributions,
   [roles.guest]: routes.contributions,
   [roles.marketing_coordinator]: routes["mc-contributions"],
-  [roles.marketing_manager]: routes["mc-contributions"],
+  [roles.marketing_manager]: routes["mm-contributions"],
 };
 
 export const loginRoutes = {
