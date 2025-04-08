@@ -8,8 +8,10 @@ export function getContributorsAndContributionsByYear() {
   return apiClient.get("contribution/mc/yearly_stats");
 }
 
-export function getMcUncommentedContribution() {
-  return apiClient.get("contribution/mc/uncommented_contributions");
+export function getMcUncommentedContribution(academicYearId: string) {
+  return apiClient.get(
+    `contribution/mc/uncommented_contributions?academicYearId=${academicYearId}`
+  );
 }
 
 export function getMMContributions() {

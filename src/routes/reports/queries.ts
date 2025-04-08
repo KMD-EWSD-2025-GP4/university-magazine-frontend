@@ -24,10 +24,10 @@ export function useGetContributorsAndContributionsByYear() {
   });
 }
 
-export function useGetMcUncommentedContribution() {
+export function useGetMcUncommentedContribution(academicYearId: string) {
   return useQuery({
-    queryKey: contributionsKeys.report3(),
-    queryFn: getMcUncommentedContribution,
+    queryKey: contributionsKeys.report3(academicYearId),
+    queryFn: () => getMcUncommentedContribution(academicYearId),
     select: (data) => data?.data,
   });
 }

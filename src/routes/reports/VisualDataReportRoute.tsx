@@ -23,16 +23,20 @@ import {
   MRT_ColumnDef,
   useMantineReactTable,
 } from "mantine-react-table";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router";
 import { AcademicYearSelect } from "@/components/select";
 import { Flex, Paper, Stack } from "@mantine/core";
 import { useGetMcUncommentedContribution } from "./queries";
+import { useGetAcademicYears } from "../academic-years/queries";
 
 const defaultMRTOptions = getDefaultMRTOptions<ContributionDetailType>();
 
 export function VisualDataReportRoute() {
-  const { data, isLoading } = useGetMcUncommentedContribution();
+  const [selectedAcademicYear, setSelectedAcademicYear] = useState("");
+  const { data: academicYears } = useGetAcademicYears();
+  const { data, isLoading } =
+    useGetMcUncommentedContribution(selectedAcademicYear);
   const [searchParams, setSearchParams] = useSearchParams();
   const name = searchParams.get("name") || "";
   const status = searchParams.get("status") || "";
@@ -170,6 +174,10 @@ export function VisualDataReportRoute() {
     ),
   });
 
+  useEffect(() => {
+    setSelectedAcademicYear(academicYears?.[0]?.id || "");
+  }, [academicYears]);
+
   if (isLoading) {
     return <PageLoading />;
   }
@@ -181,7 +189,10 @@ export function VisualDataReportRoute() {
           Contribution Report
         </Text>
 
-        <AcademicYearSelect />
+        <AcademicYearSelect
+          value={selectedAcademicYear}
+          onChange={(value) => setSelectedAcademicYear(value || "")}
+        />
       </Flex>
 
       <Stack gap="80px">
