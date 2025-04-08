@@ -1,4 +1,13 @@
-import { CalendarIcon, ReportIcon, SystemIcon, UsersIcon } from "@/icons";
+import {
+  CalendarIcon,
+  ReportIcon,
+  SystemIcon,
+  UsersIcon,
+  MCContributionIcon,
+  ChartIcon,
+  DatabaseIcon,
+  HistogramIcon,
+} from "@/icons";
 import { roles } from "./rbac";
 
 export const routes = {
@@ -21,12 +30,21 @@ export const routes = {
   "edit-contribution": "/contributions/:id/edit",
   "my-contributions": "/contributions/my",
   "contribution-details": "/contributions/:id",
-  "mc-contributions": "/mc/contributions",
-  "mc-update-contributions": "/mc/contributions/:id",
+  "mc-contributions": "/d/mc-contributions",
+  "mc-update-contributions": "/d/mc-contributions/:id",
   "view-article": "/docs",
+  "guest-report": "/d/guest-report",
+  "data-insights": "/d/contributions-report/data-insights",
+  "visual-data-reports": "/d/contributions-report/visual-data-reports",
+  "mm-contributions": "/mm-contributions",
+  "mm-contribution-reports": "/contributions-report",
+  "mm-contributor-reports": "/contributors-report",
 };
 
 export const menus = {
+  /**
+   * admin
+   */
   "user-management": {
     label: "User Management",
     icon: UsersIcon,
@@ -58,6 +76,40 @@ export const menus = {
     label: "Reports",
     icon: ReportIcon,
     href: routes.reports,
+    submenus: [],
+  },
+
+  /**
+   * marketing coordinator
+   */
+
+  "guest-report": {
+    label: "Guest Report",
+    icon: ReportIcon,
+    href: routes["guest-report"],
+    submenus: [],
+  },
+  "contribution-report": {
+    label: "Contributions",
+    icon: ChartIcon,
+    href: "/d/contributions-report",
+    submenus: [
+      {
+        label: "Data Insights",
+        href: routes["data-insights"],
+        icon: DatabaseIcon,
+      },
+      {
+        label: "Visual Data Reports",
+        href: routes["visual-data-reports"],
+        icon: HistogramIcon,
+      },
+    ],
+  },
+  "mc-contribution": {
+    label: "All Contribution",
+    icon: MCContributionIcon,
+    href: routes["mc-contributions"],
     submenus: [],
   },
 
@@ -109,6 +161,12 @@ export const adminMenus = [
   menus["reports"],
 ];
 
+export const mcMenus = [
+  menus["guest-report"],
+  menus["contribution-report"],
+  menus["mc-contribution"],
+];
+
 export const adminRoutes = [
   routes["user-management"],
   routes["edit-user"],
@@ -140,9 +198,11 @@ export const marketingCoordinatorRoutes = [
 ];
 
 export const marketingManagerRoutes = [
-  routes["mc-contributions"],
+  routes["mm-contributions"],
   routes["mc-update-contributions"],
   routes["view-article"],
+  routes["mm-contribution-reports"],
+  routes["mm-contributor-reports"],
 ];
 
 export const defaultRoutes = {
@@ -150,7 +210,7 @@ export const defaultRoutes = {
   [roles.student]: routes.contributions,
   [roles.guest]: routes.contributions,
   [roles.marketing_coordinator]: routes["mc-contributions"],
-  [roles.marketing_manager]: routes["mc-contributions"],
+  [roles.marketing_manager]: routes["mm-contributions"],
 };
 
 export const loginRoutes = {

@@ -36,3 +36,11 @@ export function getCurrentAcademicYear(academicYears: AcademicYearType[]) {
     currentDate.isBetween(year.startDate, year.endDate)
   );
 }
+
+export function getFullYear(date?: string | Date) {
+  try {
+    return dayjs(date).year();
+  } catch {
+    return date;
+  }
+}

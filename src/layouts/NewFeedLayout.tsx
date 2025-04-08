@@ -1,4 +1,4 @@
-import { routes } from "@/configs/menus";
+import { defaultRoutes, routes } from "@/configs/menus";
 import { PlusIcon, ListIcon, LogoutIcon } from "@/icons";
 import { useUserStore } from "@/store/useUser";
 import { handleLogout } from "@/utils/auth";
@@ -35,7 +35,7 @@ export function NewFeedLayout() {
       >
         <Flex w="100%" align="center" justify="space-between">
           <Box py="20px">
-            <Link to={routes.contributions}>
+            <Link to={defaultRoutes[user!.role]}>
               <Image src={iconLogo} width={209} height={58} alt="logo" />
             </Link>
           </Box>

@@ -30,4 +30,13 @@ export const contributionsKeys = {
   mcLists: () => [...contributionsKeys.lists(), "mc"],
   mmLists: () => [...contributionsKeys.lists(), "mm"],
   details: (id: number | string) => [...contributionsKeys.lists(), { id }],
+  report: () => [...contributionsKeys.lists(), "report"],
+  report2: () => [...contributionsKeys.lists(), "report2"],
+  report3: (id: number | string) => [
+    ...contributionsKeys.lists(),
+    { id },
+    "report3",
+  ],
+  report4: () => [...contributionsKeys.lists(), "report4"],
+  report5: () => [...contributionsKeys.lists(), "report5"],
 };
