@@ -25,7 +25,7 @@ export function DashboardLayout() {
 
   return (
     <AppShell
-      header={{ height: user?.role === roles.marketing_manager ? 172 : 98 }}
+      header={{ height: user?.role === roles.marketing_coordinator ? 180 : 98 }}
       navbar={{ width: 260, breakpoint: "sm", collapsed: { mobile: !opened } }}
       padding="md"
     >
@@ -49,7 +49,7 @@ export function DashboardLayout() {
           </Group>
         </Box>
 
-        {user?.role === roles.marketing_manager && (
+        {user?.role === roles.marketing_coordinator && (
           <Paper
             py="md"
             px="20px"

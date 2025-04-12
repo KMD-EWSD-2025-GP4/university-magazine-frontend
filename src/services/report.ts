@@ -21,3 +21,7 @@ export function getMMContributions() {
 export function getMMContributors() {
   return apiClient.get("contribution/mm/contributor_report");
 }
+
+export function getMCGuestReport() {
+  return apiClient.get("contribution/mc/guest_report");
+}

@@ -43,4 +43,5 @@ export const contributionsKeys = {
   ],
   report4: () => [...contributionsKeys.lists(), "report4"],
   report5: () => [...contributionsKeys.lists(), "report5"],
+  report6: () => [...contributionsKeys.lists(), "report6"],
 };
