@@ -151,7 +151,6 @@ export function MMContributionsRoute() {
           <Button
             ml="auto"
             onClick={() => {
-              console.log("data", data.items);
               if (data?.length > 0) {
                 downloadSelectedContributions(academicYear);
                 return;
