@@ -2,6 +2,7 @@ export const usersKeys = {
   all: ["users"],
   lists: () => [...usersKeys.all, "list"],
   list: (id: number | string) => [...usersKeys.lists(), { id }],
+  mostActive: () => [...usersKeys.lists(), "most-active"],
 };
 
 export const facultiesKeys = {
@@ -44,4 +45,11 @@ export const contributionsKeys = {
   report4: () => [...contributionsKeys.lists(), "report4"],
   report5: () => [...contributionsKeys.lists(), "report5"],
   report6: () => [...contributionsKeys.lists(), "report6"],
+  mostViewed: () => [...contributionsKeys.lists(), "mostViewed"],
+};
+
+export const pagesKeys = {
+  all: ["pages"],
+  lists: () => [...pagesKeys.all, "list"],
+  list: (id: number | string) => [...pagesKeys.lists(), { id }],
 };

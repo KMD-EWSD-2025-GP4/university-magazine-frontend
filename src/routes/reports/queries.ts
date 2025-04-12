@@ -1,11 +1,14 @@
-import { contributionsKeys } from "@/configs/query-keys";
+import { contributionsKeys, usersKeys } from "@/configs/query-keys";
 import {
+  getBrowserUsage,
   getContributorsAndContributions,
   getContributorsAndContributionsByYear,
   getMCGuestReport,
   getMcUncommentedContribution,
   getMMContributions,
   getMMContributors,
+  getMostActiveUsers,
+  getMostViewedContributions,
 } from "@/services/report";
 import { useQuery } from "@tanstack/react-query";
 
@@ -57,3 +60,42 @@ export function useGetMCGuestReport() {
     select: (data) => data?.data,
   });
 }
+
+export function useGetMostActiveUsers() {
+  return useQuery({
+    queryKey: usersKeys.mostActive(),
+    queryFn: getMostActiveUsers,
+    select: (data) => data.data,
+  });
+}
+
+export function useGetMostViewedContributions() {
+  return useQuery({
+    queryKey: contributionsKeys.lists(),
+    queryFn: getMostViewedContributions,
+    select: (data) => data.data?.items,
+  });
+}
+
+export function useGetBrowserUsage() {
+  return useQuery({
+    queryKey: usersKeys.lists(),
+    queryFn: getBrowserUsage,
+    select: (data) =>
+      data.data as {
+        browser: string;
+        count: string;
+      }[],
+  });
+}
+// export function getMostActiveUsers() {
+//   return apiClient.get("admin/user/most-active");
+// }
+
+// export function getMostViewedContributions() {
+//   return apiClient.get("contribution//most-viewed");
+// }
+
+// export function getBrowserUsage() {
+//   return apiClient.get("user/browser-usage");
+// }
