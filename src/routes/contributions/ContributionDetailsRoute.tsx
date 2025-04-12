@@ -4,10 +4,12 @@ import { PageLoading } from "@/components/loading/PageLoading";
 import { Contribution } from "./components/Contribution";
 import { Button, Container } from "@mantine/core";
 import { useUserStore } from "@/store/useUser";
+import useVisitorCount from "@/hooks/useVisitorCount";
 
 export default function ContributionDetailsRoute() {
   const { id = "" } = useParams();
   const navigate = useNavigate();
+  useVisitorCount(id);
   const { data, isPending } = useGetContribution(id);
   const user = useUserStore((state) => state.user);
 

@@ -1,33 +1,38 @@
+import { viewContribution } from "@/services/contribution";
 import { usePage } from "@/store/usePage";
 import dayjs from "dayjs";
 import { useEffect } from "react";
-import { useLocation } from "react-router";
 
-function callApi() {
-  console.log("triggered");
-}
-
-const useVisitorCount = () => {
-  const { pathname } = useLocation();
+const useVisitorCount = (contributionId?: string) => {
   const { pages, updatePage, addPage } = usePage((state) => state);
 
+  /**
+   * it will triggered twice in developer mode because of react strict mode
+   */
   useEffect(() => {
-    const now = dayjs();
-    const lastVisitedTime = pages[pathname];
+    async function runAsync(id: string) {
+      const now = dayjs();
+      const lastVisitedTime = pages[id];
 
-    if (!lastVisitedTime) {
-      callApi();
-      addPage(pathname, now.toISOString());
-      return;
+      if (!lastVisitedTime) {
+        addPage(id, now.toISOString());
+        viewContribution(id);
+        return;
+      }
+
+      if (now.diff(lastVisitedTime, "minute") < 60) {
+        return;
+      }
+
+      updatePage(id, now.toISOString());
+      viewContribution(id);
     }
 
-    if (now.diff(lastVisitedTime, "minute") < 60) {
+    if (!contributionId) {
       return;
     }
-
-    callApi();
-    updatePage(pathname, now.toISOString());
-  }, [pathname, pages, addPage, updatePage]);
+    runAsync(contributionId);
+  }, [contributionId, pages, addPage, updatePage]);
 
   return null;
 };

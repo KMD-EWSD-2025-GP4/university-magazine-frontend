@@ -7,9 +7,11 @@ import {
 import { PageLoading } from "@/components/loading/PageLoading";
 import { Contribution } from "./components/Contribution";
 import { Button, Container } from "@mantine/core";
+import useVisitorCount from "@/hooks/useVisitorCount";
 
 export function MCEditContributionsRoute() {
   const { id = "" } = useParams();
+  useVisitorCount(id);
   const navigate = useNavigate();
 
   const { data, isPending } = useGetContribution(id);
