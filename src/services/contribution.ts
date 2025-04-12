@@ -108,3 +108,7 @@ export async function downloadFileFromUrl(fileUrl: string, filename: string) {
     })
     .catch(console.error);
 }
+
+export function viewContribution(id: string) {
+  return apiClient.post(`/contribution/${id}/view`);
+}
