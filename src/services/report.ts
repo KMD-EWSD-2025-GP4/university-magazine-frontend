@@ -21,3 +21,19 @@ export function getMMContributions() {
 export function getMMContributors() {
   return apiClient.get("contribution/mm/contributor_report");
 }
+
+export function getMCGuestReport() {
+  return apiClient.get("contribution/mc/guest_report");
+}
+
+export function getMostActiveUsers() {
+  return apiClient.get("user/most-active");
+}
+
+export function getMostViewedContributions() {
+  return apiClient.get("contribution/most-viewed");
+}
+
+export function getBrowserUsage() {
+  return apiClient.get("user/browser-usage");
+}

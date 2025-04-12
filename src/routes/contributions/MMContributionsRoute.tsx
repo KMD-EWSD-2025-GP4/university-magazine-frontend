@@ -23,10 +23,11 @@ import {
 } from "mantine-react-table";
 import { useMemo } from "react";
 import { Link, useSearchParams } from "react-router";
-import { useGetMCContributions } from "./queries";
+import { useGetMMContributions } from "./queries";
 import { downloadSelectedContributions } from "@/services/contribution";
 import { Can } from "@/components/core";
 import { roles } from "@/configs/rbac";
+import { showNotification } from "@mantine/notifications";
 
 const defaultMRTOptions = getDefaultMRTOptions<ContributionDetailType>();
 
@@ -34,8 +35,9 @@ export function MMContributionsRoute() {
   const [searchParams, setSearchParams] = useSearchParams();
   const name = searchParams.get("name") || "";
   const status = searchParams.get("status") || "";
+  const academicYear = searchParams.get("mmAcademicYear") || "";
 
-  const { data, isPending } = useGetMCContributions();
+  const { data, isPending } = useGetMMContributions(academicYear);
 
   const filteredData = useMemo(() => {
     return (
@@ -149,7 +151,17 @@ export function MMContributionsRoute() {
           <Button
             ml="auto"
             onClick={() => {
-              downloadSelectedContributions();
+              if (data?.length > 0) {
+                downloadSelectedContributions(academicYear);
+                return;
+              }
+
+              showNotification({
+                color: "red",
+                title: "No Contribution",
+                message:
+                  "No selected contribution in this academic year to download",
+              });
             }}
             variant="outline"
             color="gray"

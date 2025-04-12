@@ -20,8 +20,13 @@ export async function getMCContributions() {
   return res.data;
 }
 
-export async function getMMContributions() {
-  const res = await apiClient.get(`/contribution/all`);
+export async function getMMContributions(academicYearId: string) {
+  console.log("academicYearId", academicYearId);
+  const res = await apiClient.get(
+    academicYearId
+      ? `/contribution/all?academicYearId=${academicYearId}`
+      : "/contribution/all"
+  );
   return res.data;
 }
 
@@ -71,11 +76,15 @@ export function commentContribution({
   });
 }
 
-export async function downloadSelectedContributions() {
-  const res = await apiClient.get(`/contribution/download-selected`, {
-    responseType: "blob",
-  });
-  console.log("res", res);
+export async function downloadSelectedContributions(academicYearId?: string) {
+  const res = await apiClient.get(
+    academicYearId
+      ? `/contribution/download-selected?academicYearId=${academicYearId}`
+      : "/contribution/download-selected",
+    {
+      responseType: "blob",
+    }
+  );
   const url = window.URL.createObjectURL(res.data);
   const link = document.createElement("a");
   link.href = url;
@@ -98,4 +107,8 @@ export async function downloadFileFromUrl(fileUrl: string, filename: string) {
       document.body.removeChild(link);
     })
     .catch(console.error);
+}
+
+export function viewContribution(id: string) {
+  return apiClient.post(`/contribution/${id}/view`);
 }

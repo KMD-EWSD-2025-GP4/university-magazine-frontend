@@ -82,7 +82,6 @@ export function Contribution({
   };
 
   const handleComment = (comment: string) => {
-    console.log("triggered");
     const commentTrimmed = comment.trim();
     if (!commentTrimmed) {
       showNotification({

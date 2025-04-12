@@ -20,8 +20,6 @@ export function MMContributorReports() {
     );
   }, [data]);
 
-  console.log("data", data);
-
   const [selectedAcademicYearId, setSelectedAcademicYear] = useState("");
 
   useEffect(() => {

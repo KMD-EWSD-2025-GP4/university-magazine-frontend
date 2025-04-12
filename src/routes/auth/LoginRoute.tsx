@@ -17,6 +17,7 @@ import { useLogin } from "./queries";
 import { loginSchema, LoginType } from "@/configs/schemas";
 import { useMediaQuery } from "@mantine/hooks";
 import loginImage from "@/assets/login.png";
+import { detectBrowser } from "@/utils";
 
 function useBreakpoints() {
   return {
@@ -36,7 +37,10 @@ export function LoginRoute() {
   });
 
   const { mutate, isPending } = useLogin();
-  const handleSubmit = (values: LoginType) => mutate(values);
+  const handleSubmit = (values: LoginType) => {
+    const browser = detectBrowser();
+    mutate({ ...values, browser });
+  };
 
   const { isMobile, isTablet } = useBreakpoints();
 

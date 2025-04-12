@@ -17,6 +17,7 @@ import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router";
 import iconLogo from "@/assets/logo.png";
 import { roles } from "@/configs/rbac";
 import { Can } from "@/components/core";
+import { HeaderAcademicYearSelect } from "@/components/HeaderAcademicYearSelect";
 
 export function NewFeedLayout() {
   const user = useUserStore((state) => state.user);
@@ -35,7 +36,7 @@ export function NewFeedLayout() {
       >
         <Flex w="100%" align="center" justify="space-between">
           <Box py="20px">
-            <Link to={defaultRoutes[user!.role]}>
+            <Link to={defaultRoutes[user?.role || ""]}>
               <Image src={iconLogo} width={209} height={58} alt="logo" />
             </Link>
           </Box>
@@ -125,6 +126,10 @@ export function NewFeedLayout() {
                 My Contribution
               </Button>
             )}
+          </Can>
+
+          <Can roles={[roles.marketing_manager]}>
+            <HeaderAcademicYearSelect />
           </Can>
         </Flex>
       </Paper>

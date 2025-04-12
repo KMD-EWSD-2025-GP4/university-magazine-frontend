@@ -1,11 +1,23 @@
 import { Outlet, useNavigate } from "react-router";
-import { AppShell, Burger, Container, Group, Image, Text } from "@mantine/core";
+import {
+  AppShell,
+  Box,
+  Burger,
+  Container,
+  Flex,
+  Group,
+  Image,
+  Paper,
+  Text,
+} from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { handleLogout } from "@/utils/auth";
 import { showNotification } from "@mantine/notifications";
 import SidebarMenu from "@/components/menu/SidebarMenu";
 import { useUserStore } from "@/store/useUser";
 import { Breadcrumbs } from "@/components/core";
+import { HeaderAcademicYearSelect } from "@/components/HeaderAcademicYearSelect";
+import { roles } from "@/configs/rbac";
 export function DashboardLayout() {
   const user = useUserStore((state) => state.user);
   const [opened, { toggle }] = useDisclosure();
@@ -13,27 +25,51 @@ export function DashboardLayout() {
 
   return (
     <AppShell
-      header={{ height: 105 }}
+      header={{ height: user?.role === roles.marketing_coordinator ? 180 : 98 }}
       navbar={{ width: 260, breakpoint: "sm", collapsed: { mobile: !opened } }}
       padding="md"
     >
       {/* HEADER */}
-      <AppShell.Header style={{ backgroundColor: "#0A284B", color: "white" }}>
-        <Group h="100%" px="md" justify="space-between">
-          <Group>
-            <Burger
-              opened={opened}
-              onClick={toggle}
-              hiddenFrom="sm"
-              size="sm"
-              color="white"
-            />
-            <Image src="/logo.svg" height={58} width={209} />
+      <AppShell.Header>
+        <Box style={{ backgroundColor: "#0A284B", color: "white" }}>
+          <Group h="100%" px="md" py="lg" justify="space-between">
+            <Group>
+              <Burger
+                opened={opened}
+                onClick={toggle}
+                hiddenFrom="sm"
+                size="sm"
+                color="white"
+              />
+              <Image src="/logo.svg" height={58} width={209} />
+            </Group>
+            <Text size="sm">
+              Welcome "{user?.username}" from University Magazine Portal!
+            </Text>
           </Group>
-          <Text size="sm">
-            Welcome "{user?.username}" from University Magazine Portal!
-          </Text>
-        </Group>
+        </Box>
+
+        {user?.role === roles.marketing_coordinator && (
+          <Paper
+            py="md"
+            px="20px"
+            pos="sticky"
+            top={0}
+            style={{ zIndex: 100 }}
+            shadow="md"
+          >
+            <Flex align="center" justify="space-between" gap="md">
+              <Box>
+                <Text component="span">{user?.facultyName?.slice(0, 10)} </Text>
+                <Text fw={600} fs="italic" component="div">
+                  {user?.facultyName?.slice(10)}
+                </Text>
+              </Box>
+
+              <HeaderAcademicYearSelect />
+            </Flex>
+          </Paper>
+        )}
       </AppShell.Header>
 
       {/* SIDEBAR NAVIGATION */}

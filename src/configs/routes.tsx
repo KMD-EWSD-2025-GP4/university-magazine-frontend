@@ -7,7 +7,9 @@ import { AuthLayout, DashboardLayout, NewFeedLayout } from "@/layouts";
 import { LoginRoute, RegisterRoute } from "@/routes/auth";
 import { DashboardRoute } from "@/routes/dashboard";
 import {
+  AdminReportRoute,
   DataInsightRoute,
+  GuestReportRoute,
   MMContributionReports,
   MMContributorReports,
   VisualDataReportRoute,
@@ -84,6 +86,8 @@ export const router = createBrowserRouter(
           path={routes["visual-data-reports"]}
           element={<VisualDataReportRoute />}
         />
+        <Route path={routes["guest-report"]} element={<GuestReportRoute />} />
+        <Route path={routes.reports} element={<AdminReportRoute />} />
       </Route>
 
       <Route element={<NewFeedLayout />}>
