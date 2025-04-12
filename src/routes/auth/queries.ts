@@ -11,7 +11,7 @@ export function useLogin() {
   const { setUser } = useUserStore();
   const navigate = useNavigate();
   return useMutation({
-    mutationFn: (data: LoginType) => login(data),
+    mutationFn: (data: LoginType & { browser: string }) => login(data),
     onSuccess: (res) => {
       showNotification({
         title: "Login Success!",
