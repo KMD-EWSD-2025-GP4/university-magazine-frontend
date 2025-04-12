@@ -28,7 +28,11 @@ export const contributionsKeys = {
   list: (id: number | string) => [...contributionsKeys.lists(), { id }],
   myLists: () => [...contributionsKeys.lists(), "my"],
   mcLists: () => [...contributionsKeys.lists(), "mc"],
-  mmLists: () => [...contributionsKeys.lists(), "mm"],
+  mmLists: (academicYear: string) => [
+    ...contributionsKeys.lists(),
+    "mm",
+    academicYear,
+  ],
   details: (id: number | string) => [...contributionsKeys.lists(), { id }],
   report: () => [...contributionsKeys.lists(), "report"],
   report2: () => [...contributionsKeys.lists(), "report2"],

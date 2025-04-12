@@ -1,6 +1,5 @@
 import { routes } from "@/configs/menus";
 import { contributionsKeys } from "@/configs/query-keys";
-import { roles } from "@/configs/rbac";
 import { ContributionType } from "@/configs/schemas";
 import { getTerms } from "@/services/common";
 import {
@@ -73,10 +72,16 @@ export function useGetMCContributions() {
   const user = useUserStore((state) => state.user);
   return useQuery({
     queryKey: contributionsKeys.mcLists(),
-    queryFn:
-      user?.role === roles.marketing_manager
-        ? getMMContributions
-        : getMCContributions,
+    queryFn: getMCContributions,
+    enabled: Boolean(user?.role),
+  });
+}
+
+export function useGetMMContributions(academicYear: string) {
+  const user = useUserStore((state) => state.user);
+  return useQuery({
+    queryKey: contributionsKeys.mmLists(academicYear),
+    queryFn: () => getMMContributions(academicYear),
     enabled: Boolean(user?.role),
   });
 }

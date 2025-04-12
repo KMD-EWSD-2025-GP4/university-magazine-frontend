@@ -42,7 +42,6 @@ export function RegisterRoute() {
   });
 
   const handleSubmit = (values: RegisterType) => {
-    console.log("aaa", values);
     mutate(values, {
       onSuccess: () => console.log("Registration successful"),
       onError: (error) => console.error("Registration failed", error),
