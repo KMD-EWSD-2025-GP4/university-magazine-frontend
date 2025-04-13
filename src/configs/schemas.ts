@@ -47,6 +47,8 @@ export type LoginResponseType = {
     role: string;
     facultyId: string;
     facultyName: string;
+    lastLogin: string;
+    firstTimeLogin: boolean;
   };
   token: string;
 };
@@ -187,6 +189,7 @@ export type ContributionDetailType = ContributionType & {
   status: "pending" | "selected" | "rejected";
   submissionDate: string;
   academicYear: string;
+  academicYearId: string;
   assets: {
     id: string;
     type: "image" | "article";

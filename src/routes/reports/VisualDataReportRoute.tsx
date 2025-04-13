@@ -23,9 +23,8 @@ import {
   MRT_ColumnDef,
   useMantineReactTable,
 } from "mantine-react-table";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { Link, useSearchParams } from "react-router";
-import { AcademicYearSelect } from "@/components/select";
 import { Flex, Paper, Stack } from "@mantine/core";
 import { useGetMcUncommentedContribution } from "./queries";
 import { useGetAcademicYears } from "../academic-years/queries";
@@ -33,13 +32,14 @@ import { useGetAcademicYears } from "../academic-years/queries";
 const defaultMRTOptions = getDefaultMRTOptions<ContributionDetailType>();
 
 export function VisualDataReportRoute() {
-  const [selectedAcademicYear, setSelectedAcademicYear] = useState("");
-  const { data: academicYears } = useGetAcademicYears();
-  const { data, isLoading } =
-    useGetMcUncommentedContribution(selectedAcademicYear);
   const [searchParams, setSearchParams] = useSearchParams();
   const name = searchParams.get("name") || "";
   const status = searchParams.get("status") || "";
+  const selectedAcademicYear = searchParams.get("gAcademicYear") || "";
+
+  const { data: academicYears } = useGetAcademicYears();
+  const { data, isLoading } =
+    useGetMcUncommentedContribution(selectedAcademicYear);
 
   const filteredData = useMemo(() => {
     return (
@@ -175,8 +175,10 @@ export function VisualDataReportRoute() {
   });
 
   useEffect(() => {
-    setSelectedAcademicYear(academicYears?.[0]?.id || "");
-  }, [academicYears]);
+    if (!selectedAcademicYear) {
+      setSearchParams({ gAcademicYear: academicYears?.[0]?.id || "" });
+    }
+  }, [academicYears, selectedAcademicYear, setSearchParams]);
 
   if (isLoading) {
     return <PageLoading />;
@@ -188,11 +190,6 @@ export function VisualDataReportRoute() {
         <Text fw="bold" size="24px" mb={"40px"}>
           Contribution Report
         </Text>
-
-        <AcademicYearSelect
-          value={selectedAcademicYear}
-          onChange={(value) => setSelectedAcademicYear(value || "")}
-        />
       </Flex>
 
       <Stack gap="80px">

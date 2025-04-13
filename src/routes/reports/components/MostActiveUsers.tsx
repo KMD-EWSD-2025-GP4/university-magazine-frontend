@@ -1,5 +1,7 @@
 import {
+  Box,
   Flex,
+  Group,
   Image,
   Paper,
   Skeleton,
@@ -9,6 +11,8 @@ import {
 } from "@mantine/core";
 import { useGetMostActiveUsers } from "../queries";
 import { trophyImages } from "@/configs/constants";
+import { RoleSelect } from "@/components/select";
+import { useState } from "react";
 
 type ItemType = {
   id: string;
@@ -17,13 +21,21 @@ type ItemType = {
   totalLogins: number;
   name: string;
   facultyId: string;
+  role: string;
 };
 
 export function MostActiveUsers() {
-  const { data, isPending } = useGetMostActiveUsers();
+  const [selectedRole, setSelectedRole] = useState<string | null>();
+  const { data, isPending } = useGetMostActiveUsers(selectedRole || "");
 
   return (
     <Paper shadow="md" p="md" radius="md">
+      <Group justify="end">
+        <RoleSelect
+          value={selectedRole}
+          onChange={(value) => setSelectedRole(value)}
+        />
+      </Group>
       <Table verticalSpacing="md">
         <Table.Thead>
           <Table.Tr>
@@ -99,7 +111,18 @@ function NameCell({ item, index }: { item: ItemType; index: number }) {
 
       <Stack gap={0}>
         <Text>{item.name}</Text>
-        <Text size="xs">{item.email}</Text>
+        <Box
+          w="fit-content"
+          px="sm"
+          style={{
+            border: "1px solid #D9D9D9",
+            borderRadius: "4px",
+          }}
+        >
+          <Text size="xs" ta="center" w="fit-content" tt="capitalize">
+            {item.role.split("_").join(" ")}
+          </Text>
+        </Box>
       </Stack>
     </Flex>
   );

@@ -24,6 +24,8 @@ export function useLogin() {
         token: res.data.token,
         email: res.data.user.email,
         facultyName: res.data.user.facultyName,
+        firstTimeLogin: res.data.user.firstTimeLogin,
+        lastLogin: res.data.user.lastLogin,
       });
       if (res.data.user.role === roles.admin) {
         navigate(routes["user-management"]);

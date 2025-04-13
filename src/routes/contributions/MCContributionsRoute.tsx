@@ -33,6 +33,7 @@ export function MCContributionsRoute() {
   const [searchParams, setSearchParams] = useSearchParams();
   const name = searchParams.get("name") || "";
   const status = searchParams.get("status") || "";
+  const academicYear = searchParams.get("gAcademicYear") || "";
 
   const { data, isPending } = useGetMCContributions();
 
@@ -42,10 +43,13 @@ export function MCContributionsRoute() {
         if (status && item?.status?.toLowerCase() !== status?.toLowerCase()) {
           return false;
         }
+        if (academicYear && item?.academicYearId !== academicYear) {
+          return false;
+        }
         return item?.studentName?.toLowerCase().includes(name?.toLowerCase());
       }) || []
     );
-  }, [data?.items, name, status]);
+  }, [academicYear, data?.items, name, status]);
 
   const columns = useMemo<MRT_ColumnDef<ContributionDetailType>[]>(
     () => [
