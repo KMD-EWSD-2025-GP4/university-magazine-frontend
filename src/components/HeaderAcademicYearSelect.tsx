@@ -3,7 +3,11 @@ import { AcademicYearSelect } from "./select";
 import { Flex, Text } from "@mantine/core";
 import { routes } from "@/configs/menus";
 
-const showInRoutes = [routes["mm-contributions"], routes["mc-contributions"]];
+const showInRoutes = [
+  routes["mm-contributions"],
+  routes["mc-contributions"],
+  routes["visual-data-reports"],
+];
 
 export function HeaderAcademicYearSelect() {
   const pathname = useLocation().pathname;
