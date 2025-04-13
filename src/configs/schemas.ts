@@ -47,6 +47,8 @@ export type LoginResponseType = {
     role: string;
     facultyId: string;
     facultyName: string;
+    lastLogin: string;
+    firstTimeLogin: boolean;
   };
   token: string;
 };

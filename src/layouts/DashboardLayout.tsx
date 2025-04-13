@@ -8,6 +8,7 @@ import {
   Group,
   Image,
   Paper,
+  Stack,
   Text,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
@@ -18,6 +19,7 @@ import { useUserStore } from "@/store/useUser";
 import { Breadcrumbs, Can } from "@/components/core";
 import { HeaderAcademicYearSelect } from "@/components/HeaderAcademicYearSelect";
 import { roles } from "@/configs/rbac";
+import { formatDatetime } from "@/utils/dates";
 export function DashboardLayout() {
   const user = useUserStore((state) => state.user);
   const [opened, { toggle }] = useDisclosure();
@@ -43,9 +45,16 @@ export function DashboardLayout() {
               />
               <Image src="/logo.svg" height={58} width={209} />
             </Group>
-            <Text size="sm">
-              Welcome "{user?.username}" from University Magazine Portal!
-            </Text>
+            <Stack gap={0}>
+              <Text size="sm">
+                Welcome "{user?.username}" from University Magazine Portal!
+              </Text>
+              {user?.lastLogin && (
+                <Text size="sm" fw="bold">
+                  Last Logged In: {formatDatetime(user?.lastLogin)}
+                </Text>
+              )}
+            </Stack>
           </Group>
         </Box>
 
