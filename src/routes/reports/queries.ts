@@ -61,10 +61,10 @@ export function useGetMCGuestReport() {
   });
 }
 
-export function useGetMostActiveUsers() {
+export function useGetMostActiveUsers(role?: string) {
   return useQuery({
-    queryKey: usersKeys.mostActive(),
-    queryFn: getMostActiveUsers,
+    queryKey: usersKeys.mostActive(role),
+    queryFn: () => getMostActiveUsers(role),
     select: (data) => data.data,
   });
 }

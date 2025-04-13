@@ -2,7 +2,7 @@ export const usersKeys = {
   all: ["users"],
   lists: () => [...usersKeys.all, "list"],
   list: (id: number | string) => [...usersKeys.lists(), { id }],
-  mostActive: () => [...usersKeys.lists(), "most-active"],
+  mostActive: (role?: string) => [...usersKeys.lists(), "most-active", role],
 };
 
 export const facultiesKeys = {

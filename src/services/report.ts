@@ -26,8 +26,10 @@ export function getMCGuestReport() {
   return apiClient.get("contribution/mc/guest_report");
 }
 
-export function getMostActiveUsers() {
-  return apiClient.get("user/most-active");
+export function getMostActiveUsers(role?: string) {
+  return apiClient.get("user/most-active", {
+    params: role ? { role } : {},
+  });
 }
 
 export function getMostViewedContributions() {

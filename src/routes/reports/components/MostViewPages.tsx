@@ -24,7 +24,7 @@ export function MostViewPages() {
   const { data, isPending } = useGetMostViewedContributions();
 
   return (
-    <Paper shadow="md" p="md" radius="md">
+    <Paper shadow="md" p="md" radius="md" pt="52px">
       <Table verticalSpacing="md">
         <Table.Thead>
           <Table.Tr>
