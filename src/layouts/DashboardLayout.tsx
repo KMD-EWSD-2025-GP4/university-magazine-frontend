@@ -15,7 +15,7 @@ import { handleLogout } from "@/utils/auth";
 import { showNotification } from "@mantine/notifications";
 import SidebarMenu from "@/components/menu/SidebarMenu";
 import { useUserStore } from "@/store/useUser";
-import { Breadcrumbs } from "@/components/core";
+import { Breadcrumbs, Can } from "@/components/core";
 import { HeaderAcademicYearSelect } from "@/components/HeaderAcademicYearSelect";
 import { roles } from "@/configs/rbac";
 export function DashboardLayout() {
@@ -49,7 +49,7 @@ export function DashboardLayout() {
           </Group>
         </Box>
 
-        {user?.role === roles.marketing_coordinator && (
+        <Can roles={[roles.marketing_coordinator]}>
           <Paper
             py="md"
             px="20px"
@@ -69,7 +69,7 @@ export function DashboardLayout() {
               <HeaderAcademicYearSelect />
             </Flex>
           </Paper>
-        )}
+        </Can>
       </AppShell.Header>
 
       {/* SIDEBAR NAVIGATION */}

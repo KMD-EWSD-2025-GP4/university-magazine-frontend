@@ -187,6 +187,7 @@ export type ContributionDetailType = ContributionType & {
   status: "pending" | "selected" | "rejected";
   submissionDate: string;
   academicYear: string;
+  academicYearId: string;
   assets: {
     id: string;
     type: "image" | "article";

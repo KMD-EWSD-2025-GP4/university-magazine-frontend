@@ -35,7 +35,7 @@ export function MMContributionsRoute() {
   const [searchParams, setSearchParams] = useSearchParams();
   const name = searchParams.get("name") || "";
   const status = searchParams.get("status") || "";
-  const academicYear = searchParams.get("mmAcademicYear") || "";
+  const academicYear = searchParams.get("gAcademicYear") || "";
 
   const { data, isPending } = useGetMMContributions(academicYear);
 

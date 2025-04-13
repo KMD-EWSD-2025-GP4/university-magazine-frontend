@@ -3,12 +3,14 @@ import { AcademicYearSelect } from "./select";
 import { Flex, Text } from "@mantine/core";
 import { routes } from "@/configs/menus";
 
+const showInRoutes = [routes["mm-contributions"], routes["mc-contributions"]];
+
 export function HeaderAcademicYearSelect() {
   const pathname = useLocation().pathname;
   const [searchParams, setSearchParams] = useSearchParams();
-  const mmAcademicYear = searchParams.get("mmAcademicYear") || "";
+  const gAcademicYear = searchParams.get("gAcademicYear") || "";
 
-  if (pathname !== routes["mm-contributions"]) {
+  if (!showInRoutes.includes(pathname)) {
     return null;
   }
 
@@ -17,10 +19,10 @@ export function HeaderAcademicYearSelect() {
       <Text fw={600}>Academic Year</Text>
 
       <AcademicYearSelect
-        value={mmAcademicYear}
+        value={gAcademicYear}
         onChange={(value) =>
           setSearchParams({
-            mmAcademicYear: value || "",
+            gAcademicYear: value || "",
           })
         }
       />
