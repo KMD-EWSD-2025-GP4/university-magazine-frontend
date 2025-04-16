@@ -86,10 +86,14 @@ export function NewFeedLayout() {
       >
         <Flex align="center" gap="md">
           <Box>
-            <Text component="span">{user?.facultyName?.slice(0, 10)} </Text>
-            <Text fw={600} fs="italic" component="div">
-              {user?.facultyName?.slice(10)}
-            </Text>
+            <Can
+              roles={[roles.student, roles.marketing_coordinator, roles.guest]}
+            >
+              <Text component="span">{user?.facultyName?.slice(0, 10)} </Text>
+              <Text fw={600} fs="italic" component="div">
+                {user?.facultyName?.slice(10)}
+              </Text>
+            </Can>
           </Box>
 
           <Can roles={[roles.student]}>
