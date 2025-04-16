@@ -1,6 +1,5 @@
 import { Can } from "@/components/core";
 import { PageLoading } from "@/components/loading/PageLoading";
-import { StatusSelect } from "@/components/select";
 import { getDefaultMRTOptions } from "@/configs/data-table";
 import { routes } from "@/configs/menus";
 import { roles } from "@/configs/rbac";
@@ -176,30 +175,6 @@ export function VisualDataReportRoute() {
               gAcademicYear: selectedAcademicYear,
             });
           }}
-        />
-        <StatusSelect
-          value={status}
-          onChange={(value) =>
-            setSearchParams({
-              status: value || "",
-              name,
-              gAcademicYear: selectedAcademicYear,
-            })
-          }
-          data={[
-            {
-              value: "pending",
-              label: "Pending",
-            },
-            {
-              value: "selected",
-              label: "Selected",
-            },
-            {
-              value: "rejected",
-              label: "Rejected",
-            },
-          ]}
         />
 
         <Button onClick={() => setSearchParams({})}>Refresh</Button>
