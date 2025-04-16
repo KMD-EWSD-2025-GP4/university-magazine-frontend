@@ -46,6 +46,10 @@ export function MMContributionReports() {
 
   return (
     <Container size="lg" py="20px">
+      <Button component={Link} to={routes["mm-contributions"]} mb="sm">
+        Back
+      </Button>
+
       <Flex align="center" mb={"80px"} gap="sm">
         <Text fw="bold" size="24px">
           Contributions Report
