@@ -173,12 +173,19 @@ export function VisualDataReportRoute() {
             setSearchParams({
               name: e.target.value,
               status,
+              gAcademicYear: selectedAcademicYear,
             });
           }}
         />
         <StatusSelect
           value={status}
-          onChange={(value) => setSearchParams({ status: value || "", name })}
+          onChange={(value) =>
+            setSearchParams({
+              status: value || "",
+              name,
+              gAcademicYear: selectedAcademicYear,
+            })
+          }
           data={[
             {
               value: "pending",
@@ -205,7 +212,7 @@ export function VisualDataReportRoute() {
             variant="outline"
             color="gray"
           >
-            Download Zip
+            Download CSV
           </Button>
         </Can>
       </Group>
@@ -214,7 +221,11 @@ export function VisualDataReportRoute() {
 
   useEffect(() => {
     if (!selectedAcademicYear) {
-      setSearchParams({ gAcademicYear: academicYears?.[0]?.id || "" });
+      setSearchParams({
+        gAcademicYear: academicYears?.[academicYears.length - 1]?.id || "",
+        status: "",
+        name: "",
+      });
     }
   }, [academicYears, selectedAcademicYear, setSearchParams]);
 
