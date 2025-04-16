@@ -2,6 +2,11 @@ import { menus, routes } from "@/configs/menus";
 import { Breadcrumbs as MantineBreadcrumbs, Anchor } from "@mantine/core";
 import { Link, useLocation, useParams } from "react-router";
 
+const pagesWithoutBreadcrumbs = [
+  routes["visual-data-reports"],
+  routes["data-insights"],
+];
+
 export function Breadcrumbs() {
   const { id = "" } = useParams();
   const location = useLocation();
@@ -17,7 +22,10 @@ export function Breadcrumbs() {
     return [menu];
   });
 
-  if (paths?.length < 2) {
+  if (
+    paths?.length < 2 ||
+    pagesWithoutBreadcrumbs.includes(location.pathname)
+  ) {
     return null;
   }
 

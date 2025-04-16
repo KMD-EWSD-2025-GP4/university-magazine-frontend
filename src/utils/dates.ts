@@ -2,8 +2,9 @@ import { AcademicYearType } from "@/configs/schemas";
 import { DateValue } from "@mantine/dates";
 import dayjs from "dayjs";
 
-const datetimeFormat = "DD/MM/YYYY, h:mm A";
-const dateFormat = "MMM DD, YYYY";
+const datetimeFormat = "YYYY-MM-DD HH:mm:ss";
+const dateFormat = "YYYY-MM-DD";
+const academicYearFormat = "MMM, YYYY";
 
 // ISO Date -> DD/MM/YYYY, HH:mm AM/PM
 export function formatDatetime(date: string | Date | null) {
@@ -43,4 +44,8 @@ export function getFullYear(date?: string | Date) {
   } catch {
     return date;
   }
+}
+
+export function formatAcademicYear(date?: string | Date) {
+  return dayjs(date).format(academicYearFormat);
 }
