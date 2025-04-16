@@ -64,6 +64,19 @@ export function Contribution({
     contribution?.assets.filter((a) => a.type === "article") || [];
 
   const handleUpdateStatus = (status: "selected" | "rejected") => {
+    if (!(contribution.comments?.length > 0)) {
+      const message =
+        status === "selected"
+          ? "Please add a comment before selecting the contribution."
+          : "Please add a comment before rejecting the contribution.";
+      showNotification({
+        title: "Warning",
+        message,
+        color: "yellow",
+      });
+      return;
+    }
+
     modals.openConfirmModal({
       title: "Update Status",
       centered: true,
