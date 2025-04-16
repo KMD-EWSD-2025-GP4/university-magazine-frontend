@@ -40,7 +40,7 @@ export const useUserStore = create<UserState, [["zustand/persist", unknown]]>(
           },
         });
       },
-      removeUser: () => set({ user: undefined }),
+      removeUser: () => set({ user: undefined, acceptedTerms: false }),
       acceptedTerms: false,
       setAcceptedTerms: (accepted) => set({ acceptedTerms: accepted }),
     }),
