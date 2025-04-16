@@ -6,7 +6,6 @@ import { routes } from "@/configs/menus";
 import { roles } from "@/configs/rbac";
 import { ContributionDetailType } from "@/configs/schemas";
 import { ThreeDotsIcon } from "@/icons";
-import { downloadSelectedContributions } from "@/services/contribution";
 import { formatDate } from "@/utils/dates";
 import {
   ActionIcon,
@@ -28,8 +27,16 @@ import { Link, useSearchParams } from "react-router";
 import { Flex, Paper, Stack } from "@mantine/core";
 import { useGetMcUncommentedContribution } from "./queries";
 import { useGetAcademicYears } from "../academic-years/queries";
+import { download, generateCsv, mkConfig } from "export-to-csv";
 
 const defaultMRTOptions = getDefaultMRTOptions<ContributionDetailType>();
+
+const csvConfig = mkConfig({
+  fieldSeparator: ",",
+  decimalSeparator: ".",
+  useKeysAsHeaders: true,
+  filename: "contributions-without-a-comment",
+});
 
 export function VisualDataReportRoute() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -81,6 +88,19 @@ export function VisualDataReportRoute() {
         ),
       },
       {
+        accessorKey: "dueDate",
+        header: "Due Date",
+        Cell: ({ cell }) => (
+          <Text style={{ whiteSpace: "nowrap" }}>
+            {cell.getValue() ? formatDate(cell.getValue() as string) : ""}
+          </Text>
+        ),
+      },
+      {
+        accessorKey: "academicYear",
+        header: "Academic Year",
+      },
+      {
         accessorKey: "status",
         header: "Status",
         Cell: ({ cell }) => {
@@ -122,6 +142,24 @@ export function VisualDataReportRoute() {
     []
   );
 
+  const handleExportData = () => {
+    const csv = generateCsv(csvConfig)(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      filteredData.map((item: any) => ({
+        // ...item,
+        studentName: item.studentName,
+        contributionTitle: item.title,
+        uploadedAt: formatDate(item.createdAt),
+        dueDate: formatDate(item.dueDate),
+        academicYear: item.academicYear,
+        status: item.status,
+        updatedAt: formatDate(item.updatedAt),
+        createdAt: formatDate(item.createdAt),
+      }))
+    );
+    download(csvConfig)(csv);
+  };
+
   const table = useMantineReactTable({
     ...defaultMRTOptions,
     columns,
@@ -158,11 +196,11 @@ export function VisualDataReportRoute() {
         />
 
         <Button onClick={() => setSearchParams({})}>Refresh</Button>
-        <Can roles={[roles.marketing_manager]}>
+        <Can roles={[roles.marketing_coordinator]}>
           <Button
             ml="auto"
             onClick={() => {
-              downloadSelectedContributions();
+              handleExportData();
             }}
             variant="outline"
             color="gray"
@@ -210,7 +248,13 @@ export function VisualDataReportRoute() {
             after
           />
         </Flex>
-        <MantineReactTable table={table} />
+
+        <Stack>
+          <Text size="26px" component="h2" fw={700}>
+            Contributions without a comment
+          </Text>
+          <MantineReactTable table={table} />
+        </Stack>
       </Stack>
     </Container>
   );
