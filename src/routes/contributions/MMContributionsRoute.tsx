@@ -1,5 +1,4 @@
 import { PageLoading } from "@/components/loading/PageLoading";
-import { StatusSelect } from "@/components/select";
 import { getDefaultMRTOptions } from "@/configs/data-table";
 import { routes } from "@/configs/menus";
 import { ContributionDetailType } from "@/configs/schemas";
@@ -42,13 +41,10 @@ export function MMContributionsRoute() {
   const filteredData = useMemo(() => {
     return (
       data?.items?.filter((item: ContributionDetailType) => {
-        if (status && item?.status?.toLowerCase() !== status?.toLowerCase()) {
-          return false;
-        }
         return item?.studentName?.toLowerCase().includes(name?.toLowerCase());
       }) || []
     );
-  }, [data?.items, name, status]);
+  }, [data?.items, name]);
 
   const columns = useMemo<MRT_ColumnDef<ContributionDetailType>[]>(
     () => [
@@ -126,24 +122,6 @@ export function MMContributionsRoute() {
               status,
             });
           }}
-        />
-        <StatusSelect
-          value={status}
-          onChange={(value) => setSearchParams({ status: value || "", name })}
-          data={[
-            {
-              value: "pending",
-              label: "Pending",
-            },
-            {
-              value: "selected",
-              label: "Selected",
-            },
-            {
-              value: "rejected",
-              label: "Rejected",
-            },
-          ]}
         />
 
         <Button onClick={() => setSearchParams({})}>Refresh</Button>
