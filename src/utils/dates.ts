@@ -2,7 +2,7 @@ import { AcademicYearType } from "@/configs/schemas";
 import { DateValue } from "@mantine/dates";
 import dayjs from "dayjs";
 
-const datetimeFormat = "YYYY-MM-DD HH:mm:ss";
+const datetimeFormat = "YYYY-MM-DD hh:mm A";
 const dateFormat = "YYYY-MM-DD";
 const academicYearFormat = "MMM, YYYY";
 
