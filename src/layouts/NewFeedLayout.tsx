@@ -18,6 +18,7 @@ import iconLogo from "@/assets/logo.png";
 import { roles } from "@/configs/rbac";
 import { Can } from "@/components/core";
 import { HeaderAcademicYearSelect } from "@/components/HeaderAcademicYearSelect";
+import { formatDatetime } from "@/utils/dates";
 
 export function NewFeedLayout() {
   const user = useUserStore((state) => state.user);
@@ -42,9 +43,17 @@ export function NewFeedLayout() {
           </Box>
 
           <Stack gap="xs" align="end">
-            <Text c="white" opacity={0.8} size="sm">
-              Welcome “{user?.username}” from University Magazine Portal !{" "}
-            </Text>
+            <Stack gap={0}>
+              <Text c="white" opacity={0.8} size="sm">
+                Welcome “{user?.username}” from University Magazine Portal !{" "}
+              </Text>
+
+              {user?.lastLogin && (
+                <Text size="sm" fw="bold">
+                  Last Logged In: {formatDatetime(user?.lastLogin)}
+                </Text>
+              )}
+            </Stack>
 
             <Button
               leftSection={
