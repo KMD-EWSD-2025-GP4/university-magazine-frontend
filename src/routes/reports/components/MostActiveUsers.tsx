@@ -46,7 +46,7 @@ export function MostActiveUsers() {
             </Table.Th>
             <Table.Th>
               <Text size="lg" fw={600}>
-                View Count
+                Login Count
               </Text>
             </Table.Th>
           </Table.Tr>
