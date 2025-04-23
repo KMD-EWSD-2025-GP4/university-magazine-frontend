@@ -49,21 +49,21 @@ jobs:
           build-args: |
             VITE_API_URL=${{ secrets.VITE_API_URL }}
 
-      # Simple Ansible deployment
-      - name: Setup SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+      # # Simple Ansible deployment
+      # - name: Setup SSH
+      #   run: |
+      #     mkdir -p ~/.ssh
+      #     echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+      #     chmod 600 ~/.ssh/id_rsa
+      #     ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
-      - name: Deploy to server
-        run: |
-          scp deploy-frontend.yml ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:~/devops/university-magazine/
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} "cd ~/devops/university-magazine && \
-          GITHUB_REPOSITORY_OWNER='${{ github.repository_owner }}' \
-          GITHUB_ACTOR='${{ github.actor }}' \
-          GITHUB_TOKEN='${{ secrets.GITHUB_TOKEN }}' \
-          ansible-playbook deploy-frontend.yml"
-        env:
-          ANSIBLE_HOST_KEY_CHECKING: "False"
+      # - name: Deploy to server
+      #   run: |
+      #     scp deploy-frontend.yml ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:~/devops/university-magazine/
+      #     ssh ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} "cd ~/devops/university-magazine && \
+      #     GITHUB_REPOSITORY_OWNER='${{ github.repository_owner }}' \
+      #     GITHUB_ACTOR='${{ github.actor }}' \
+      #     GITHUB_TOKEN='${{ secrets.GITHUB_TOKEN }}' \
+      #     ansible-playbook deploy-frontend.yml"
+      #   env:
+      #     ANSIBLE_HOST_KEY_CHECKING: "False"
