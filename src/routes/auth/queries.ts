@@ -49,9 +49,13 @@ export function useRegister() {
       navigate("/d");
     },
     onError: (error) => {
+      const errorMessage =
+        // @ts-ignore
+        error.response?.data?.error?.message ||
+        "Something went wrong. Please try again.";
       showNotification({
         title: "Registration Failed",
-        message: error.message,
+        message: errorMessage,
         color: "red",
       });
     },
