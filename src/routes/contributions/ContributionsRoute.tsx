@@ -5,6 +5,7 @@ import { PageLoading } from "@/components/loading/PageLoading";
 import { Contribution } from "./components/Contribution";
 import { NoContribution } from "@/components/NoContribution";
 import { useUserStore } from "@/store/useUser";
+import { ContributionDetailType } from "@/configs/schemas";
 
 export function ContributionsRoute() {
   const user = useUserStore((state) => state.user);
@@ -14,15 +15,22 @@ export function ContributionsRoute() {
     return <PageLoading />;
   }
 
-  const contributions = data?.pages.flatMap((page) => page?.items) || [];
+  const contributions = data?.items || [];
 
   return (
     <div>
-      <Flex gap="80px" py="20px">
+      <Flex
+        direction={{
+          base: "column",
+          md: "row",
+        }}
+        gap="80px"
+        py="20px"
+      >
         <LeftPanel />
 
         <Stack flex={1} gap="100px">
-          {contributions.map((contribution) => (
+          {contributions.map((contribution: ContributionDetailType) => (
             <Contribution
               authored={user?.userId === contribution.studentId}
               key={contribution.id}

@@ -15,12 +15,7 @@ import {
 } from "@/services/contribution";
 import { useUserStore } from "@/store/useUser";
 import { showNotification } from "@mantine/notifications";
-import {
-  useInfiniteQuery,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
 
 export function useCreateContribution() {
@@ -51,21 +46,29 @@ export function useGetContribution(id: string) {
 }
 
 export function useGetContributions() {
-  return useInfiniteQuery({
+  return useQuery({
     queryKey: contributionsKeys.lists(),
-    queryFn: async ({ pageParam }) => getContributions(pageParam),
-    initialPageParam: 0,
-    getNextPageParam: (lastPage) => lastPage?.nextCursor ?? undefined,
+    queryFn: () => getContributions(),
   });
+  // return useInfiniteQuery({
+  //   queryKey: contributionsKeys.lists(),
+  //   queryFn: async ({ pageParam }) => getContributions(pageParam),
+  //   initialPageParam: 0,
+  //   getNextPageParam: (lastPage) => lastPage?.nextCursor ?? undefined,
+  // });
 }
 
 export function useGetMyContributions() {
-  return useInfiniteQuery({
+  return useQuery({
     queryKey: contributionsKeys.myLists(),
-    queryFn: async ({ pageParam }) => getMyContribution(pageParam),
-    initialPageParam: 0,
-    getNextPageParam: (lastPage) => lastPage?.nextCursor ?? undefined,
+    queryFn: () => getMyContribution(),
   });
+  // return useInfiniteQuery({
+  //   queryKey: contributionsKeys.myLists(),
+  //   queryFn: async ({ pageParam }) => getMyContribution(pageParam),
+  //   initialPageParam: 0,
+  //   getNextPageParam: (lastPage) => lastPage?.nextCursor ?? undefined,
+  // });
 }
 
 export function useGetMCContributions() {

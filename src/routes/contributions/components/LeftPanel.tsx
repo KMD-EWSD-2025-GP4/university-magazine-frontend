@@ -11,7 +11,15 @@ export function LeftPanel() {
   const academicYear = getCurrentAcademicYear(data || []);
 
   return (
-    <Stack pos="sticky" top="140px" h="fit-content" gap="28px">
+    <Stack
+      pos={{
+        base: "static",
+        md: "sticky",
+      }}
+      top="140px"
+      h="fit-content"
+      gap="28px"
+    >
       <Paper shadow="lg" radius="md">
         <Stack p="20px" align="center" gap="xl">
           <CalendarIcon3 />

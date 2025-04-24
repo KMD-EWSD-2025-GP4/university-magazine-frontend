@@ -9,8 +9,7 @@ export function createContribution(data: ContributionType) {
   return apiClient.post("/contribution", data);
 }
 
-export async function getContributions(pageParam: unknown) {
-  console.log("pageParam", pageParam);
+export async function getContributions() {
   const res = await apiClient.get(`/contribution/faculty/selected`);
   return res.data;
 }
@@ -30,8 +29,7 @@ export async function getMMContributions(academicYearId: string) {
   return res.data;
 }
 
-export async function getMyContribution(pageParam: unknown) {
-  console.log("pageParam", pageParam);
+export async function getMyContribution() {
   const res = await apiClient.get<GetMyContributionsResponseType>(
     `/contribution/my`
   );
